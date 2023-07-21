@@ -10,6 +10,7 @@
 /wine-encyclopedia-frontend/node_modules
 
 # profiling files
+.env
 wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json
 chrome-profiler-events*.json
 speed-measure-plugin*.json
