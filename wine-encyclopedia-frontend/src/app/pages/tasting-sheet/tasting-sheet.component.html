@@ -1,0 +1,394 @@
+<!-- app.component.html -->
+<form [formGroup]="tastingSheetForm" (ngSubmit)="submitForm()" class="container">
+	<h2>Informazioni sul vino</h2>
+	<div class="row">
+		<div class="col-xl-3">
+			<input type="hidden" formControlName="id">
+			<label for="nomeVino">Nome del vino:</label> <input type="text"
+				class="form-control" formControlName="wineName" placeholder="Nome vino"
+				id="nomeVino" name="nomeVino">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="azienda">Azienda:</label> <input type="text"
+				class="form-control" formControlName="winery" placeholder="Azienda"
+				id="azienda" name="azienda">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="tipologia">Tipologia:</label> <input type="text"
+				class="form-control" formControlName="wineType" placeholder="Tipologia"
+				id="tipologia" name="tipologia">
+		</div>
+		
+		<div class="col-xl-3">
+			<label for="tipologia">Annata</label> <input type="text"
+				class="form-control" formControlName="vintage" placeholder="Annata"
+				id="annata" name="annata">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="uve">Uve:</label> <input type="text" class="form-control"
+				formControlName="grapeVariety" placeholder="Uve" id="uve" name="uve" [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selected($event)">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="gradazione">Gradazione:</label> <input type="text"
+				class="form-control" formControlName="alcoholContent"
+				placeholder="Gradazione" id="gradazione" name="gradazione">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="temperatura">Temperatura:</label> <input type="text"
+				class="form-control" formControlName="servingTemperature"
+				placeholder="Temperatura" id="temperatura" name="temperatura">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="prezzo">Prezzo:</label> <input type="text"
+				class="form-control" formControlName="price" placeholder="Prezzo"
+				id="prezzo" name="prezzo">
+		</div>
+
+		<div class="col-xl-3">
+			<label for="punteggio">Punteggio:</label> <input type="text"
+				class="form-control" formControlName="score" placeholder="Punteggio"
+				id="punteggio" name="punteggio">
+		</div>
+	</div>
+
+	<h2>Analisi visiva</h2>
+	<div class="row">
+		<div class="col-xl-3">
+			<label for="colore">Colore:</label> <select class="form-control"
+				formControlName="color" id="colore" name="colore">
+				<option value="yellow_greenish">Giallo verdolino</option>
+				<option value="yellow_straw">Giallo paglierino</option>
+				<option value="yellow_golden">Giallo dorato</option>
+				<option value="yellow_amber">Giallo
+					ambrato/aranciato</option>
+				<option value="rose_soft">Rosa tenue</option>
+				<option value="rose_coppery">Rosa ramato</option>
+				<option value="rose_cherry">Rosa cerasuolo</option>
+				<option value="rose_claret">Rosa chiaretto</option>
+				<option value="red_purplish">Rosso
+					porpora/violaceo</option>
+				<option value="red_ruby">Rosso rubino</option>
+				<option value="red_garnet">Rosso granato</option>
+				<option value="red_orange">Rosso aranciato</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="densitaCromatica">Densità cromatica:</label> <select
+				class="form-control" formControlName="colorDensity"
+				id="densitaCromatica" name="densitaCromatica">
+				<option value="Trasparente">Trasparente</option>
+				<option value="Sufficientemente trasparente">Sufficientemente
+					trasparente</option>
+				<option value="Poco trasparente">Poco trasparente</option>
+				<option value="Compatto">Compatto</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="limpidezza">Limpidezza:</label> <select
+				class="form-control" formControlName="limpidity" id="limpidezza"
+				name="limpidezza">
+				<option value="Velato">Velato</option>
+				<option value="Sufficientemente velato">Sufficientemente
+					velato</option>
+				<option value="Limpido">Limpido</option>
+				<option value="Brillante">Brillante</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="consistenza">Consistenza:</label> <select
+				class="form-control" formControlName="consistency" id="consistenza"
+				name="consistenza">
+				<option value="Poco consistente">Poco consistente</option>
+				<option value="Consistente">Consistente</option>
+				<option value="Denso">Denso</option>
+				<option value="Viscoso">Viscoso</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="limpidezzaEffervescenza">Effervescenza:</label>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="granaBollicine">Grana della bollicine:</label> <select
+				class="form-control" formControlName="effervescenceBubbleGrain"
+				id="granaBollicine" name="granaBollicine">
+				<option value="Fini">Fini</option>
+				<option value="Grossolane">Grossolane</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="numeroBollicine">Numero bollicine:</label> <select
+				class="form-control" formControlName="effervescenceBubbleNumber"
+				id="numeroBollicine" name="numeroBollicine">
+				<option value="Numerose">Numerose</option>
+				<option value="Scarse">Scarse</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="persistenza">Persistenza:</label> <select
+				class="form-control"
+				formControlName="effervescenceBubblePersistence"
+				id="effervescenceBubblePersistence" name="persistenza">
+				<option value="Persistenti">Persistenti</option>
+				<option value="Evanescenti">Evanescenti</option>
+			</select>
+		</div>
+	</div>
+	<h2>Analisi olfattiva</h2>
+	<div class="row">
+		<div class="col-xl-3">
+			<label for="intensita">Intensità:</label> <select
+				class="form-control" formControlName="olfactoryIntensity"
+				id="intensita" name="intensita">
+				<option value="poco intenso">Poco intenso</option>
+				<option value="sufficientemente intenso">Sufficientemente
+					intenso</option>
+				<option value="intenso">Intenso</option>
+				<option value="molto intenso">Molto intenso</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="complessita">Complessità:</label> <select
+				class="form-control" formControlName="olfactoryComplexity"
+				id="complessita" name="complessita">
+				<option value="poco complesso">Poco complesso</option>
+				<option value="sufficientemente complesso">Sufficientemente
+					complesso</option>
+				<option value="complesso">Complesso</option>
+				<option value="ampio">Ampio</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="qualita">Qualità:</label> <select class="form-control"
+				formControlName="olfactoryQuality" id="qualita" name="qualita">
+				<option value="poco fine">Poco fine</option>
+				<option value="sufficientemente fine">Sufficientemente fine</option>
+				<option value="fine">Fine</option>
+				<option value="eccellente">Eccellente</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="sentoreDominante">Sentore olfattivo dominante:</label> <select
+				class="form-control" formControlName="olfactorySense"
+				id="sentoreDominante" name="sentoreDominante">
+				<option value="aromatico">Aromatico</option>
+				<option value="vinoso">Vinoso</option>
+				<option value="floreale">Floreale</option>
+				<option value="fruttato">Fruttato</option>
+				<option value="fragrante">Fragrante</option>
+				<option value="vegetale">Vegetale</option>
+				<option value="balsamico">Balsamico</option>
+				<option value="minerale">Minerale</option>
+				<option value="etereo">Etereo</option>
+				<option value="speziato">Speziato</option>
+				<option value="frutta secca">Frutta secca</option>
+				<option value="frutta disidratata">Frutta disidratata</option>
+				<option value="tostato">Tostato</option>
+				<option value="animale">Animale</option>
+				<option value="selvatico">Selvatico</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="descrizione">Descrizione:</label>
+			<textarea id="descrizione" name="descrizione" class="form-control"
+				formControlName="olfactoryDescription" placeholder="Descrizione"></textarea>
+		</div>
+	</div>
+	<h2>Analisi gusto-olfattiva</h2>
+	<div class="row">
+		<h3>Morbidezze</h3>
+
+		<div class="col-xl-3">
+			<label for="zuccheri">Zuccheri:</label> <select class="form-control"
+				formControlName="sugars" id="zuccheri" name="zuccheri">
+				<option value="secco">Secco</option>
+				<option value="amabile">Amabile</option>
+				<option value="dolce">Dolce</option>
+				<option value="stucchevole">Stucchevole</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="alcoli">Alcoli:</label> <select class="form-control"
+				formControlName="alcohols" id="alcoli" name="alcoli">
+				<option value="poco caldo">Poco caldo</option>
+				<option value="moderatamente caldo">Moderatamente caldo</option>
+				<option value="caldo">Caldo</option>
+				<option value="molto caldo">Molto caldo</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="polialcoli">Polialcoli:</label> 
+			<select
+				class="form-control" formControlName="polyalcohols" id="polialcoli"
+				name="polialcoli">
+				<option value="poco morbido">Poco morbido</option>
+				<option value="moderatamente morbido">Moderatamente morbido</option>
+				<option value="morbido">Morbido</option>
+				<option value="rotondo">Rotondo</option>
+			</select>
+		</div>
+
+		<h3>Durezze</h3>
+
+		<div class="col-xl-3">
+			<label for="acidi">Acidi:</label> <select class="form-control"
+				formControlName="acids" id="acidi" name="acidi">
+				<option value="poco fresco">Poco fresco</option>
+				<option value="moderatamente fresco">Moderatamente fresco</option>
+				<option value="fresco">Fresco</option>
+				<option value="molto fresco">Molto fresco</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="tanninoQuantita">Tannino (Quantità):</label> <select
+				class="form-control" formControlName="tanninsQuantity"
+				id="tanninoQuantita" name="tanninoQuantita">
+				<option value="poco tannico">Poco tannico</option>
+				<option value="moderatamente tannico">Moderatamente tannico</option>
+				<option value="tannico">Tannico</option>
+				<option value="molto tannico">Molto tannico</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="tanninoQualita">Tannino (Qualità):</label> <select
+				class="form-control" formControlName="tanninsQuality"
+				id="tanninoQualita" name="tanninoQualita">
+				<option value="grossolano">Grossolano</option>
+				<option value="duro">Duro</option>
+				<option value="vellutato">Vellutato</option>
+				<option value="nobile">Nobile</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="sostanzeMinerali">Sostanze minerali:</label> <select
+				class="form-control" formControlName="mineralSubstances"
+				id="sostanzeMinerali" name="sostanzeMinerali">
+				<option value="poco sapido">Poco sapido</option>
+				<option value="moderatamente sapido">Moderatamente sapido</option>
+				<option value="sapido">Sapido</option>
+				<option value="salato">Salato</option>
+			</select>
+		</div>
+
+
+		<div class="col-xl-3">
+			<label for="equilibrio">Equilibrio:</label> <select
+				class="form-control" formControlName="equilibrium" id="equilibrio"
+				name="equilibrio">
+				<option value="sbilanciato">Sbilanciato</option>
+				<option value="poco equilibrato">Poco equilibrato</option>
+				<option value="sufficientemente equilibrato">Sufficientemente
+					equilibrato</option>
+				<option value="equilibrato">Equilibrato</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="intensita">Intensità:</label> <select
+				class="form-control" formControlName="tasteIntensity" id="intensita"
+				name="intensita">
+				<option value="poco intenso">Poco intenso</option>
+				<option value="sufficientemente intenso">Sufficientemente
+					intenso</option>
+				<option value="intenso">Intenso</option>
+				<option value="molto intenso">Molto intenso</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="persistenza">Persistenza:</label> <select
+				class="form-control" formControlName="tastePersistence"
+				id="persistenza" name="persistenza">
+				<option value="poco persistente">Poco persistente</option>
+				<option value="sufficientemente persistente">Sufficientemente
+					persistente</option>
+				<option value="persistente">Persistente</option>
+				<option value="molto persistente">Molto persistente</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="qualita">Qualità:</label> <select class="form-control"
+				formControlName="tasteQuality" id="qualita" name="qualita">
+				<option value="poco fine">Poco fine</option>
+				<option value="sufficientemente fine">Sufficientemente fine</option>
+				<option value="fine">Fine</option>
+				<option value="eccellente">Eccellente</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="corpo">Corpo del vino:</label> <select
+				class="form-control" formControlName="bodyWine" id="corpo"
+				name="corpo">
+				<option value="leggero">Leggero</option>
+				<option value="medio">Medio</option>
+				<option value="pieno">Pieno</option>
+				<option value="pesante">Pesante</option>
+			</select>
+		</div>
+	</div>
+	<h2>Parte conclusiva</h2>
+	<div class="row">
+		<div class="col-xl-3">
+			<label for="statoEvolutivo">Stato evolutivo:</label> <select
+				class="form-control" formControlName="evolutionaryState"
+				id="statoEvolutivo" name="statoEvolutivo">
+				<option value="giovane">Giovane</option>
+				<option value="pronto">Pronto</option>
+				<option value="maturo">Maturo</option>
+				<option value="vecchio">Vecchio</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="armonia">Armonia:</label> <select class="form-control"
+				formControlName="harmony" id="armonia" name="armonia">
+				<option value="disarmonico">Disarmonico</option>
+				<option value="poco armonico">Poco armonico</option>
+				<option value="sufficientemente armonico">Sufficientemente
+					armonico</option>
+				<option value="armonico">Armonico</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="tipicita">Tipicità:</label> <select class="form-control"
+				formControlName="typicality" id="tipicita" name="tipicita">
+				<option value="poco tipico">Poco tipico</option>
+				<option value="sufficientemente tipico">Sufficientemente
+					tipico</option>
+				<option value="tipico">Tipico</option>
+				<option value="esemplare">Esemplare</option>
+			</select>
+		</div>
+
+		<div class="col-xl-3">
+			<label for="abbinamenti">Abbinamenti:</label>
+			<textarea id="abbinamenti" name="abbinamenti" class="form-control"
+				formControlName="foodPairings" placeholder="Abbinamenti"></textarea>
+		</div>
+	</div>
+	<button type="submit">{{buttonLabel}}</button>
+</form>

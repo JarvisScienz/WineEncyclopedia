@@ -1,0 +1,62 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 mrgnbtm">
+			<h2>Storico vini</h2>
+		</div>
+		<div class="col-md-4 mrgnbtm">
+			<div class="btn">
+				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="mrgnbtm">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-3">
+				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
+			</div>
+			<div class="col-xl-3">
+				<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
+					<option value="" disabled selected>Seleziona colore</option>
+					<option value="yellow">Giallo</option>
+					<option value="rose">Rosato</option>
+					<option value="red">Rosso</option>
+				</select>
+			</div>
+			<div class="col-xl-3">
+				<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
+					<option value="" disabled selected>Seleziona produttore</option>
+					<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
+				</select>
+			</div>
+			<div class="col-xl-3">
+				<input type="text" class="form-control" placeholder="Annata">
+			</div>
+		</div>
+		
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome</th>
+					<th>Azienda</th>
+					<th>Annata</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
+					<td style="width: 20%">{{i + 1}} <img src="{{getWineIcon(wine)}}" style="width: 15%" ></td>
+					<td>{{wine.wineName}}</td>
+					<td>{{wine.winery}}</td>
+					<td>{{wine.vintage}}</td>
+					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
