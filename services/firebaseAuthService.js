@@ -21,13 +21,28 @@ async function verifyUserAuth(email, password) {
 	console.log("Email: " + email);
 	try {
 	    const userCredential = await firebase.firebase.auth().getUserByEmail(email);
-	    console.log('L\'utente è autenticato. UID:', userCredential.uid);
+	    console.log('LOGIN FUNCTION: L\'utente è autenticato. UID:', userCredential.uid);
 	    var userConnected = verifyUserFirestore(userCredential.uid, email, password);
 	    if (userConnected){
 	    	return userCredential;
 	    }else{
 	    	return null;
 	    }
+	  } catch (error) {
+	    console.error('Errore durante la verifica dell\'autenticazione:', error);
+	    return null;
+	  }
+	}
+
+
+async function logout(email) {
+	console.log("LOGOUT FUNCTION");
+	try {
+	    const userCredential = await firebase.firebase.auth().getUserByEmail(email);
+	    console.log('LOGOUT FUNCTION: L\'utente è autenticato. UID:', userCredential.uid);
+	    
+    	return userCredential.uid;
+	    
 	  } catch (error) {
 	    console.error('Errore durante la verifica dell\'autenticazione:', error);
 	    return null;
@@ -41,7 +56,7 @@ async function createUser(email, password) {
 		      password: password,
 		    });
 
-		    console.log('Nuovo utente creato con UID:', userRecord.uid);
+		    console.log('CREATE USER FUNCTION: Nuovo utente creato con UID:', userRecord.uid);
 		    createUserFirestore(userRecord.uid, email, password);
 		    return userRecord.uid;
 	  } catch (error) {
@@ -58,4 +73,4 @@ async function createUserFirestore(uid, email, password) {
 	
 }
 
-module.exports = { verifyUserAuth, createUser };
+module.exports = { verifyUserAuth, logout, createUser };

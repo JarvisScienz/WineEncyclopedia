@@ -50,15 +50,13 @@ app.post('/api/authentication/login', (req, res) => {
 });
 
 app.post('/api/authentication/logout', (req, res) => {
+	console.log("API Logout: " + req);
 	const email = req.body.email;
-	const password = req.body.password;
-	firebaseAuthService.verifyUserAuthentication(email, password).then(uid => {
+	firebaseAuthService.logout(email).then(uid => {
 	    if (uid) {
-	        // L'utente è autenticato, puoi eseguire le operazioni necessarie
-	    	return true;
+	    	res.json(uid);
 	      } else {
-	        // L'utente non è autenticato o le credenziali sono errate, gestisci l'errore
-	    	  return false;
+	    	  res.json(null);
 	      }
 	    })
 	    .catch(error => {

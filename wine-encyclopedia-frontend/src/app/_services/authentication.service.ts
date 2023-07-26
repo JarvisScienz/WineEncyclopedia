@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
-//import { environment } from '@environments/environment';
+import { CookiesService } from '../_services/cookies.service'
 import { User } from '../_models/user';
 
 @Injectable({ providedIn: 'root' })
@@ -12,54 +12,71 @@ export class AuthenticationService {
 	private uriLogin = '/api/authentication/login';
 	private uriLogout = '/api/authentication/logout';
 	private uriSignup = '/api/authentication/createUser';
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
 
-    constructor(private http: HttpClient, private router: Router) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')!));
-        this.currentUser = this.currentUserSubject.asObservable();
-    }
+	userId!: string;
+	email!: string;
 
-    public get currentUserValue(): User {
-        return this.currentUserSubject.value;
-    }
+	private currentUserSubject: BehaviorSubject<User>;
+	private cookieUser: any;
+	public currentUser: Observable<User>;
+	private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+	isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-    login(username: string, password: string) {
-        return this.http.post<any>(this.uriLogin, { email: username, password: password })
-            .pipe(map(user => {
+	constructor(private http: HttpClient, private router: Router,
+		private cookiesService: CookiesService) {
+		this.cookieUser = (this.cookiesService.getCookieUser() != "") ? JSON.parse(this.cookiesService.getCookieUser()) : null;
+		this.currentUserSubject = new BehaviorSubject<User>(this.cookieUser);
+		this.currentUser = this.currentUserSubject.asObservable();
+	}
+
+	public get currentUserValue(): User {
+		return this.currentUserSubject.value;
+	}
+
+	login(email: string, password: string) {
+		return this.http.post<any>(this.uriLogin, { email: email, password: password })
+			.pipe(map(user => {
 				console.log(user);
-                // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
-                //user.authdata = window.btoa(username + ':' + password);
+				// store user details and basic auth credentials in local storage to keep user logged in between page refreshes
+				//user.authdata = window.btoa(username + ':' + password);
+				this.cookiesService.setCookie("user", JSON.stringify(user), 2);
+				this.cookiesService.setCookie("userEmail", email, 2);
+				this.router.navigate(["/profile"]);
+				this.setUserData(user.uid, email);
 				user.authdata = user.tokenJWT;
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
-    }
+				return user;
+			}));
+	}
 
-    logout() {
-		let userName = JSON.parse(localStorage.getItem('currentUser')!).username; 
-        return this.http.post<any>(this.uriLogout, { username: userName })
-            .subscribe(
-				result => {
-					if (result){
-						localStorage.removeItem('currentUser');
-        				this.currentUserSubject.next(null!);
-						this.router.navigate(['/login']);
-					}
-				},
-				error => {}
-			);
-    }
+	logout() {
+		let email = JSON.parse(this.cookiesService.getCookieUser()).email;
+		return this.http.post<any>(this.uriLogout, { email: email })
+			.pipe(map(user => {
+				if (user) {
+					this.cookiesService.setCookie("user", "", 2);
+					this.cookiesService.setCookie("userEmail", "", 2);
+					this.isLoggedInSubject.next(false);
+					this.currentUserSubject.next(null!);
+					this.router.navigate(["/login"]);
+				}
+			}));
+	}
 
 	signup(username: string, password: string) {
-        return this.http.post<any>(this.uriSignup, { email: username, password: password })
-            .pipe(map(user => {
+		return this.http.post<any>(this.uriSignup, { email: username, password: password })
+			.pipe(map(user => {
 				console.log(user);
 				user.authdata = user.tokenJWT;
-                //localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
-    }
+				//localStorage.setItem('currentUser', JSON.stringify(user));
+				this.currentUserSubject.next(user);
+				return user;
+			}));
+	}
+
+	setUserData(userId: string, email: string) {
+		//this.currentUserSubject?.next(user);
+		this.userId = userId;
+		this.email = email;
+		this.isLoggedInSubject.next(true);
+	}
 }

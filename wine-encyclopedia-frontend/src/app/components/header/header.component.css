@@ -5,3 +5,21 @@
   color: white;
   text-align: center;
 }
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Aggiungi un margine superiore per spaziare i pulsanti dal titolo */
+}
+
+.button-container button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #45a049;
+}
