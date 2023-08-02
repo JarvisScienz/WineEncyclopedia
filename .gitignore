@@ -48,3 +48,9 @@ testem.log
 Thumbs.db
 
 /src/environments
+.firebase/
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+/wine-encyclopedia
