@@ -10,8 +10,8 @@ export class AppService {
 
 	rootURL = '/api';
 
-	getWines() {
-		return this.http.get(this.rootURL + '/wines');
+	getWines(uid: string) {
+		return this.http.post(this.rootURL + '/wines', { uid });
 	}
 	
 	getGrapesName() {

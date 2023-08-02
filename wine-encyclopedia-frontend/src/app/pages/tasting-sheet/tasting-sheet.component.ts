@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { takeUntil, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subject, OperatorFunction, Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
+import { CookiesService } from '../../_services/cookies.service'
 
 
 @Component({
@@ -25,12 +26,16 @@ export class TastginSheetComponent implements OnInit {
 	buttonLabel = "Invia";
 	selectedItems: string[] = [];
 	@ViewChild('input') inputEl: any;
+	userUid: string  = "";
 
 	public model: any;
 
 	constructor(private appService: AppService,
 		private route: ActivatedRoute,
-		private toastr: ToastrService) {
+		private router: Router,
+		private toastr: ToastrService, 
+		private cookiesService: CookiesService) {
+		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).userData.uid;
 		this.notificationService = new NotificationsComponent(this.toastr);
 		this.wine = this.route.snapshot.queryParams;
 		if (Object.keys(this.wine).length !== 0) {
@@ -41,6 +46,7 @@ export class TastginSheetComponent implements OnInit {
 
 	tastingSheetForm = new FormGroup({
 		id: new FormControl(''),
+		user: new FormControl(''),
 		wineName: new FormControl('', Validators.required),
 		winery: new FormControl('', Validators.required),
 		wineType: new FormControl(''),
@@ -138,10 +144,11 @@ export class TastginSheetComponent implements OnInit {
 	saveTastingSheet(): void {
 		this.setWineInformation();
 
-		this.appService.addWine(this.tastingSheetForm.value).pipe(takeUntil(this.destroy$)).subscribe(data => {
+		this.appService.addWine(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
 			console.log('message::::', data);
 			this.notificationService.successNotification("Vino salvato!");
 			this.tastingSheetForm.reset();
+			this.router.navigate(['/wine-tasted']);
 		});
 
 		console.log(this.wineTastingSheet);
@@ -159,6 +166,7 @@ export class TastginSheetComponent implements OnInit {
 
 	setFormWineInformation(wine: any): void {
 		this.tastingSheetForm.patchValue({
+			user: this.userUid,
 			id: wine.id,
 			wineName: wine.wineName,
 			winery: wine.winery,
@@ -202,6 +210,8 @@ export class TastginSheetComponent implements OnInit {
 	setWineInformation() {
 		// Assegna i valori dai campi del form alle proprietà dell'oggetto WineTastingSheet
 		//this.wineTastingSheet.id = "4";
+		this.wineTastingSheet.user = this.userUid;
+		this.wineTastingSheet.id = this.tastingSheetForm.controls['id'].value;
 		this.wineTastingSheet.wineName = this.tastingSheetForm.controls['wineName'].value;
 		this.wineTastingSheet.winery = this.tastingSheetForm.controls['winery'].value;
 		this.wineTastingSheet.wineType = this.tastingSheetForm.controls['wineType'].value;

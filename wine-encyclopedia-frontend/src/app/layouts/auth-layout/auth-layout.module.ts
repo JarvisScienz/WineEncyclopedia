@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthLayoutRoutes } from './auth-layout.routing';
 import { SignupComponent } from "../../pages/signup/signup.component";
+import { LoginComponent } from "../../pages/login/login.component";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SignupComponent } from "../../pages/signup/signup.component";
     NgbModule
   ],
   declarations: [
-	SignupComponent
+	SignupComponent,
+	LoginComponent
   ],
 	schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })

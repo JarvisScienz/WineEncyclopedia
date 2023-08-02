@@ -34,6 +34,7 @@ export class AuthenticationService {
 	}
 
 	login(email: string, password: string) {
+		console.log("Authentication.service.Login function");
 		return this.http.post<any>(this.uriLogin, { email: email, password: password })
 			.pipe(map(user => {
 				console.log(user);
@@ -49,7 +50,7 @@ export class AuthenticationService {
 	}
 
 	logout() {
-		let email = JSON.parse(this.cookiesService.getCookieUser()).email;
+		let email = JSON.parse(this.cookiesService.getCookieUser()).userData.email;
 		return this.http.post<any>(this.uriLogout, { email: email })
 			.pipe(map(user => {
 				if (user) {

@@ -1,6 +1,7 @@
 ﻿// wine-tasting-sheet.model.ts
 
 export class WineTastingSheet {
+	public user: string;
 	// Wine information properties
 	public id: string;
 	public wineName: string;
@@ -51,6 +52,7 @@ export class WineTastingSheet {
 
 	constructor() {
 		// Initialize properties with default values
+		this.user = '';
 		this.id = '';
 		this.color = '';
 		this.chromaticDensity = '';

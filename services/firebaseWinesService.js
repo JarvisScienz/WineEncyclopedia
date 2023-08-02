@@ -15,6 +15,21 @@ async function getWines (){
   }
 }
 
+async function getWinesByUser (uid){
+	try {
+		const snapshot = await firebase.collection("wines").where('user', '==', uid).get();
+	    const data = [];
+
+	    snapshot.forEach((doc) => {
+	      data.push(doc.data());
+	    });
+
+	    return data;
+	} catch (error) {
+    console.error('Errore durante l\'esecuzione delle query:', error);
+  }
+}
+
 async function getWinesByColor (color){
 	var color1, color2, color3, color4;
 	switch  (color){
@@ -118,4 +133,4 @@ function updateNewWineId (id){
     docToUpdateRef.update(updatedData);
 }
 
-module.exports = { getWines, getWinesByColor, getWinesByWinery, addWine, updateWine, deleteWine};
+module.exports = { getWines, getWinesByUser, getWinesByColor, getWinesByWinery, addWine, updateWine, deleteWine};

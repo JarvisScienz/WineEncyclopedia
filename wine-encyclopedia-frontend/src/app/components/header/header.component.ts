@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 					console.log("SI");
 				},
 				error => {
-					console.log("NO");
+					console.log("AuthService.logout error. Description: " + error);
 			});
 	}
 }

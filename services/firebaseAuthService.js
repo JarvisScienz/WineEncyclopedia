@@ -18,9 +18,10 @@ async function verifyUserFirestore(uid, email, password) {
 }
 
 async function verifyUserAuth(email, password) {
-	console.log("Email: " + email);
+	console.log("verifyUserAuth");
 	try {
-	    const userCredential = await firebase.firebase.auth().getUserByEmail(email);
+	    var userCredential = await firebase.firebase.auth().getUserByEmail(email);
+	    userCredential.tokenJWT = "TEST";
 	    console.log('LOGIN FUNCTION: L\'utente è autenticato. UID:', userCredential.uid);
 	    var userConnected = verifyUserFirestore(userCredential.uid, email, password);
 	    if (userConnected){

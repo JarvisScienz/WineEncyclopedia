@@ -4,6 +4,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
+import { CookiesService } from '../../_services/cookies.service'
+
 @Component({
 	selector: 'wine-tasted',
 	templateUrl: './wine-tasted.component.html',
@@ -11,21 +13,26 @@ import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 })
 export class WineTastedComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
-	wines: any= [];
+	wines: any = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
 	filterWinerySelect: string = "";
-	
-	constructor(private appService: AppService, private router: Router) { }
+	userUid: string  = "";
 
-	
+	constructor(private appService: AppService,
+		private router: Router,
+		private cookiesService: CookiesService) {
+			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).userData.uid;
+		 }
+
+
 
 	ngOnInit() {
 		this.getAllWines();
 		//this.getWineryList();
 	}
-	
+
 	refresh() {
 		this.getAllWines();
 		this.filterText = "";
@@ -33,48 +40,48 @@ export class WineTastedComponent implements OnInit {
 		this.filterWinerySelect = "";
 	}
 
-	filterColorWine (){
+	filterColorWine() {
 		this.appService.getWinesByColor(this.filterColor).subscribe((wines => {
-		if (wines == null)
-			this.wines = [];
-        else
-			this.wines = wines;
-    	}));
-	}
-	
-	filterWinery (){
-		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
-		if (wines == null)
-			this.wines = [];
-        else
-			this.wines = wines;
-    	}));
-	}
-	
-	extractWineries(jsonArray: any[]) {
-	    this.wineryList = jsonArray.map(item => item.winery);
-	  }
-
-	getAllWines() {
-	    this.appService.getWines().subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
-	        else
+			else
 				this.wines = wines;
-				this.extractWineries(this.wines);
-    	}));
-  	}
+		}));
+	}
+
+	filterWinery() {
+		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
+			if (wines == null)
+				this.wines = [];
+			else
+				this.wines = wines;
+		}));
+	}
+
+	extractWineries(jsonArray: any[]) {
+		this.wineryList = jsonArray.map(item => item.winery);
+	}
+
+	getAllWines() {
+		this.appService.getWines(this.userUid).subscribe((wines => {
+			if (wines == null)
+				this.wines = [];
+			else
+				this.wines = wines;
+			this.extractWineries(this.wines);
+		}));
+	}
 
 	getWineryList() {
 		this.appService.getWineryList().subscribe((wineryList => {
-		if (wineryList == null)
-			this.wineryList = [];
-        else
-			this.wineryList = wineryList;
-    	}));
+			if (wineryList == null)
+				this.wineryList = [];
+			else
+				this.wineryList = wineryList;
+		}));
 	}
-	
-	updateTastedWine(wine: WineTastingSheet){
+
+	updateTastedWine(wine: WineTastingSheet) {
 		console.log(wine);
 		let navigationExtras: NavigationExtras = {
 			queryParams: wine,
@@ -82,16 +89,16 @@ export class WineTastedComponent implements OnInit {
 			skipLocationChange: true
 		};
 
-		this.router.navigate(['/tasting-sheet'], navigationExtras);	
+		this.router.navigate(['/tasting-sheet'], navigationExtras);
 	}
-	
-	getWineIcon (wine: WineTastingSheet){
+
+	getWineIcon(wine: WineTastingSheet) {
 		var wineColor = wine.color.split("_")[0];
 		var pathImage = "";
-		switch (wineColor){
+		switch (wineColor) {
 			case "red":
 				pathImage = "../../assets/images/red-wine.png";
-				break;	
+				break;
 			case "yellow":
 				pathImage = "../../assets/images/yellow-wine.png";
 				break;
@@ -100,7 +107,7 @@ export class WineTastedComponent implements OnInit {
 				break;
 		}
 		return pathImage;
-		
+
 	}
-	
+
 }

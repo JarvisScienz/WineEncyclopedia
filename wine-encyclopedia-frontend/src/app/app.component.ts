@@ -37,9 +37,6 @@ export class AppComponent implements OnDestroy {
   }
 
   getAllUsers() {
-    this.appService.getWines().subscribe((users => {
-        this.users = users;
-    }));
   }
 
   ngOnDestroy() {

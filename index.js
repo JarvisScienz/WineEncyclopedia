@@ -1,9 +1,14 @@
 const express = require('express');
 var livereload = require("livereload");
 var connectLiveReload = require("connect-livereload");
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 const firebaseWinesService = require("./services/firebaseWinesService");
 const firebaseGrapesService = require("./services/firebaseGrapesService");
 const firebaseAuthService =  require("./services/firebaseAuthService");
+
+const secretKey = process.env.SECRET_KEY;
 
 const liveReloadServer = livereload.createServer();
 liveReloadServer.server.once("connection", () => {
@@ -33,11 +38,20 @@ app.post('/api/authentication/login', (req, res) => {
 	//console.log("REQ: " + req.body);
 	const email = req.body.email;
 	const password = req.body.password;
-	firebaseAuthService.verifyUserAuth(email, password).then(uid => {
-	    if (uid) {
-	        // L'utente è autenticato, puoi eseguire le operazioni necessarie
-	    	console.log("Connesso: " + uid);
-	    	res.json(uid);
+	var userAndToken = {};
+	firebaseAuthService.verifyUserAuth(email, password).then(user => {
+	    if (user) {
+	    	
+	    	//const token = jwt.sign(JSON.stringify(user), secretKey, { exp: Math.floor(Date.now() / 1000) + (60 * 2) });
+	    	var token = jwt.sign({ data: JSON.stringify(user) }, secretKey, { expiresIn: 60 * 60 });
+	    	userAndToken.userData = user;
+	    	userAndToken.tokenJWT = token;
+	    	//userAndToken.tokenJWT = token;
+	    	
+	    	console.log("Token JWT: " + userAndToken.tokenJWT);
+	    	console.log("User data: " + JSON.stringify(userAndToken));
+	    	
+	    	res.json(userAndToken);
 	      } else {
 	        // L'utente non è autenticato o le credenziali sono errate, gestisci l'errore
 	    	  console.log("Utente non autenticato");
@@ -84,10 +98,9 @@ app.post('/api/authentication/createUser', (req, res) => {
 /*
  * API
  */
-app.get('/api/wines', (req, res) => {
-	// var winesInFile = readFile(filePath);
-	// res.json(winesInFile);
-	firebaseWinesService.getWines().then((jsonData) => {
+app.post('/api/wines', verifyToken, (req, res) => {
+	var uid = req.body.uid;
+	firebaseWinesService.getWinesByUser(uid).then((jsonData) => {
 		//wines = jsonData;
 		  res.json(jsonData);
 	  })
@@ -96,7 +109,7 @@ app.get('/api/wines', (req, res) => {
 	  });
 });
 
-app.post('/api/winesByColor', (req, res) => {
+app.post('/api/winesByColor', verifyToken, (req, res) => {
 	const color = req.body.color;
 	firebaseWinesService.getWinesByColor(color).then((jsonData) => {
 		//wines = jsonData;
@@ -110,7 +123,7 @@ app.post('/api/winesByColor', (req, res) => {
 //  res.json(winesInFile);
 });
 
-app.post('/api/winesByWinery', (req, res) => {
+app.post('/api/winesByWinery', verifyToken, (req, res) => {
 	const winery = req.body.winery;
 	firebaseWinesService.getWinesByWinery(winery).then((jsonData) => {
 		  res.json(jsonData);
@@ -120,7 +133,7 @@ app.post('/api/winesByWinery', (req, res) => {
 	  });
 });
 
-app.post('/api/wine', (req, res) => {
+app.post('/api/wine', verifyToken, (req, res) => {
   const wine = req.body.wine;  
   //writeObjectToFile(wineTasting, filePath);
   firebaseWinesService.addWine(wine)
@@ -132,7 +145,7 @@ app.post('/api/wine', (req, res) => {
 	  });
 });
 
-app.post('/api/editWine', (req, res) => {
+app.post('/api/editWine', verifyToken, (req, res) => {
 	const wineUpdated = req.body.wine;
 //  editWine(wineUpdated);
 //  res.json("Wine updated. " + wineUpdated);
@@ -145,12 +158,12 @@ app.post('/api/editWine', (req, res) => {
 	  });
 });
 
-app.get('/api/wineryList', (req, res) => {
+app.get('/api/wineryList', verifyToken, (req, res) => {
 	var wineryList = getWineryList();
 	res.json(wineryList);
 });
 
-app.get('/api/grapes', (req, res) => {
+app.get('/api/grapes', verifyToken, (req, res) => {
 	firebaseGrapesService.getGrapes().then((jsonData) => {
 		  res.json(jsonData);
 	  })
@@ -159,7 +172,7 @@ app.get('/api/grapes', (req, res) => {
 	  });
 });
 
-app.get('/api/grapesName', (req, res) => {
+app.get('/api/grapesName', verifyToken, (req, res) => {
 	firebaseGrapesService.getGrapesName().then((jsonData) => {
 		  res.json(jsonData);
 	  })
@@ -179,6 +192,24 @@ app.listen(port, () => {
 /*
  * Functions
  */
+
+function verifyToken(req, res, next) {
+  const token = req.header('Authorization');
+  
+  if (!token) {
+    return res.status(401).json({ message: 'Token mancante. Accesso non autorizzato.' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Token non valido. Accesso non autorizzato.' });
+    }
+
+    req.user = decoded;
+    next();
+  });
+}
+
 function getWinesByColor (color){
 	var winesInFile = readFile(filePath);
 	let filteredData = winesInFile.filter((obj) => obj.color.includes(color));
