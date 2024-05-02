@@ -21,7 +21,7 @@ liveReloadServer.server.once("connection", () => {
 
 const app = express(),
       bodyParser = require("body-parser");
-      port = 3000;
+      port = process.env.PORT || 3000;
       
 const wines = [];
 const filePath = 'wines.json';
