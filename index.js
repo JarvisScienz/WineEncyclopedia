@@ -3,6 +3,7 @@ var livereload = require("livereload");
 var connectLiveReload = require("connect-livereload");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const cors = require('cors');
 
 const firebaseWinesService = require("./services/firebaseWinesService");
 const firebaseGrapesService = require("./services/firebaseGrapesService");
@@ -25,10 +26,15 @@ const app = express(),
       
 const wines = [];
 const filePath = 'wines.json';
+const corsOptions = {
+	origin: 'https://wineencyclopedia-fe.onrender.com/'
+};
 
+app.use(cors(corsOptions));
 app.use(connectLiveReload());
 app.use(bodyParser.json());
 //app.use(express.static(process.cwd()+"/wine-encyclopedia-frontend/dist/wine-encyclopedia-frontend/"));
+
 
 /*
  * API - AUTH
@@ -186,7 +192,7 @@ app.get('/', (req,res) => {
 	});
 
 app.listen(port, () => {
-    console.log(`Server listening on the port::${port}`);
+    console.log(`Wine-encyclopedia\\index.js - Server listening on the port::${port}`);
 });
 
 /*
