@@ -6,12 +6,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { CookiesService } from '../_services/cookies.service'
 import { User } from '../_models/user';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-	private uriLogin = '/api/authentication/login';
-	private uriLogout = '/api/authentication/logout';
-	private uriSignup = '/api/authentication/createUser';
+	private apiUrl = environment.apiUrl;
+	private uriLogin = this.apiUrl + '/authentication/login';
+	private uriLogout = this.apiUrl + '/authentication/logout';
+	private uriSignup = this.apiUrl + '/authentication/createUser';
 
 	userId!: string;
 	email!: string;
