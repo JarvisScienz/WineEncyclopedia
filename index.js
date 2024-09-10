@@ -27,7 +27,10 @@ const app = express(),
 const wines = [];
 const filePath = 'wines.json';
 const corsOptions = {
-	origin: 'https://wineencyclopedia-fe.onrender.com/'
+	origin: 'https://wineencyclopedia-fe.onrender.com', // Il dominio del frontend
+	methods: ['GET', 'POST', 'PUT', 'DELETE'], // I metodi HTTP che vuoi consentire
+	credentials: true, // Se stai usando cookie o autenticazione
+	optionsSuccessStatus: 200 // Alcuni browser vecchi hanno problemi con lo status 204
 };
 
 app.use(cors(corsOptions));
