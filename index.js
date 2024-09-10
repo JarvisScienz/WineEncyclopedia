@@ -28,7 +28,7 @@ const filePath = 'wines.json';
 
 app.use(connectLiveReload());
 app.use(bodyParser.json());
-app.use(express.static(process.cwd()+"/wine-encyclopedia-frontend/dist/wine-encyclopedia-frontend/"));
+//app.use(express.static(process.cwd()+"/wine-encyclopedia-frontend/dist/wine-encyclopedia-frontend/"));
 
 /*
  * API - AUTH
