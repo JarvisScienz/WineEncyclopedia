@@ -1,43 +1,47 @@
-📚 Wine Encyclopedia - The Ultimate Wine Knowledge Hub 🍇🍷
-Welcome to Wine Encyclopedia!
+# 📚 Wine Encyclopedia - The Ultimate Wine Knowledge Hub 🍇🍷
+
+**Welcome to Wine Encyclopedia!**  
 This project was born out of a passion for wine and the desire to create an accessible and comprehensive digital reference for wine enthusiasts, sommeliers, and casual drinkers alike. Whether you’re looking for information on Italian wineries, pairing suggestions, or in-depth details about wine regions, this project has you covered.
 
-<!-- You can add a logo or banner image here -->
+![Wine Enthusiast](https://your-image-link-here) <!-- You can add a logo or banner image here -->
 
-🎯 Purpose of the Project
-Wine Encyclopedia was created to centralize all the available information about wineries and wines in Italy. With thousands of vineyards and a deep history of wine production, finding accurate and detailed information can be a challenge. This project aims to:
+## 🎯 Purpose of the Project
+**Wine Encyclopedia** was created to centralize all the available information about wineries and wines in Italy. With thousands of vineyards and a deep history of wine production, finding accurate and detailed information can be a challenge. This project aims to:
+- 🏰 Gather comprehensive information on Italian wineries.
+- 🗺️ Explore wine regions and appellations.
+- 🍽️ Provide pairing suggestions to enhance your dining experience.
+- 📚 Educate users on the nuances of wine production and varieties.
 
-🏰 Gather comprehensive information on Italian wineries.
-🗺️ Explore wine regions and appellations.
-🍽️ Provide pairing suggestions to enhance your dining experience.
-📚 Educate users on the nuances of wine production and varieties.
-🛠️ Technologies Used
+## 🛠️ Technologies Used
 This project leverages modern technologies to provide a seamless and efficient experience for both developers and users:
 
-Backend:
+- **Backend**:  
+  ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)  
+  Built with Node.js, the backend handles data aggregation, REST APIs, and the integration with wine databases.
 
-Built with Node.js, the backend handles data aggregation, REST APIs, and the integration with wine databases.
+- **Frontend**:  
+  ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white)  
+  The project features both a React-based frontend and an Angular frontend to provide flexibility in UI design and user experience.
 
-Frontend:
+- **Databases**:  
+  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)  
+  These databases store information about the wineries, wine types, and user profiles.
 
-The project features both a React-based frontend and an Angular frontend to provide flexibility in UI design and user experience.
+- **Authentication & Security**:  
+  JWT-based authentication ensures secure access for users and admins.
 
-Databases:
+- **API Architecture**:  
+  Utilizes both REST and GraphQL for flexible data querying.
 
-These databases store information about the wineries, wine types, and user profiles.
+## 🚀 Getting Started
 
-Authentication & Security:
-JWT-based authentication ensures secure access for users and admins.
-
-API Architecture:
-Utilizes both REST and GraphQL for flexible data querying.
-
-🚀 Getting Started
-1. Clone the repository
+### 1. Clone the repository
 To clone the project to your local machine, open your terminal and run:
 
-bash
-Copia codice
+```bash
+git clone https://github.com/your-username/wine-encyclopedia.git
+cd wine-encyclopedia
+
 git clone https://github.com/your-username/wine-encyclopedia.git
 cd wine-encyclopedia
 2. Install dependencies
