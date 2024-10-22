@@ -73,19 +73,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "wine-encyclopedia-frontend:build",
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "proxy.conf.json",
+            "buildTarget": "wine-encyclopedia-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "wine-encyclopedia-frontend:build:production"
+              "buildTarget": "wine-encyclopedia-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "wine-encyclopedia-frontend:build"
+            "buildTarget": "wine-encyclopedia-frontend:build"
           }
         },
         "test": {
