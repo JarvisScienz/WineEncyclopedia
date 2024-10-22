@@ -5,7 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
@@ -19,30 +19,24 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 
 
 
-@NgModule({
-	declarations: [
-		AppComponent,
-		AdminLayoutComponent,
-		AuthLayoutComponent
-	],
-	imports: [
-		AppRoutingModule,
-		BrowserModule,
-		ComponentsModule,
-		BrowserAnimationsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
-		FormsModule,
-		ToastrModule.forRoot(),
-		NgbModule,
-		NgxSpinnerModule,
-		RouterModule
-	],
-	providers: [
-		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-	],
-	bootstrap: [AppComponent],
-	schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        AdminLayoutComponent,
+        AuthLayoutComponent
+    ],
+    bootstrap: [AppComponent],
+    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA], imports: [AppRoutingModule,
+        BrowserModule,
+        ComponentsModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ToastrModule.forRoot(),
+        NgbModule,
+        NgxSpinnerModule,
+        RouterModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
