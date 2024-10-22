@@ -1,10 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { CookiesService } from '../_services/cookies.service'
 
 @Injectable({ providedIn: 'root' })
-export class LoginGuard implements CanActivate {
+export class LoginGuard  {
     constructor(
         private router: Router,
 		private cookiesService: CookiesService
