@@ -133,7 +133,6 @@
       }
     }
   },
-  "defaultProject": "wine-encyclopedia-frontend",
   "cli": {
     "analytics": "412ad877-306b-4911-aa91-4bedbac5a14c"
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { takeUntil, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subject, OperatorFunction, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,46 +44,46 @@ export class TastginSheetComponent implements OnInit {
 		}
 	}
 
-	tastingSheetForm = new FormGroup({
-		id: new FormControl(''),
-		user: new FormControl(''),
-		wineName: new FormControl('', Validators.required),
-		winery: new FormControl('', Validators.required),
-		wineType: new FormControl(''),
-		vintage: new FormControl(''),
-		grapeVariety: new FormControl(''),
-		alcoholContent: new FormControl(''),
-		servingTemperature: new FormControl(''),
-		price: new FormControl(''),
-		score: new FormControl(''),
-		color: new FormControl(''),
-		colorDensity: new FormControl(''),
-		limpidity: new FormControl(''),
-		consistency: new FormControl(''),
-		effervescenceBubbleGrain: new FormControl(''),
-		effervescenceBubbleNumber: new FormControl(''),
-		effervescenceBubblePersistence: new FormControl(''),
-		olfactoryIntensity: new FormControl(''),
-		olfactoryComplexity: new FormControl(''),
-		olfactoryQuality: new FormControl(''),
-		olfactorySense: new FormControl(''),
-		olfactoryDescription: new FormControl(''),
-		sugars: new FormControl(''),
-		alcohols: new FormControl(''),
-		polyalcohols: new FormControl(''),
-		acids: new FormControl(''),
-		tanninsQuantity: new FormControl(''),
-		tanninsQuality: new FormControl(''),
-		mineralSubstances: new FormControl(''),
-		equilibrium: new FormControl(''),
-		tasteIntensity: new FormControl(''),
-		tastePersistence: new FormControl(''),
-		tasteQuality: new FormControl(''),
-		bodyWine: new FormControl(''),
-		evolutionaryState: new FormControl(''),
-		harmony: new FormControl(''),
-		typicality: new FormControl(''),
-		foodPairings: new FormControl('')
+	tastingSheetForm = new UntypedFormGroup({
+		id: new UntypedFormControl(''),
+		user: new UntypedFormControl(''),
+		wineName: new UntypedFormControl('', Validators.required),
+		winery: new UntypedFormControl('', Validators.required),
+		wineType: new UntypedFormControl(''),
+		vintage: new UntypedFormControl(''),
+		grapeVariety: new UntypedFormControl(''),
+		alcoholContent: new UntypedFormControl(''),
+		servingTemperature: new UntypedFormControl(''),
+		price: new UntypedFormControl(''),
+		score: new UntypedFormControl(''),
+		color: new UntypedFormControl(''),
+		colorDensity: new UntypedFormControl(''),
+		limpidity: new UntypedFormControl(''),
+		consistency: new UntypedFormControl(''),
+		effervescenceBubbleGrain: new UntypedFormControl(''),
+		effervescenceBubbleNumber: new UntypedFormControl(''),
+		effervescenceBubblePersistence: new UntypedFormControl(''),
+		olfactoryIntensity: new UntypedFormControl(''),
+		olfactoryComplexity: new UntypedFormControl(''),
+		olfactoryQuality: new UntypedFormControl(''),
+		olfactorySense: new UntypedFormControl(''),
+		olfactoryDescription: new UntypedFormControl(''),
+		sugars: new UntypedFormControl(''),
+		alcohols: new UntypedFormControl(''),
+		polyalcohols: new UntypedFormControl(''),
+		acids: new UntypedFormControl(''),
+		tanninsQuantity: new UntypedFormControl(''),
+		tanninsQuality: new UntypedFormControl(''),
+		mineralSubstances: new UntypedFormControl(''),
+		equilibrium: new UntypedFormControl(''),
+		tasteIntensity: new UntypedFormControl(''),
+		tastePersistence: new UntypedFormControl(''),
+		tasteQuality: new UntypedFormControl(''),
+		bodyWine: new UntypedFormControl(''),
+		evolutionaryState: new UntypedFormControl(''),
+		harmony: new UntypedFormControl(''),
+		typicality: new UntypedFormControl(''),
+		foodPairings: new UntypedFormControl('')
 	});
 
 	ngOnInit() {

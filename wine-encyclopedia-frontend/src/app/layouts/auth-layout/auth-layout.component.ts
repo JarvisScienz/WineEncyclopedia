@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import { first } from 'rxjs/operators';
@@ -20,14 +20,14 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
 	mobile_menu_visible: any = 0;
 	private toggleButton: any;
 	private sidebarVisible!: boolean;
-	loginForm!: FormGroup;
+	loginForm!: UntypedFormGroup;
 	loading = false;
 	submitted = false;
 	returnUrl!: string;
 	loginError = false;
 	descriptionLoginError!: string;
 
-	constructor(private formBuilder: FormBuilder,
+	constructor(private formBuilder: UntypedFormBuilder,
 		private route: ActivatedRoute,
 		private router: Router,
 		private modalService: NgbModal,
