@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { CookiesService } from '../_services/cookies.service'
@@ -42,17 +42,25 @@ export class AuthenticationService {
 				console.log(user);
 				// store user details and basic auth credentials in local storage to keep user logged in between page refreshes
 				//user.authdata = window.btoa(username + ':' + password);
-				this.cookiesService.setCookie("user", JSON.stringify(user), 2);
+				this.cookiesService.setCookie("user", JSON.stringify(user.userData.user), 2);
 				this.cookiesService.setCookie("userEmail", email, 2);
 				this.router.navigate(["/profile"]);
-				this.setUserData(user.uid, email);
+				this.setUserData(user.userData.user.uid, email);
 				user.authdata = user.tokenJWT;
 				return user;
-			}));
+			}),
+			catchError(error => {
+                console.error("Errore durante il login:", error);
+                
+                // Qui puoi gestire l'errore a seconda di come vuoi trattarlo
+                // Ad esempio, puoi mostrare un messaggio all'utente o loggare l'errore
+                // Ritorniamo un throwError per permettere ai componenti chiamanti di gestire l'errore come ritengono opportuno
+                return throwError(() => new Error("Errore durante il login. Controlla le tue credenziali."));
+            }));
 	}
 
 	logout() {
-		let email = JSON.parse(this.cookiesService.getCookieUser()).userData.email;
+		let email = JSON.parse(this.cookiesService.getCookieUser()).email;
 		return this.http.post<any>(this.uriLogout, { email: email })
 			.pipe(map(user => {
 				if (user) {

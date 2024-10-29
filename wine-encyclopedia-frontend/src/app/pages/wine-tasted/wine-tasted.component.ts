@@ -23,7 +23,7 @@ export class WineTastedComponent implements OnInit {
 	constructor(private appService: AppService,
 		private router: Router,
 		private cookiesService: CookiesService) {
-			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).userData.uid;
+			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		 }
 
 

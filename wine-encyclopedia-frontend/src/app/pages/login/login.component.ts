@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 	returnUrl!: string;
 	loginError = false;
 	descriptionLoginError!: string;
+	wrongCredential = false;
 	
 
 	constructor(
@@ -35,8 +36,8 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		this.loginForm = this.formBuilder.group({
-			username: ['', Validators.required],
-			password: ['', Validators.required]
+			username: ['', [Validators.required, Validators.email]],
+			password: ['', [Validators.required, Validators.minLength(4)]]
 		});
 		
 		/*this.loginForm = new FormGroup({          
@@ -76,6 +77,7 @@ export class LoginComponent implements OnInit {
 					}else{
 						this.descriptionLoginError = "Errore login. Riprova!";	
 					}
+					this.wrongCredential = true;
 					this.SpinnerService.hide();
 					this.loading = false;
 					this.loginError = true;

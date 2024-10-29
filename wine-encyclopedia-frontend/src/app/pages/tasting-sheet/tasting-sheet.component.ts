@@ -35,7 +35,7 @@ export class TastginSheetComponent implements OnInit {
 		private router: Router,
 		private toastr: ToastrService, 
 		private cookiesService: CookiesService) {
-		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).userData.uid;
+		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		this.notificationService = new NotificationsComponent(this.toastr);
 		this.wine = this.route.snapshot.queryParams;
 		if (Object.keys(this.wine).length !== 0) {
@@ -208,7 +208,7 @@ export class TastginSheetComponent implements OnInit {
 	}
 
 	setWineInformation() {
-		// Assegna i valori dai campi del form alle proprietà dell'oggetto WineTastingSheet
+		// Assegna i valori dai campi del form alle proprietï¿½ dell'oggetto WineTastingSheet
 		//this.wineTastingSheet.id = "4";
 		this.wineTastingSheet.user = this.userUid;
 		this.wineTastingSheet.id = this.tastingSheetForm.controls['id'].value;

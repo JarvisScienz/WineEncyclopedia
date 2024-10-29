@@ -16,9 +16,8 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-			console.log("Cookie: " + this.cookiesService.getCookie("userID"));
 			//console.log ("CurrentValue: " + this.authService.currentUserValue());
-			var isLogged = (this.cookiesService.getCookie("userID") != "") ? true : false;
+			var isLogged = (this.cookiesService.getCookieUser() != "") ? true : false;
 			if (isLogged) {
 				this.userLogged = isLogged;
 			} else {

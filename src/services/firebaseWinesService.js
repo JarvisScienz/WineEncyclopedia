@@ -1,4 +1,4 @@
-const firebase = require("../db").db;
+import firebase from "../db.js";
 
 async function getWines (){
 	try {
@@ -133,4 +133,4 @@ function updateNewWineId (id){
     docToUpdateRef.update(updatedData);
 }
 
-module.exports = { getWines, getWinesByUser, getWinesByColor, getWinesByWinery, addWine, updateWine, deleteWine};
+export default { getWines, getWinesByUser, getWinesByColor, getWinesByWinery, addWine, updateWine, deleteWine};

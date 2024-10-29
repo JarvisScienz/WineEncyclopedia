@@ -54,3 +54,4 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 /wine-encyclopedia
+/dist
