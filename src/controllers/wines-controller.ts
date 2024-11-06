@@ -30,12 +30,12 @@ const auth = getAuth(app.app);
 
 class WinesController {
   async getWines(req: any, res: any) {
-    const { uid } = req.body;
+    /*const { uid } = req.body;
     if (!uid ) {
       return res.status(422).json({
         uid: "UID is required"
       });
-    }
+    }*/
     try {
       const winesCollection = collection(db, "wines");
       const snapshot = await getDocs(winesCollection);
@@ -129,7 +129,15 @@ class WinesController {
     }
   }
 
-  async wineryList(req: any, res: any) {
+  // async wineryList(req: any, res: any) {
+  //     let wines = await this.getWines(req, res);
+  //     let wineryValues = wines.map((obj: any) => obj.winery);
+
+	//     return wineryValues;
+  // }
+
+  async getWinesByVintage(req: any, res: any) {
+    
   }
 
 }

@@ -10,6 +10,7 @@ import { DisplayBoardComponent } from '../../display-board.component';
 import { UsersComponent } from '../../users.component';
 import { TastginSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.component';
 import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.component';
+import { MyCellarComponent } from '../../pages/my-cellar/my-cellar.component';
 import { WinesFilterFilterPipe } from '../../filters/wines-filters.pipe';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { ErrorInterceptor } from '../../_helpers';
@@ -19,10 +20,12 @@ import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
   declarations: [
     DisplayBoardComponent,
     UsersComponent,
-	TastginSheetComponent,
-	WineTastedComponent,
-	WinesFilterFilterPipe,
-	NotificationsComponent
+    TastginSheetComponent,
+    WineTastedComponent,
+    MyCellarComponent,
+    WinesFilterFilterPipe,
+    NotificationsComponent,
+
   ],
   imports: [
     CommonModule,

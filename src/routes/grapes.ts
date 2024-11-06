@@ -1,7 +1,7 @@
 import express from 'express';
 //import cors from 'cors';
 
-import winesController from '../controllers/wines-controller.js';
+import grapesController from '../controllers/grapes-controller.js';
 
 const router = express.Router();
 
@@ -10,17 +10,9 @@ const router = express.Router();
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // };
 
-router.post('/api/wines',  /*verifyToken,*/ winesController.getWines);
+router.get('/api/grapes',  /*verifyToken,*/ grapesController.getGrapes);
 
-router.post('/api/winesByColor', winesController.getWinesByColor); 
-
-router.post('/api/winesByWinery', winesController.winesByWinery);
-
-router.post('/api/addWine', winesController.addWine);
-
-router.post('/api/editWine', winesController.editWine);
-
-//router.post('/api/wineryList', winesController.wineryList);
+router.get('/api/grapesName', grapesController.getGrapesName);
 
 // function verifyToken(req: Request, res: Response, next: NextFunction) {
 //   const token = req.headers.get('Authorization');

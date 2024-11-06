@@ -14,6 +14,7 @@
 				</a></li>
 				<li class="nav-item"><a class="nav-link" [routerLink]="['/tasting-sheet']">Scheda tecnica</a></li>
 				<li class="nav-item" *ngIf="userLogged"><a class="nav-link" [routerLink]="['/profile']">Profilo</a></li>
+				<li class="nav-item" *ngIf="userLogged"><a class="nav-link" [routerLink]="['/my-cellar']">La mia cantina</a></li>
 				<li class="nav-item" ><button class="nav-link" (click)="logout()">Logout</button></li>
 				<li class="nav-item" *ngIf="!userLogged"><a class="nav-link" [routerLink]="['/login']">Login</a></li>
 <!-- 				<li class="nav-item dropdown"><a -->
