@@ -4,7 +4,7 @@ export class WineTastingSheet {
 	public user: string;
 	// Wine information properties
 	public id: string;
-	public wineName: string;
+	public name: string;
 	public winery: string;
 	public wineType: string;
 	public grapeVariety: string;
@@ -79,7 +79,7 @@ export class WineTastingSheet {
 		this.harmony = '';
 		this.typicity = '';
 		this.foodPairing = '';
-		this.wineName = '';
+		this.name = '';
 		this.winery = '';
 		this.wineType = '';
 		this.grapeVariety = '';

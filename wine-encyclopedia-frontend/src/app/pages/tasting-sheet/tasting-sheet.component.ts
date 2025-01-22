@@ -47,7 +47,7 @@ export class TastginSheetComponent implements OnInit {
 	tastingSheetForm = new UntypedFormGroup({
 		id: new UntypedFormControl(''),
 		user: new UntypedFormControl(''),
-		wineName: new UntypedFormControl('', Validators.required),
+		name: new UntypedFormControl('', Validators.required),
 		winery: new UntypedFormControl('', Validators.required),
 		wineType: new UntypedFormControl(''),
 		vintage: new UntypedFormControl(''),
@@ -168,7 +168,7 @@ export class TastginSheetComponent implements OnInit {
 		this.tastingSheetForm.patchValue({
 			user: this.userUid,
 			id: wine.id,
-			wineName: wine.wineName,
+			name: wine.name,
 			winery: wine.winery,
 			wineType: wine.wineType,
 			vintage: wine.vintage,
@@ -212,7 +212,7 @@ export class TastginSheetComponent implements OnInit {
 		//this.wineTastingSheet.id = "4";
 		this.wineTastingSheet.user = this.userUid;
 		this.wineTastingSheet.id = this.tastingSheetForm.controls['id'].value;
-		this.wineTastingSheet.wineName = this.tastingSheetForm.controls['wineName'].value;
+		this.wineTastingSheet.name = this.tastingSheetForm.controls['name'].value;
 		this.wineTastingSheet.winery = this.tastingSheetForm.controls['winery'].value;
 		this.wineTastingSheet.wineType = this.tastingSheetForm.controls['wineType'].value;
 		this.wineTastingSheet.grapeVariety = this.tastingSheetForm.controls['grapeVariety'].value;

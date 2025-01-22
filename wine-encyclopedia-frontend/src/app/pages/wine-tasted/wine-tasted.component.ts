@@ -59,7 +59,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	extractWineries(jsonArray: any[]) {
-		this.wineryList = jsonArray.map(item => item.winery);
+		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}
 
 	getAllWines() {
@@ -93,7 +93,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	getWineIcon(wine: WineTastingSheet) {
-		var wineColor = wine.color.split("_")[0];
+		var wineColor = wine.color?.split("_")[0] || "";
 		var pathImage = "";
 		switch (wineColor) {
 			case "red":

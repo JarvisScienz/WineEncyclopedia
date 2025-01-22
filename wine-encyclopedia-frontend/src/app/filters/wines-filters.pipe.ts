@@ -59,7 +59,7 @@ transform(items: any[], searchText: string): any[] {
   }
 
   private bookmarkContainsFilterTerm(bookmark: WineTastingSheet, filterTerm: string) {
-    return bookmark.wineName.toLocaleLowerCase().includes(filterTerm)
+    return bookmark.name.toLocaleLowerCase().includes(filterTerm)
       || bookmark.winery.toLocaleLowerCase().includes(filterTerm)
       || bookmark.wineType.toLocaleLowerCase().includes(filterTerm);
   }
