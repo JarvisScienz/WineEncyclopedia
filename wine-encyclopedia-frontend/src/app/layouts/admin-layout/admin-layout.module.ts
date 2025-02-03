@@ -13,6 +13,8 @@ import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.compone
 import { MyCellarComponent } from '../../pages/my-cellar/my-cellar.component';
 import { WinesFilterFilterPipe } from '../../filters/wines-filters.pipe';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
+import { RadarChartComponent } from '../../components/radar-chart/radar-chart.component';
+
 import { ErrorInterceptor } from '../../_helpers';
 import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
 
@@ -25,7 +27,7 @@ import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
     MyCellarComponent,
     WinesFilterFilterPipe,
     NotificationsComponent,
-
+    RadarChartComponent
   ],
   imports: [
     CommonModule,

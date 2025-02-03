@@ -10,6 +10,7 @@ import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { CookiesService } from '../../_services/cookies.service'
+import { RadarChartComponent } from 'src/app/components/radar-chart/radar-chart.component';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class TastginSheetComponent implements OnInit {
 	selectedItems: string[] = [];
 	@ViewChild('input') inputEl: any;
 	userUid: string  = "";
+	isRedWine: boolean = false;
+	isEffervescentWine: boolean = false;
 
 	public model: any;
 
@@ -164,7 +167,17 @@ export class TastginSheetComponent implements OnInit {
 		});
 	}
 
+	changeColor(event: any) {	
+		this.isRedWine = event.target.value.toLowerCase().includes('red');
+	}
+
+	changeWineType(event: any) {
+		this.isEffervescentWine = event.target.value.includes('Prosecco') || event.target.value.includes('Spumante') || event.target.value.includes('Champagne');
+	}
+
 	setFormWineInformation(wine: any): void {
+		this.isRedWine = wine.color?.toLowerCase().includes('red');
+		this.isEffervescentWine = wine.wineType?.includes('Prosecco') || wine.wineType?.includes('Spumante') || wine.wineType?.includes('Champagne');
 		this.tastingSheetForm.patchValue({
 			user: this.userUid,
 			id: wine.id,
@@ -201,6 +214,7 @@ export class TastginSheetComponent implements OnInit {
 			tastePersistence: wine.tastePersistence,
 			tasteQuality: wine.tasteQuality,
 			evolutionaryState: wine.evolutionaryState,
+			bodyWine: wine.bodyWine,
 			harmony: wine.harmony,
 			typicality: wine.typicality,
 			foodPairings: wine.foodPairings
