@@ -7,13 +7,14 @@ import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { CookiesService } from '../../_services/cookies.service'
 
 @Component({
-	selector: 'my-cellar',
-	templateUrl: './my-cellar.component.html',
-	styleUrls: ['./my-cellar.component.css']
+	selector: 'wineries',
+	templateUrl: './wineries.component.html',
+	styleUrls: ['./wineries.component.css']
 })
-export class MyCellarComponent implements OnInit {
+export class WineriesComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
+	wineries: any = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
@@ -29,12 +30,12 @@ export class MyCellarComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getMyCellarWines();
+		this.getAllWineries();
 		//this.getWineryList();
 	}
 
 	refresh() {
-		this.getMyCellarWines();
+		this.getAllWineries();
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
@@ -59,15 +60,15 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	extractWineries(jsonArray: any[]) {
-		this.wineryList = jsonArray.map(item => item.winery);
+		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}
 
-	getMyCellarWines() {
-		this.appService.getMyCellarWines(this.userUid).subscribe((wines => {
-			if (wines == null)
+	getAllWineries() {
+		this.appService.getWineries().subscribe((wineries => {
+			if (wineries == null)
 				this.wines = [];
 			else
-				this.wines = wines;
+				this.wineries = wineries;
 			this.extractWineries(this.wines);
 		}));
 	}
@@ -92,12 +93,8 @@ export class MyCellarComponent implements OnInit {
 		this.router.navigate(['/tasting-sheet'], navigationExtras);
 	}
 
-	viewWineDetails(wine: any) {
-		this.router.navigate(['/wine'], { state: { wineData: wine } });
-	}
-
 	getWineIcon(wine: WineTastingSheet) {
-		var wineColor = wine.color.split("_")[0] || "";
+		var wineColor = wine.color?.split("_")[0] || "";
 		var pathImage = "";
 		switch (wineColor) {
 			case "red":

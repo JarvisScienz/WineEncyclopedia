@@ -275,7 +275,7 @@
 					
 							<div class="col-xl-3">
 								<label for="alcoli">Alcoli:</label> <select class="form-control"
-									formControlName="alcohols" id="alcoli" name="alcoli">
+									formControlName="alcohols" id="alcoli" name="alcoli" (change)="updateRadarChart($event)">
 									<option value="Poco caldo">Poco caldo</option>
 									<option value="Moderatamente caldo">Moderatamente caldo</option>
 									<option value="Caldo">Caldo</option>
@@ -287,7 +287,7 @@
 								<label for="polialcoli">Polialcoli:</label> 
 								<select
 									class="form-control" formControlName="polyalcohols" id="polialcoli"
-									name="polialcoli">
+									name="polialcoli" (change)="updateRadarChart($event)">
 									<option value="Poco morbido">Poco morbido</option>
 									<option value="Moderatamente morbido">Moderatamente morbido</option>
 									<option value="Morbido">Morbido</option>
@@ -299,7 +299,7 @@
 					
 							<div class="col-xl-3">
 								<label for="acidi">Acidi:</label> <select class="form-control"
-									formControlName="acids" id="acidi" name="acidi">
+									formControlName="acids" id="acidi" name="acidi" (change)="updateRadarChart($event)">
 									<option value="Poco fresco">Poco fresco</option>
 									<option value="Moderatamente fresco">Moderatamente fresco</option>
 									<option value="Fresco">Fresco</option>
@@ -321,7 +321,7 @@
 							<div class="col-xl-3" *ngIf="isRedWine">
 								<label for="tanninoQualita">Tannino (Qualità):</label> <select
 									class="form-control" formControlName="tanninsQuality"
-									id="tanninoQualita" name="tanninoQualita">
+									id="tanninoQualita" name="tanninoQualita" (change)="updateRadarChart($event)">
 									<option value="Grossolano">Grossolano</option>
 									<option value="Duro">Duro</option>
 									<option value="Vellutato">Vellutato</option>
@@ -344,7 +344,7 @@
 							<div class="col-xl-3">
 								<label for="equilibrio">Equilibrio:</label> <select
 									class="form-control" formControlName="equilibrium" id="equilibrio"
-									name="equilibrio">
+									name="equilibrio" (change)="updateRadarChart($event)">
 									<option value="Sbilanciato">Sbilanciato</option>
 									<option value="Poco equilibrato">Poco equilibrato</option>
 									<option value="Sufficientemente equilibrato">Sufficientemente
@@ -356,7 +356,7 @@
 							<div class="col-xl-3">
 								<label for="intensita">Intensità:</label> <select
 									class="form-control" formControlName="tasteIntensity" id="intensita"
-									name="intensita">
+									name="intensita" (change)="updateRadarChart($event)">
 									<option value="Poco intenso">Poco intenso</option>
 									<option value="Sufficientemente intenso">Sufficientemente
 										intenso</option>
@@ -368,7 +368,7 @@
 							<div class="col-xl-3">
 								<label for="persistenza">Persistenza:</label> <select
 									class="form-control" formControlName="tastePersistence"
-									id="persistenza" name="persistenza">
+									id="persistenza" name="persistenza" (change)="updateRadarChart($event)">
 									<option value="Poco persistente">Poco persistente</option>
 									<option value="Sufficientemente persistente">Sufficientemente
 										persistente</option>
@@ -390,7 +390,7 @@
 							<div class="col-xl-3">
 								<label for="corpo">Corpo del vino:</label> <select
 									class="form-control" formControlName="bodyWine" id="corpo"
-									name="corpo">
+									name="corpo" (change)="updateRadarChart($event)">
 									<option value="Leggero">Leggero</option>
 									<option value="Medio">Medio</option>
 									<option value="Pieno">Pieno</option>
@@ -450,7 +450,7 @@
 								<textarea id="abbinamenti" name="abbinamenti" class="form-control"
 									formControlName="foodPairings" placeholder="Abbinamenti"></textarea>
 							</div>
-							<app-radar-chart></app-radar-chart>
+							<app-radar-chart [radarChartData] = "radarChartData"></app-radar-chart>
 						</div>
 					</ng-template>
 				</div>

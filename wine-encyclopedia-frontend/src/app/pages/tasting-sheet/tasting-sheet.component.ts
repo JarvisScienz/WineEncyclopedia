@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { takeUntil, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Subject, OperatorFunction, Observable } from 'rxjs';
+import { takeUntil, debounceTime, distinctUntilChanged, map, catchError } from 'rxjs/operators';
+import { Subject, OperatorFunction, Observable, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
@@ -30,6 +30,8 @@ export class TastginSheetComponent implements OnInit {
 	userUid: string  = "";
 	isRedWine: boolean = false;
 	isEffervescentWine: boolean = false;
+	radarChartData: number[];
+	//@ViewChild('radarChart') radarChartComponent: RadarChartComponent;
 
 	public model: any;
 
@@ -41,10 +43,12 @@ export class TastginSheetComponent implements OnInit {
 		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		this.notificationService = new NotificationsComponent(this.toastr);
 		this.wine = this.route.snapshot.queryParams;
+		this.radarChartData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 		if (Object.keys(this.wine).length !== 0) {
 			this.setFormWineInformation(this.wine);
 			this.buttonLabel = "Modifica";
 		}
+		
 	}
 
 	tastingSheetForm = new UntypedFormGroup({
@@ -160,11 +164,25 @@ export class TastginSheetComponent implements OnInit {
 	updateTastingSheet() {
 		this.setWineInformation();
 
-		this.appService.editWine(this.tastingSheetForm.value).pipe(takeUntil(this.destroy$)).subscribe(data => {
+		this.appService.editWine(this.tastingSheetForm.value)
+		.pipe(
+			takeUntil(this.destroy$),
+			catchError(error => {
+			console.error('Errore durante l’aggiornamento del vino:', error);
+			this.notificationService.errorNotification("Errore durante l'aggiornamento del vino. Riprova.");
+			return throwError(() => error); // Propaga l'errore se necessario
+			})
+		)
+		.subscribe({
+			next: data => {
 			console.log('message::::', data);
-
-			this.tastingSheetForm.reset();
+			this.notificationService.successNotification("Vino aggiornato!");
+			},
+			error: err => {
+			console.error("Errore gestito nello subscribe:", err);
+			}
 		});
+
 	}
 
 	changeColor(event: any) {	
@@ -173,6 +191,49 @@ export class TastginSheetComponent implements OnInit {
 
 	changeWineType(event: any) {
 		this.isEffervescentWine = event.target.value.includes('Prosecco') || event.target.value.includes('Spumante') || event.target.value.includes('Champagne');
+	}
+
+	updateRadarChart(event: any){
+		let key = event.target.name;
+		let value = event.target.options.selectedIndex+1;
+		 switch (key){
+			case 'polialcoli':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [value, this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'persistenza':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], value, this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'intensita':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], value, this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'tanninoQualita':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], value, this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'corpo':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], value, this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'polialcoli':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], value, this.radarChartData[6], this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'equilibrio':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], value, this.radarChartData[7], this.radarChartData[8]];
+				break;
+			case 'alcoli':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], value, this.radarChartData[8]];
+				break;
+			case 'acidi':
+				//this.radarChartComponent.updateChartDataAtIndex(0, value);
+				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], value];
+				break;
+		 }
 	}
 
 	setFormWineInformation(wine: any): void {
@@ -219,6 +280,115 @@ export class TastginSheetComponent implements OnInit {
 			typicality: wine.typicality,
 			foodPairings: wine.foodPairings
 		});
+		this.radarChartData = [this.getValueFromDefinition(wine.polyalcohols), this.getValueFromDefinition(wine.tastePersistence), 
+			this.getValueFromDefinition(wine.tasteIntensity), this.getValueFromDefinition(wine.tanninsQuality), 
+			this.getValueFromDefinition(wine.bodyWine), this.getValueFromDefinition(wine.polyalcohols), 
+			this.getValueFromDefinition(wine.equilibrium), this.getValueFromDefinition(wine.alcohols), 
+			this.getValueFromDefinition(wine.acids)];
+	}
+
+	getValueFromDefinition(definition: string) {
+		let returnValue = 0;
+		switch (definition) {
+			case 'Poco morbido':
+				returnValue = 1;
+				break;
+			case 'Moderatamente morbido':
+				returnValue = 2;
+				break;
+			case 'Morbido':
+				returnValue = 3;
+				break;
+			case 'Rotondo':
+				returnValue = 4;
+				break;
+			case 'Poco persistente':
+				returnValue = 1;
+				break;
+			case 'Sufficientemente persistente':
+				returnValue = 2;
+				break;
+			case 'Persistente':
+				returnValue = 3;
+				break;
+			case 'Molto persistente':
+				returnValue = 4;
+				break;
+			case 'Poco intenso':
+				returnValue = 1;
+				break;
+			case 'Sufficientemente intenso':
+				returnValue = 2;
+				break;
+			case 'Intenso':
+				returnValue = 3;
+				break;
+			case 'Molto intenso':
+				returnValue = 4;
+				break;
+			case 'Grossolano':
+				returnValue = 1;
+				break;
+			case 'Duro':
+				returnValue = 2;
+				break;
+			case 'Vellutato':
+				returnValue = 3;
+				break;
+			case 'Nobile':
+				returnValue = 4;
+				break;
+			case 'Leggero':
+				returnValue = 1;
+				break;
+			case 'Medio':
+				returnValue = 2;
+				break;
+			case 'Pieno':
+				returnValue = 3;
+				break;
+			case 'Pesante':
+				returnValue = 4;
+				break;
+			case 'Sbilanciato':
+				returnValue = 1;
+				break;
+			case 'Poco equilibrato':
+				returnValue = 2;
+				break;
+			case 'Sufficientemente equilibrato':
+				returnValue = 3;
+				break;
+			case 'Equilibrato':
+				returnValue = 4;
+				break;
+			case 'Poco caldo':
+				returnValue = 1;
+				break;
+			case 'Moderatamente caldo':
+				returnValue = 2;
+				break;
+			case 'Caldo':
+				returnValue = 3;
+				break;
+			case 'Molto caldo':
+				returnValue = 4;
+				break;
+			case 'Poco fresco':
+				returnValue = 1;
+				break;
+			case 'Moderatamente fresco':
+				returnValue = 2;
+				break;
+			case 'Fresco':
+				returnValue = 3;
+				break;
+			case 'Molto fresco':
+				returnValue = 4;
+				break;
+		}
+
+		return returnValue;
 	}
 
 	setWineInformation() {

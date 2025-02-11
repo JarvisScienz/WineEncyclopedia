@@ -12,6 +12,8 @@ const router = express.Router();
 
 router.post('/api/wines',  /*verifyToken,*/ winesController.getWines);
 
+router.post('/api/winesTasted',  /*verifyToken,*/ winesController.getWinesTasted);
+
 router.post('/api/winesByColor', winesController.getWinesByColor); 
 
 router.post('/api/winesByWinery', winesController.winesByWinery);
@@ -20,6 +22,9 @@ router.post('/api/addWine', winesController.addWine);
 
 router.post('/api/editWine', winesController.editWine);
 
+router.post('/api/wineries', winesController.getWineries);
+
+router.post('/api/myCellarWines', winesController.getMyCellarWines);
 //router.post('/api/wineryList', winesController.wineryList);
 
 // function verifyToken(req: Request, res: Response, next: NextFunction) {

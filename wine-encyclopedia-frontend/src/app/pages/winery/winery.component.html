@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-7 mrgnbtm">
-			<h2>La mia cantina</h2>
+			<h2>Storico vini</h2>
 		</div>
 		<div class="col-md-4 mrgnbtm">
 			<div class="btn">
@@ -41,27 +41,19 @@
 				<tr>
 					<th>Id</th>
 					<th>Nome</th>
-					<th>Azienda</th>
-					<th>Annata</th>
-					<th>Valore iniziale</th>
-					<th>Data di acquisto</th>
-					<th>Valore attuale</th>
-					<th>Data ultima valutazione</th>
+					<th>Luogo</th>
+					<th>Denominazione</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
-					<td style="width: 20%">{{i + 1}} <!--<img src="{{getWineIcon(wine)}}" style="width: 15%" >--></td>
-					<td><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.wineName }}</a></td>
-					<td>{{wine.winery}}</td>
-					<td>{{wine.wineVintage}}</td>
-					<td>{{wine.startedValue}} €</td>
-					<td>{{wine.insertionDate}}</td>
-					<td>{{wine.lastValue}} €</td>
-					<td>{{wine.lastValueDate}}</td>
-					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>
+					*ngFor="let winery of wineries | winesFilter: filterText; let i = index ">
+					<td style="width: 20%">{{winery.id}}</td>
+					<td>{{winery.name}}</td>
+					<td>{{winery.country}}</td>
+					<td>{{winery.denomination}}</td>
+					<td><button class="btn btn-warning" (click)="updateTastedWine(winery)">Modifica</button></td>
 				</tr>
 			</tbody>
 		</table>

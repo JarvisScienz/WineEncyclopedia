@@ -11,12 +11,17 @@ import { UsersComponent } from '../../users.component';
 import { TastginSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.component';
 import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.component';
 import { MyCellarComponent } from '../../pages/my-cellar/my-cellar.component';
+import { WineriesComponent } from '../../pages/wineries/wineries.component';
+import { WinesComponent } from '../../pages/wines/wines.component';
 import { WinesFilterFilterPipe } from '../../filters/wines-filters.pipe';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { RadarChartComponent } from '../../components/radar-chart/radar-chart.component';
 
 import { ErrorInterceptor } from '../../_helpers';
 import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
+import { WineryComponent } from "src/app/pages/winery/winery.component";
+import { WineComponent } from "src/app/pages/wine/wine.component";
+import { ProfileComponent } from "src/app/pages/profile/profile.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +32,12 @@ import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
     MyCellarComponent,
     WinesFilterFilterPipe,
     NotificationsComponent,
-    RadarChartComponent
+    RadarChartComponent,
+    WineriesComponent,
+    WinesComponent,
+    WineryComponent,
+    WineComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

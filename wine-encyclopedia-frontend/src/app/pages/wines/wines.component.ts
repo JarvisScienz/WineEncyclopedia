@@ -7,11 +7,11 @@ import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { CookiesService } from '../../_services/cookies.service'
 
 @Component({
-	selector: 'my-cellar',
-	templateUrl: './my-cellar.component.html',
-	styleUrls: ['./my-cellar.component.css']
+	selector: 'wines',
+	templateUrl: './wines.component.html',
+	styleUrls: ['./wines.component.css']
 })
-export class MyCellarComponent implements OnInit {
+export class WinesComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
 	wineryList: any = [];
@@ -29,12 +29,12 @@ export class MyCellarComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getMyCellarWines();
+		this.getAllWines();
 		//this.getWineryList();
 	}
 
 	refresh() {
-		this.getMyCellarWines();
+		this.getAllWines();
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
@@ -59,11 +59,11 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	extractWineries(jsonArray: any[]) {
-		this.wineryList = jsonArray.map(item => item.winery);
+		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}
 
-	getMyCellarWines() {
-		this.appService.getMyCellarWines(this.userUid).subscribe((wines => {
+	getAllWines() {
+		this.appService.getWines(this.userUid).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -97,16 +97,16 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	getWineIcon(wine: WineTastingSheet) {
-		var wineColor = wine.color.split("_")[0] || "";
+		var wineColor = wine.color || "";
 		var pathImage = "";
 		switch (wineColor) {
-			case "red":
+			case "Rosso":
 				pathImage = "../../assets/images/red-wine.png";
 				break;
-			case "yellow":
+			case "Bianco":
 				pathImage = "../../assets/images/yellow-wine.png";
 				break;
-			case "rose":
+			case "Rosato":
 				pathImage = "../../assets/images/rose-wine.png";
 				break;
 		}

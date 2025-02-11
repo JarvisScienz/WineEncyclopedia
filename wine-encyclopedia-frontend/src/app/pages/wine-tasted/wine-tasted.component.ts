@@ -29,12 +29,12 @@ export class WineTastedComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllWines();
+		this.getAllWinesTasted();
 		//this.getWineryList();
 	}
 
 	refresh() {
-		this.getAllWines();
+		this.getAllWinesTasted();
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
@@ -62,8 +62,8 @@ export class WineTastedComponent implements OnInit {
 		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}
 
-	getAllWines() {
-		this.appService.getWines(this.userUid).subscribe((wines => {
+	getAllWinesTasted() {
+		this.appService.getWinesTasted(this.userUid).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else

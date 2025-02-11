@@ -1,0 +1,43 @@
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #6b3e26;
+  }
+  
+  .profile-info, .stats-section {
+    margin-bottom: 20px;
+  }
+  
+  .profile-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  }
+  
+  .stats-card {
+    text-align: center;
+    padding: 10px;
+    background: #f4f1ed;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  

@@ -36,13 +36,42 @@ class WinesController {
         uid: "UID is required"
       });
     }*/
+      try {
+        const winesCollection = collection(db, "wines");
+        const snapshot = await getDocs(winesCollection);
+        const data: any = [];
+      
+        for (const wineDoc of snapshot.docs) { // 🔹 Evita conflitto di nomi
+          const wineryRef = doc(db, "wineries", wineDoc.data().winery); // 🔹 Usa il riferimento corretto
+          const wineryInfo = await getDoc(wineryRef);
+      
+          if (wineryInfo.exists()) {
+            data.push({ id: wineDoc.id, wineryName: wineryInfo.data().name, ...wineDoc.data() });
+          } else {
+            data.push({ id: wineDoc.id, ...wineDoc.data() });
+          }
+        }
+        res.status(200).json(data);
+      } catch (error) {
+        console.error('Errore durante l\'esecuzione delle query:', error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async getWinesTasted(req: any, res: any) {
+    /*const { uid } = req.body;
+    if (!uid ) {
+      return res.status(422).json({
+        uid: "UID is required"
+      });
+    }*/
     try {
-      const winesCollection = collection(db, "wines");
+      const winesCollection = collection(db, "wine-tasted");
       const snapshot = await getDocs(winesCollection);
         const data: any = [];
   
         snapshot.forEach((doc) => {
-          data.push(doc.data());
+          data.push({ id: doc.id, ...doc.data() });
         });
   
         res.status(200).json(data);
@@ -125,19 +154,51 @@ class WinesController {
       await updateDoc(docRef, wine);  
       res.status(200).json({ id: wine.id });
     } catch (error) { 
-      res.status(500).json({ error: "Internal Server Error" });
+      console.log('[ERROR] Failed to update wine information. Error:', error);
+      res.status(500).json({ error: error });
     }
   }
 
-  // async wineryList(req: any, res: any) {
-  //     let wines = await this.getWines(req, res);
-  //     let wineryValues = wines.map((obj: any) => obj.winery);
-
-	//     return wineryValues;
-  // }
-
+  async getWineries(req: any, res: any) {
+    try {
+      const wineriesCollection = collection(db, "wineries");
+      const snapshot = await getDocs(wineriesCollection);
+        const data: any = [];
+  
+        snapshot.forEach((doc) => {
+          data.push({ id: doc.id, ...doc.data() });
+        });
+  
+        res.status(200).json(data);
+      } catch (error) {
+        console.error('Errore durante l\'esecuzione delle query:', error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
   async getWinesByVintage(req: any, res: any) {
     
+  }
+
+  async getMyCellarWines(req: any, res: any) {
+    const { uid } = req.body;
+    if (!uid ) {
+      return res.status(422).json({
+        uid: "UID is required"
+      });
+    }
+      try {
+        const myCellarWinesQuery = query(collection(db, 'my-cellar'), where('userID', '==', uid));
+        const snapshot = await getDocs(myCellarWinesQuery);
+        const data: any = [];
+        
+        snapshot.forEach(doc => {
+          data.push(doc.data());
+        });
+        res.status(200).json(data);
+      } catch (error) {
+        console.error('Errore durante l\'esecuzione delle query:', error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 
 }

@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 mrgnbtm">
+			<h2>{{wineDetails.name}}</h2>
+		</div>
+		<div class="col-md-4 mrgnbtm">
+			<div class="btn">
+				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="mrgnbtm">
+	<div class="container">
+		<div *ngIf="wineDetails">
+			<h2>{{ wineDetails.wineName }}</h2>
+			<p><strong>Azienda:</strong> {{ wineDetails.winery }}</p>
+			<p><strong>Annata:</strong> {{ wineDetails.wineVintage }}</p>
+			<p><strong>Valore iniziale:</strong> {{ wineDetails.startedValue }} €</p>
+			<p><strong>Ultima valutazione:</strong> {{ wineDetails.lastValue }} €</p>
+			<p><strong>Data di acquisto:</strong> {{ wineDetails.insertionDate }}</p>
+		  </div>
+	</div>
+</div>

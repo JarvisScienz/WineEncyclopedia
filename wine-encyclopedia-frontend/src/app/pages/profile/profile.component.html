@@ -1,0 +1,28 @@
+<div class="profile-container">
+	<!-- Informazioni Profilo -->
+	<div class="profile-info">
+	  <h2>Profilo Utente</h2>
+	  <div class="profile-field">
+		<label for="name">Nome:</label>
+		<input id="name" [(ngModel)]="user.name" type="text" />
+	  </div>
+	  <div class="profile-field">
+		<label for="email">Email:</label>
+		<input id="email" [(ngModel)]="user.email" type="email" />
+	  </div>
+	  <div class="profile-field">
+		<label>Data di iscrizione:</label>
+		<span>{{ user.registrationDate | date:'dd/MM/yyyy' }}</span>
+	  </div>
+	</div>
+  
+	<!-- Statistiche -->
+	<div class="stats-section">
+	  <h2>Statistiche Degustazioni</h2>
+	  <div class="stats-card">
+		<p>Vini degustati: <strong>{{ totalTasted }}</strong></p>
+	  </div>
+	  <canvas id="tastingChart"></canvas>
+	</div>
+  </div>
+  

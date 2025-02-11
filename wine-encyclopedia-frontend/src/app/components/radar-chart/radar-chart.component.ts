@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { Chart, RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 
 Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
@@ -11,10 +11,36 @@ Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Fi
 export class RadarChartComponent implements AfterViewInit {
   @ViewChild('radarCanvas', { static: false }) radarCanvas!: ElementRef;
   radarChart!: Chart;
+  @Input() radarChartData: any;
 
   ngAfterViewInit(): void {
     this.createRadarChart();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['radarChartData']) {
+      // Se i dati del grafico cambiano, aggiorna il grafico
+      this.updateRadarChart();
+    }
+  }
+
+  updateRadarChart() {
+    // Se il grafico è già stato creato, aggiorna i dati
+    if (this.radarChart) {
+      this.radarChart.data.datasets[0].data = this.radarChartData || [];  // Aggiorna i dataset
+      this.radarChart.update();  // Rende effettive le modifiche
+    }
+  }
+
+  updateChartDataAtIndex(index: number, newValue: number) {
+    if (this.radarChart && this.radarChart.data.datasets.length > 0) {
+      // Modifica il dato nell'indice specifico
+      this.radarChart.data.datasets[0].data[index] = newValue;
+      // Chiamare update per riflettere il cambiamento
+      this.radarChart.update();
+    }
+  }
+
 
   createRadarChart() {
     this.radarChart = new Chart(this.radarCanvas.nativeElement, {
@@ -24,7 +50,7 @@ export class RadarChartComponent implements AfterViewInit {
         datasets: [
           {
             label: 'Vino',
-            data: [80, 70, 75, 90, 60, 85, 80, 75, 80],
+            data: this.radarChartData, //[80, 70, 75, 90, 60, 85, 80, 75, 80],
             borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             pointBackgroundColor: 'rgba(255, 99, 132, 1)'
@@ -44,7 +70,7 @@ export class RadarChartComponent implements AfterViewInit {
           r: {
             beginAtZero: true,
             suggestedMin: 0,
-            suggestedMax: 100
+            suggestedMax: 4
           }
         }
       }
