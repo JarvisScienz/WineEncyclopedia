@@ -17,23 +17,6 @@
 			<div class="col-xl-3">
 				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
 			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
-					<option value="" disabled selected>Seleziona colore</option>
-					<option value="yellow">Giallo</option>
-					<option value="rose">Rosato</option>
-					<option value="red">Rosso</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
-					<option value="" disabled selected>Seleziona produttore</option>
-					<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<input type="text" class="form-control" placeholder="Annata">
-			</div>
 		</div>
 		
 		<table class="table table-bordered">
@@ -43,7 +26,6 @@
 					<th>Nome</th>
 					<th>Luogo</th>
 					<th>Denominazione</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,9 +33,8 @@
 					*ngFor="let winery of wineries | winesFilter: filterText; let i = index ">
 					<td style="width: 20%">{{winery.id}}</td>
 					<td>{{winery.name}}</td>
-					<td>{{winery.country}}</td>
+					<td>{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</td>
 					<td>{{winery.denomination}}</td>
-					<td><button class="btn btn-warning" (click)="updateTastedWine(winery)">Modifica</button></td>
 				</tr>
 			</tbody>
 		</table>

@@ -39,24 +39,19 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th>Id</th>
 					<th>Nome</th>
 					<th>Azienda</th>
-					<th>Annata</th>
-					<th></th>
+					<th>Denominazione</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
 					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
-					<td style="width: 20%">{{i + 1}} <img src="{{getWineIcon(wine)}}" style="width: 15%" ></td>
-					<td><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></td>
+					<td style="width: 20%"><img src="{{getWineIcon(wine)}}" style="width: 15%" ><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></td>
 					<td>{{wine.wineryName}}</td>
 					<td>{{wine.denomination}}</td>
-					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
 </div>

@@ -17,23 +17,6 @@
 			<div class="col-xl-3">
 				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
 			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
-					<option value="" disabled selected>Seleziona colore</option>
-					<option value="yellow">Giallo</option>
-					<option value="rose">Rosato</option>
-					<option value="red">Rosso</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
-					<option value="" disabled selected>Seleziona produttore</option>
-					<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<input type="text" class="form-control" placeholder="Annata">
-			</div>
 		</div>
 		
 		<table class="table table-bordered">

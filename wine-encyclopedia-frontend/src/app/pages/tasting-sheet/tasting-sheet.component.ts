@@ -22,7 +22,7 @@ export class TastginSheetComponent implements OnInit {
 	notificationService: NotificationsComponent;
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	destroy$: Subject<boolean> = new Subject<boolean>();
-	wine: any;
+	
 	grapes: any = [];
 	buttonLabel = "Invia";
 	selectedItems: string[] = [];
@@ -42,13 +42,7 @@ export class TastginSheetComponent implements OnInit {
 		private cookiesService: CookiesService) {
 		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		this.notificationService = new NotificationsComponent(this.toastr);
-		this.wine = this.route.snapshot.queryParams;
 		this.radarChartData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-		if (Object.keys(this.wine).length !== 0) {
-			this.setFormWineInformation(this.wine);
-			this.buttonLabel = "Modifica";
-		}
-		
 	}
 
 	tastingSheetForm = new UntypedFormGroup({
@@ -141,11 +135,7 @@ export class TastginSheetComponent implements OnInit {
 	}
 
 	submitForm() {
-		if (Object.keys(this.wine).length !== 0) {
-			this.updateTastingSheet();
-		} else {
-			this.saveTastingSheet();
-		}
+		this.saveTastingSheet();
 	}
 
 	saveTastingSheet(): void {
@@ -159,30 +149,6 @@ export class TastginSheetComponent implements OnInit {
 		});
 
 		console.log(this.wineTastingSheet);
-	}
-
-	updateTastingSheet() {
-		this.setWineInformation();
-
-		this.appService.editWine(this.tastingSheetForm.value)
-		.pipe(
-			takeUntil(this.destroy$),
-			catchError(error => {
-			console.error('Errore durante l’aggiornamento del vino:', error);
-			this.notificationService.errorNotification("Errore durante l'aggiornamento del vino. Riprova.");
-			return throwError(() => error); // Propaga l'errore se necessario
-			})
-		)
-		.subscribe({
-			next: data => {
-			console.log('message::::', data);
-			this.notificationService.successNotification("Vino aggiornato!");
-			},
-			error: err => {
-			console.error("Errore gestito nello subscribe:", err);
-			}
-		});
-
 	}
 
 	changeColor(event: any) {	

@@ -13,13 +13,31 @@
 </div>
 <div class="mrgnbtm">
 	<div class="container">
-		<div *ngIf="wineDetails">
-			<h2>{{ wineDetails.wineName }}</h2>
-			<p><strong>Azienda:</strong> {{ wineDetails.winery }}</p>
-			<p><strong>Annata:</strong> {{ wineDetails.wineVintage }}</p>
-			<p><strong>Valore iniziale:</strong> {{ wineDetails.startedValue }} €</p>
-			<p><strong>Ultima valutazione:</strong> {{ wineDetails.lastValue }} €</p>
-			<p><strong>Data di acquisto:</strong> {{ wineDetails.insertionDate }}</p>
+	  <div *ngIf="wineDetails">
+		<h2>{{ wineDetails.name }} {{ wineDetails.denomination }}</h2>
+		<div class="row">
+		  <!-- Colonna per l'immagine -->
+		  <div class="col-md-4">
+			<img [src]="wineDetails.img" class="img-fluid" style="max-width: 40%">
 		  </div>
+		  
+		  <!-- Colonna per i dettagli -->
+		  <div class="col-md-8">
+			<p><strong>Azienda:</strong> {{ wineDetails.wineryName }}</p>
+			<p><strong>Uvaggio:</strong> 
+				<span *ngFor="let grape of wineDetails.grapes; let last = last">
+					{{ grape.nameGrape }} ({{ grape.percentageGrape }}%)<span *ngIf="!last">, </span>
+				  </span>
+			</p>
+			<p><strong>Suolo:</strong> {{ wineDetails.soil }}</p>
+			<p><strong>Degustazione:</strong> {{ wineDetails.tastingDescription }}</p>
+			<p><strong>Denominazione:</strong> {{ wineDetails.denomination }}</p>
+			<p><strong>Zona di produzione:</strong> {{ wineDetails.productionZone }}</p>
+			<p><strong>Affinamento:</strong> {{ wineDetails.refinement }}</p>
+			<p><strong>Vinificazione:</strong> {{ wineDetails.winemaking }}</p>
+		  </div>
+		</div>
+	  </div>
 	</div>
-</div>
+  </div>
+  

@@ -5,6 +5,8 @@ import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
+import { Wine } from 'src/app/_models/wine';
+import { Winery } from 'src/app/_models/winery';
 
 @Component({
 	selector: 'wineries',
@@ -13,8 +15,8 @@ import { CookiesService } from '../../_services/cookies.service'
 })
 export class WineriesComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
-	wines: any = [];
-	wineries: any = [];
+	wines: Wine[] = [];
+	wineries: Winery[] = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
@@ -39,24 +41,6 @@ export class WineriesComponent implements OnInit {
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
-	}
-
-	filterColorWine() {
-		this.appService.getWinesByColor(this.filterColor).subscribe((wines => {
-			if (wines == null)
-				this.wines = [];
-			else
-				this.wines = wines;
-		}));
-	}
-
-	filterWinery() {
-		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
-			if (wines == null)
-				this.wines = [];
-			else
-				this.wines = wines;
-		}));
 	}
 
 	extractWineries(jsonArray: any[]) {

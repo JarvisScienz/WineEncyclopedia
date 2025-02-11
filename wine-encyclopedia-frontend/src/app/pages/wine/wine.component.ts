@@ -5,6 +5,7 @@ import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
+import { Wine } from 'src/app/_models/wine';
 
 @Component({
 	selector: 'wine',
@@ -12,7 +13,7 @@ import { CookiesService } from '../../_services/cookies.service'
 	styleUrls: ['./wine.component.css']
 })
 export class WineComponent implements OnInit {
-	wineDetails: any;
+	wineDetails!: Wine;
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
 	wineryList: any = [];
