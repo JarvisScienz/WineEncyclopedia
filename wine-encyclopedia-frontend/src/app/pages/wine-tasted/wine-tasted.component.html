@@ -50,7 +50,7 @@
 				<tr
 					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
 					<td style="width: 20%">{{i + 1}} <img src="{{getWineIcon(wine)}}" style="width: 15%" ></td>
-					<td>{{wine.name}}</td>
+					<td><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></td>
 					<td>{{wine.winery}}</td>
 					<td>{{wine.vintage}}</td>
 					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>

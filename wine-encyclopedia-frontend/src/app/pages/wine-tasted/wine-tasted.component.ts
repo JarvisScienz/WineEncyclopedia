@@ -89,7 +89,7 @@ export class WineTastedComponent implements OnInit {
 			skipLocationChange: true
 		};
 
-		this.router.navigate(['/tasting-sheet'], navigationExtras);
+		this.router.navigate(['/wine-tasted-details'], { state: { wineData: wine } });
 	}
 
 	getWineIcon(wine: WineTastingSheet) {
@@ -110,4 +110,7 @@ export class WineTastedComponent implements OnInit {
 
 	}
 
+	viewWineDetails(wine: any) {
+		this.router.navigate(['/wine'], { state: { wineData: wine } });
+	}
 }

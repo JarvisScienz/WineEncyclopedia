@@ -1,0 +1,482 @@
+<!-- app.component.html -->
+<form [formGroup]="tastingSheetForm" (ngSubmit)="submitForm()" class="container">
+	<div class="row">
+		<div ngbAccordion>
+			<div ngbAccordionItem [collapsed]="false">
+				<h2 ngbAccordionHeader>
+					<button ngbAccordionButton>Informazioni sul vino</button>
+				</h2>
+				<div ngbAccordionCollapse>
+					<div ngbAccordionBody>
+						<ng-template>
+							<div class="row">
+								<div class="col-xl-3">
+									<input type="hidden" formControlName="id">
+									<input type="hidden" formControlName="user">
+									<label for="nomeVino">Nome del vino:</label> <input type="text"
+										class="form-control" formControlName="name" placeholder="Nome vino"
+										id="nomeVino" name="nomeVino">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="azienda">Azienda:</label> <input type="text"
+										class="form-control" formControlName="winery" placeholder="Azienda"
+										id="azienda" name="azienda">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="tipologia">Tipologia:</label>
+										<select (change)="changeWineType($event)"
+											class="form-control" formControlName="wineType"
+											id="tipologia" name="tipologia">
+											<option value="Vino bianco">Vino bianco</option>
+											<option value="Vino rosso">Vino rosso</option>
+											<option value="Vino rosato">Vino rosato</option>
+											<option value="Vino liquoroso">Vino liquoroso</option>
+											<option value="Prosecco">Prosecco</option>
+											<option value="Spumante">Spumante</option>
+											<option value="Champagne">Champagne</option>
+										</select>
+								</div>
+								
+								<div class="col-xl-3">
+									<label for="tipologia">Annata</label> <input type="text"
+										class="form-control" formControlName="vintage" placeholder="Annata"
+										id="annata" name="annata">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="uve">Uve:</label> <input type="text" class="form-control"
+										formControlName="grapeVariety" placeholder="Uve" id="uve" name="uve" [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selected($event)">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="gradazione">Gradazione:</label> <input type="text"
+										class="form-control" formControlName="alcoholContent"
+										placeholder="Gradazione" id="gradazione" name="gradazione">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="temperatura">Temperatura:</label> <input type="text"
+										class="form-control" formControlName="servingTemperature"
+										placeholder="Temperatura" id="temperatura" name="temperatura">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="prezzo">Prezzo:</label> <input type="text"
+										class="form-control" formControlName="price" placeholder="Prezzo"
+										id="prezzo" name="prezzo">
+								</div>
+						
+								<div class="col-xl-3">
+									<label for="punteggio">Punteggio:</label> <input type="text"
+										class="form-control" formControlName="score" placeholder="Punteggio"
+										id="punteggio" name="punteggio">
+								</div>
+							</div>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ngbAccordion>
+		<div ngbAccordionItem [collapsed]="false">
+			<h2 ngbAccordionHeader>
+				<button ngbAccordionButton>Analisi visiva</button>
+			</h2>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+					<ng-template>
+						<div class="row">
+							<div class="col-xl-3">
+								<label for="colore">Colore:</label> <select class="form-control"
+									formControlName="color" id="colore" name="colore" (change)="changeColor($event)">
+									<option value="yellow_greenish">Giallo verdolino</option>
+									<option value="yellow_straw">Giallo paglierino</option>
+									<option value="yellow_golden">Giallo dorato</option>
+									<option value="yellow_amber">Giallo
+										ambrato/aranciato</option>
+									<option value="rose_soft">Rosa tenue</option>
+									<option value="rose_coppery">Rosa ramato</option>
+									<option value="rose_cherry">Rosa cerasuolo</option>
+									<option value="rose_claret">Rosa chiaretto</option>
+									<option value="red_purplish">Rosso
+										porpora/violaceo</option>
+									<option value="red_ruby">Rosso rubino</option>
+									<option value="red_garnet">Rosso granato</option>
+									<option value="red_orange">Rosso aranciato</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3" *ngIf="isRedWine">
+								<label for="densitaCromatica">Densità cromatica:</label> <select
+									class="form-control" formControlName="colorDensity"
+									id="densitaCromatica" name="densitaCromatica">
+									<option value="Trasparente">Trasparente</option>
+									<option value="Sufficientemente trasparente">Sufficientemente
+										trasparente</option>
+									<option value="Poco trasparente">Poco trasparente</option>
+									<option value="Compatto">Compatto</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="limpidezza">Limpidezza:</label> <select
+									class="form-control" formControlName="limpidity" id="limpidezza"
+									name="limpidezza">
+									<option value="Velato">Velato</option>
+									<option value="Sufficientemente velato">Sufficientemente
+										velato</option>
+									<option value="Limpido">Limpido</option>
+									<option value="Brillante">Brillante</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="consistenza">Consistenza:</label> <select
+									class="form-control" formControlName="consistency" id="consistenza"
+									name="consistenza">
+									<option value="Poco consistente">Poco consistente</option>
+									<option value="Consistente">Consistente</option>
+									<option value="Denso">Denso</option>
+									<option value="Viscoso">Viscoso</option>
+								</select>
+							</div>					
+							<div class="col-xl-3" *ngIf="isEffervescentWine">
+								<label for="granaBollicine">Grana della bollicine:</label> <select
+									class="form-control" formControlName="effervescenceBubbleGrain"
+									id="granaBollicine" name="granaBollicine">
+									<option value="Fini">Fini</option>
+									<option value="Grossolane">Grossolane</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3" *ngIf="isEffervescentWine">
+								<label for="numeroBollicine">Numero bollicine:</label> <select
+									class="form-control" formControlName="effervescenceBubbleNumber"
+									id="numeroBollicine" name="numeroBollicine">
+									<option value="Numerose">Numerose</option>
+									<option value="Scarse">Scarse</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3" *ngIf="isEffervescentWine">
+								<label for="persistenza">Persistenza:</label> <select
+									class="form-control"
+									formControlName="effervescenceBubblePersistence"
+									id="effervescenceBubblePersistence" name="persistenza">
+									<option value="Persistenti">Persistenti</option>
+									<option value="Evanescenti">Evanescenti</option>
+								</select>
+							</div>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ngbAccordion>
+		<div ngbAccordionItem [collapsed]="false">
+			<h2 ngbAccordionHeader>
+				<button ngbAccordionButton>Analisi olfattiva</button>
+			</h2>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+					<ng-template>
+						<div class="row">
+							<div class="col-xl-3">
+								<label for="intensita">Intensità:</label> <select
+									class="form-control" formControlName="olfactoryIntensity"
+									id="intensita" name="intensita">
+									<option value="Poco intenso">Poco intenso</option>
+									<option value="Sufficientemente intenso">Sufficientemente
+										intenso</option>
+									<option value="Intenso">Intenso</option>
+									<option value="Molto intenso">Molto intenso</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="complessita">Complessità:</label> <select
+									class="form-control" formControlName="olfactoryComplexity"
+									id="complessita" name="complessita">
+									<option value="Poco complesso">Poco complesso</option>
+									<option value="Sufficientemente complesso">Sufficientemente
+										complesso</option>
+									<option value="Complesso">Complesso</option>
+									<option value="Ampio">Ampio</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="qualita">Qualità:</label> <select class="form-control"
+									formControlName="olfactoryQuality" id="qualita" name="qualita">
+									<option value="Poco fine">Poco fine</option>
+									<option value="Sufficientemente fine">Sufficientemente fine</option>
+									<option value="Fine">Fine</option>
+									<option value="Eccellente">Eccellente</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="sentoreDominante">Sentore olfattivo dominante:</label> <select
+									class="form-control" formControlName="olfactorySense"
+									id="sentoreDominante" name="sentoreDominante">
+									<option value="Aromatico">Aromatico</option>
+									<option value="Vinoso">Vinoso</option>
+									<option value="Floreale">Floreale</option>
+									<option value="Fruttato">Fruttato</option>
+									<option value="Fragrante">Fragrante</option>
+									<option value="Vegetale">Vegetale</option>
+									<option value="Balsamico">Balsamico</option>
+									<option value="Minerale">Minerale</option>
+									<option value="Etereo">Etereo</option>
+									<option value="Speziato">Speziato</option>
+									<option value="Frutta secca">Frutta secca</option>
+									<option value="Frutta disidratata">Frutta disidratata</option>
+									<option value="Tostato">Tostato</option>
+									<option value="Animale">Animale</option>
+									<option value="Selvatico">Selvatico</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="descrizione">Descrizione:</label>
+								<textarea id="descrizione" name="descrizione" class="form-control"
+									formControlName="olfactoryDescription" placeholder="Descrizione"></textarea>
+							</div>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ngbAccordion>
+		<div ngbAccordionItem [collapsed]="false">
+			<h2 ngbAccordionHeader>
+				<button ngbAccordionButton>Analisi gusto-olfattiva</button>
+			</h2>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+					<ng-template>
+						<div class="row">
+							<h3>Morbidezze</h3>
+					
+							<div class="col-xl-3">
+								<label for="zuccheri">Zuccheri:</label> <select class="form-control"
+									formControlName="sugars" id="zuccheri" name="zuccheri">
+									<option value="Secco">Secco</option>
+									<option value="Amabile">Amabile</option>
+									<option value="Dolce">Dolce</option>
+									<option value="Stucchevole">Stucchevole</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="alcoli">Alcoli:</label> <select class="form-control"
+									formControlName="alcohols" id="alcoli" name="alcoli" (change)="updateRadarChart($event)">
+									<option value="Poco caldo">Poco caldo</option>
+									<option value="Moderatamente caldo">Moderatamente caldo</option>
+									<option value="Caldo">Caldo</option>
+									<option value="Molto caldo">Molto caldo</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="polialcoli">Polialcoli:</label> 
+								<select
+									class="form-control" formControlName="polyalcohols" id="polialcoli"
+									name="polialcoli" (change)="updateRadarChart($event)">
+									<option value="Poco morbido">Poco morbido</option>
+									<option value="Moderatamente morbido">Moderatamente morbido</option>
+									<option value="Morbido">Morbido</option>
+									<option value="Rotondo">Rotondo</option>
+								</select>
+							</div>
+					
+							<h3>Durezze</h3>
+					
+							<div class="col-xl-3">
+								<label for="acidi">Acidi:</label> <select class="form-control"
+									formControlName="acids" id="acidi" name="acidi" (change)="updateRadarChart($event)">
+									<option value="Poco fresco">Poco fresco</option>
+									<option value="Moderatamente fresco">Moderatamente fresco</option>
+									<option value="Fresco">Fresco</option>
+									<option value="Molto fresco">Molto fresco</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3" *ngIf="isRedWine">
+								<label for="tanninoQuantita">Tannino (Quantità):</label> <select
+									class="form-control" formControlName="tanninsQuantity"
+									id="tanninoQuantita" name="tanninoQuantita">
+									<option value="Poco tannico">Poco tannico</option>
+									<option value="Moderatamente tannico">Moderatamente tannico</option>
+									<option value="Tannico">Tannico</option>
+									<option value="Molto tannico">Molto tannico</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3" *ngIf="isRedWine">
+								<label for="tanninoQualita">Tannino (Qualità):</label> <select
+									class="form-control" formControlName="tanninsQuality"
+									id="tanninoQualita" name="tanninoQualita" (change)="updateRadarChart($event)">
+									<option value="Grossolano">Grossolano</option>
+									<option value="Duro">Duro</option>
+									<option value="Vellutato">Vellutato</option>
+									<option value="Nobile">Nobile</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="sostanzeMinerali">Sostanze minerali:</label> <select
+									class="form-control" formControlName="mineralSubstances"
+									id="sostanzeMinerali" name="sostanzeMinerali">
+									<option value="Poco sapido">Poco sapido</option>
+									<option value="Moderatamente sapido">Moderatamente sapido</option>
+									<option value="Sapido">Sapido</option>
+									<option value="Salato">Salato</option>
+								</select>
+							</div>
+					
+					
+							<div class="col-xl-3">
+								<label for="equilibrio">Equilibrio:</label> <select
+									class="form-control" formControlName="equilibrium" id="equilibrio"
+									name="equilibrio" (change)="updateRadarChart($event)">
+									<option value="Sbilanciato">Sbilanciato</option>
+									<option value="Poco equilibrato">Poco equilibrato</option>
+									<option value="Sufficientemente equilibrato">Sufficientemente
+										equilibrato</option>
+									<option value="Equilibrato">Equilibrato</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="intensita">Intensità:</label> <select
+									class="form-control" formControlName="tasteIntensity" id="intensita"
+									name="intensita" (change)="updateRadarChart($event)">
+									<option value="Poco intenso">Poco intenso</option>
+									<option value="Sufficientemente intenso">Sufficientemente
+										intenso</option>
+									<option value="Intenso">Intenso</option>
+									<option value="Molto intenso">Molto intenso</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="persistenza">Persistenza:</label> <select
+									class="form-control" formControlName="tastePersistence"
+									id="persistenza" name="persistenza" (change)="updateRadarChart($event)">
+									<option value="Poco persistente">Poco persistente</option>
+									<option value="Sufficientemente persistente">Sufficientemente
+										persistente</option>
+									<option value="Persistente">Persistente</option>
+									<option value="Molto persistente">Molto persistente</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="qualita">Qualità:</label> <select class="form-control"
+									formControlName="tasteQuality" id="qualita" name="qualita">
+									<option value="Poco fine">Poco fine</option>
+									<option value="Sufficientemente fine">Sufficientemente fine</option>
+									<option value="Fine">Fine</option>
+									<option value="Eccellente">Eccellente</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="corpo">Corpo del vino:</label> <select
+									class="form-control" formControlName="bodyWine" id="corpo"
+									name="corpo" (change)="updateRadarChart($event)">
+									<option value="Leggero">Leggero</option>
+									<option value="Medio">Medio</option>
+									<option value="Pieno">Pieno</option>
+									<option value="Pesante">Pesante</option>
+								</select>
+							</div>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ngbAccordion>
+		<div ngbAccordionItem [collapsed]="false">
+			<h2 ngbAccordionHeader>
+				<button ngbAccordionButton>Parte conclusiva</button>
+			</h2>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+					<ng-template>
+						<div class="row">
+							<div class="col-xl-3">
+								<label for="statoEvolutivo">Stato evolutivo:</label> <select
+									class="form-control" formControlName="evolutionaryState"
+									id="statoEvolutivo" name="statoEvolutivo">
+									<option value="Giovane">Giovane</option>
+									<option value="Pronto">Pronto</option>
+									<option value="Maturo">Maturo</option>
+									<option value="Vecchio">Vecchio</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="armonia">Armonia:</label> <select class="form-control"
+									formControlName="harmony" id="armonia" name="armonia">
+									<option value="Disarmonico">Disarmonico</option>
+									<option value="Poco armonico">Poco armonico</option>
+									<option value="Sufficientemente armonico">Sufficientemente
+										armonico</option>
+									<option value="Armonico">Armonico</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="tipicita">Tipicità:</label> <select class="form-control"
+									formControlName="typicality" id="tipicita" name="tipicita">
+									<option value="Poco tipico">Poco tipico</option>
+									<option value="Sufficientemente tipico">Sufficientemente
+										tipico</option>
+									<option value="Tipico">Tipico</option>
+									<option value="Esemplare">Esemplare</option>
+								</select>
+							</div>
+					
+							<div class="col-xl-3">
+								<label for="abbinamenti">Abbinamenti:</label>
+								<textarea id="abbinamenti" name="abbinamenti" class="form-control"
+									formControlName="foodPairings" placeholder="Abbinamenti"></textarea>
+							</div>
+							<app-radar-chart [radarChartData] = "radarChartData"></app-radar-chart>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ngbAccordion>
+		<div ngbAccordionItem [collapsed]="false">
+			<h2 ngbAccordionHeader>
+				<button ngbAccordionButton>Descrizione libera</button>
+			</h2>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+					<ng-template>
+						<div class="row">
+							<div class="col-xl-12 col-xs-12">
+								<textarea></textarea>
+							</div>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<h2>Parte conclusiva</h2>
+	
+	<button type="submit">Aggiorna</button>
+</form>

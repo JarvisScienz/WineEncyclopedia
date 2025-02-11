@@ -22,6 +22,7 @@ import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
 import { WineryComponent } from "src/app/pages/winery/winery.component";
 import { WineComponent } from "src/app/pages/wine/wine.component";
 import { ProfileComponent } from "src/app/pages/profile/profile.component";
+import { WineTastedDetailsComponent } from "src/app/pages/wine-tasted-details/wine-tasted-details.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProfileComponent } from "src/app/pages/profile/profile.component";
     WinesComponent,
     WineryComponent,
     WineComponent,
-    ProfileComponent
+    ProfileComponent,
+    WineTastedDetailsComponent
   ],
   imports: [
     CommonModule,
