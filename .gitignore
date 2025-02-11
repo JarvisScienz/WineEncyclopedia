@@ -5,3 +5,4 @@ node_modules
 wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json
 src/script-import-data.ts
 src/script-import-data.cjs
+src/script-move-collection.js
