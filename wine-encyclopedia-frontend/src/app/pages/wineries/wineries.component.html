@@ -32,7 +32,7 @@
 				<tr
 					*ngFor="let winery of wineries | winesFilter: filterText; let i = index ">
 					<td style="width: 20%">{{winery.id}}</td>
-					<td>{{winery.name}}</td>
+					<td><a (click)="viewWineryDetails(winery)" style="cursor: pointer;">{{winery.name}}</a></td>
 					<td>{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</td>
 					<td>{{winery.denomination}}</td>
 				</tr>

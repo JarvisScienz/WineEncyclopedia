@@ -50,6 +50,9 @@ export class WineTastingSheet {
 	public typicity: string;
 	public foodPairing: string;
 
+	//General data
+	public createdAt?: Date;
+
 	constructor() {
 		// Initialize properties with default values
 		this.user = '';

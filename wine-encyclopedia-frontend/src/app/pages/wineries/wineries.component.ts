@@ -43,6 +43,9 @@ export class WineriesComponent implements OnInit {
 		this.filterWinerySelect = "";
 	}
 
+	viewWineryDetails(winery: any) {
+		this.router.navigate(['/winery'], { state: { wineryData: winery } });
+	}
 	extractWineries(jsonArray: any[]) {
 		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}

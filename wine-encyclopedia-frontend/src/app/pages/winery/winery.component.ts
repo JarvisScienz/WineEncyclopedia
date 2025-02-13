@@ -17,6 +17,7 @@ export class WineryComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: Wine[] = [];
 	wineries: Winery[] = [];
+	wineryDetails!: Winery;
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
@@ -32,8 +33,7 @@ export class WineryComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllWineries();
-		//this.getWineryList();
+		this.wineryDetails = history.state.wineryData;
 	}
 
 	refresh() {
