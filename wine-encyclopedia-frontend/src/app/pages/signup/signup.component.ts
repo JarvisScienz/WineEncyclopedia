@@ -8,14 +8,16 @@ import { AuthenticationService } from '../../_services';
 @Component({ 
 	selector: 'signup-cmp',
     //moduleId: module.id,
-	templateUrl: 'signup.component.html'
+	templateUrl: 'signup.component.html',
+	styleUrls: ['./signup.component.css']
 	})
 export class SignupComponent implements OnInit {
-	loginForm!: UntypedFormGroup;
+	registrationForm!: UntypedFormGroup;
 	loading = false;
 	submitted = false;
 	returnUrl!: string;
 	loginError = false;
+	showPassword: boolean = false;
 	
 
 	constructor(
@@ -31,12 +33,12 @@ export class SignupComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.loginForm = this.formBuilder.group({
+		this.registrationForm = this.formBuilder.group({
 			username: ['', Validators.required],
 			password: ['', Validators.required]
 		});
 		
-		/*this.loginForm = new FormGroup({          
+		/*this.registrationForm = new FormGroup({          
               'username':new FormControl(null), //note, can have up to 3 Constructor Params: default value, validators, AsyncValidators
                'password':new FormControl(null,Validators.email)
 
@@ -46,14 +48,18 @@ export class SignupComponent implements OnInit {
 		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 	}
 
+	togglePasswordVisibility() {
+		this.showPassword = !this.showPassword;
+	  }
+
 	// convenience getter for easy access to form fields
-	get f() { return this.loginForm.controls; }
+	get f() { return this.registrationForm.controls; }
 
 	onSubmit() {
 		this.submitted = true;
 		console.log("Signup onSubmit");
 		// stop here if form is invalid
-		if (this.loginForm.invalid) {
+		if (this.registrationForm.invalid) {
 			return;
 		}
 

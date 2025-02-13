@@ -8,11 +8,13 @@ import { AuthenticationService } from '../../_services';
 
 @Component({ 
 	selector: 'login-cmp',
-    //moduleId: module.id,
-	templateUrl: 'login.component.html'
+    //moduleId: module.id,	
+	templateUrl: 'login.component.html',
+	styleUrls: ['./login.component.css']
 	})
 export class LoginComponent implements OnInit {
 	loginForm!: UntypedFormGroup;
+	showPassword: boolean = false;
 	loading = false;
 	submitted = false;
 	returnUrl!: string;
@@ -36,12 +38,13 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		this.loginForm = this.formBuilder.group({
-			username: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.required, Validators.minLength(4)]]
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', [Validators.required, Validators.minLength(4)]],
+			rememberMe: [false]
 		});
 		
 		/*this.loginForm = new FormGroup({          
-              'username':new FormControl(null), //note, can have up to 3 Constructor Params: default value, validators, AsyncValidators
+              'email':new FormControl(null), //note, can have up to 3 Constructor Params: default value, validators, AsyncValidators
                'password':new FormControl(null,Validators.email)
 
           })*/
@@ -49,6 +52,10 @@ export class LoginComponent implements OnInit {
 		// get return url from route parameters or default to '/'
 		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 	}
+
+	togglePasswordVisibility() {
+		this.showPassword = !this.showPassword;
+	  }
 
 	// convenience getter for easy access to form fields
 	get f() { return this.loginForm.controls; }
@@ -63,7 +70,7 @@ export class LoginComponent implements OnInit {
 			return;
 		}
 		this.loading = true;
-		this.authenticationService.login(this.f.username.value, this.f.password.value)
+		this.authenticationService.login(this.f.email.value, this.f.password.value)
 			.pipe(first())
 			.subscribe(
 				data => {
