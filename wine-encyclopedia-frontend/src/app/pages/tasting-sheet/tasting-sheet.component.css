@@ -1,0 +1,15 @@
+.border-common {
+    border: 2px solid #dc3545; /* Rosso */
+  }
+  
+  .border-good {
+    border: 2px solid #fd7e14; /* Arancione */
+  }
+  
+  .border-very-good {
+    border: 2px solid #007bff; /* Blu */
+  }
+  
+  .border-excellent {
+    border: 2px solid #28a745; /* Verde */
+  }

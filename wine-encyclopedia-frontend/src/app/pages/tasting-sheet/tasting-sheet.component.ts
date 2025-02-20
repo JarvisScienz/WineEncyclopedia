@@ -32,7 +32,7 @@ export class TastginSheetComponent implements OnInit {
 	isRedWine: boolean = false;
 	isEffervescentWine: boolean = false;
 	radarChartData: number[];
-	winePoint: number = 0;
+	score: number = 0;
 
 	public model: any;
 
@@ -248,43 +248,148 @@ export class TastginSheetComponent implements OnInit {
 	updateWinePoint(event: Event){
 		let key = (event.target as HTMLSelectElement).name;
 		let value = (event.target as HTMLSelectElement).options.selectedIndex+1;
+		let oldValue = 0;
 		 switch (key){
+			case 'colore':
+				if (this.previousValueForm['color'] !== undefined){
+					oldValue = this.previousValueForm['color'];
+				}
+				this.previousValueForm['color'] = 10 ;
+				this.score = this.score - oldValue + 10;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
+				break;
+			case 'limpidezza':
+				if (this.previousValueForm['limpidity'] !== undefined){
+					oldValue = this.previousValueForm['limpidity'];
+				}
+				this.previousValueForm['limpidity'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
+				break;
 			case 'complessita':
-				let oldValue = 0;
 				if (this.previousValueForm['olfactoryComplexity'] !== undefined){
 					oldValue = this.previousValueForm['olfactoryComplexity'];
 				}
 				this.previousValueForm['olfactoryComplexity'] = value*3 ;
-				this.winePoint = this.winePoint - oldValue + (value*3);
+				this.score = this.score - oldValue + (value*3);
 				this.tastingSheetForm.patchValue({
-					score: this.winePoint,
+					score: this.score,
 				});	
 				break;
-			case 'qualita':
-				console.log("Olfattiva - qualita");
+			case 'olfactoryQuality':
+				if (this.previousValueForm['olfactoryQuality'] !== undefined){
+					oldValue = this.previousValueForm['olfactoryQuality'];
+				}
+				value = this.getOlfactoryQualityValue(value);
+				this.previousValueForm['olfactoryQuality'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
 			case 'equilibrio':
-				console.log("Gusto olfattiva - equilibrio");
+				if (this.previousValueForm['equilibrium'] !== undefined){
+					oldValue = this.previousValueForm['equilibrium'];
+				}
+				value = this.getEquilibriumValue(value);
+				this.previousValueForm['equilibrium'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
-			case 'intensita':
-				console.log("Gusto olfattiva - intensità");
+			case 'tasteIntensity':
+				if (this.previousValueForm['tasteIntensity'] !== undefined){
+					oldValue = this.previousValueForm['tasteIntensity'];
+				}
+				this.previousValueForm['tasteIntensity'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
-			case 'persistenza':
-				console.log("Gusto olfattiva - persistenza");
+			case 'tastePersistence':
+				if (this.previousValueForm['tastePersistence'] !== undefined){
+					oldValue = this.previousValueForm['tastePersistence'];
+				}
+				value = this.getTastePersistenceValue(value);
+				this.previousValueForm['tastePersistence'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
 			case 'tasteQuality':
-				console.log("Gusto olfattiva - persistenza");
+				if (this.previousValueForm['tasteQuality'] !== undefined){
+					oldValue = this.previousValueForm['tasteQuality'];
+				}
+				value = this.getOlfactoryQualityValue(value);
+				this.previousValueForm['tasteQuality'] = value ;
+				this.score = this.score - oldValue + value;
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
-			case 'equilibrio':
-				
-				break;
-			case 'alcoli':
-				
-				break;
-			case 'acidi':
-				
+			case 'tipicita':
+				if (this.previousValueForm['typicality'] !== undefined){
+					oldValue = this.previousValueForm['typicality'];
+				}
+				this.previousValueForm['typicality'] = value+4 ;
+				this.score = this.score - oldValue + (value+4);
+				this.tastingSheetForm.patchValue({
+					score: this.score,
+				});	
 				break;
 		 }
+	}
+
+	getOlfactoryQualityValue(value: number): number{
+		switch (value){
+			case 1:
+				return 6;
+			case 2:
+				return 10;
+			case 3:
+				return 14;
+			case 4:
+				return 18;
+			default:
+				return 6;
+		}
+	}
+	
+	getEquilibriumValue(value: number): number{
+		switch (value){
+			case 1:
+				return 4;
+			case 2:
+				return 6;
+			case 3:
+				return 8;
+			case 4:
+				return 10;
+			default:
+				return 4;
+		}
+	}
+
+	getTastePersistenceValue(value: number): number{
+		switch (value){
+			case 1:
+				return 10;
+			case 2:
+				return 12;
+			case 3:
+				return 14;
+			case 4:
+				return 16;
+			default:
+				return 10;
+		}
 	}
 
 	setFormWineInformation(wine: any): void {
@@ -490,4 +595,21 @@ export class TastginSheetComponent implements OnInit {
 		this.destroy$.next(true);
 		this.destroy$.unsubscribe();
 	}
+
+	getScoreClass(score: number): string {
+		if (score >= 0 && score <= 73) {
+		  return 'border-common';
+		} else if (score >= 74 && score <= 80) {
+		  return 'border-good';
+		} else if (score >= 81 && score <= 90) {
+		  return 'border-very-good';
+		} else if (score >= 91 && score <= 100) {
+		  return 'border-excellent';
+		}
+		return '';
+	  }
+
+	  updateScore(event: any) {
+		this.score = event.target.value;
+	  }
 }
