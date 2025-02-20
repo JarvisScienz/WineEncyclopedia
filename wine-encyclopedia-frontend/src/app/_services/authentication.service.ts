@@ -37,11 +37,12 @@ export class AuthenticationService {
 
 	login(email: string, password: string) {
 		console.log("Authentication.service.Login function");
-		return this.http.post<any>(this.uriLogin, { email: email, password: password })
+		return this.http.post<any>(this.uriLogin, { email: email, password: password }, { withCredentials: true })
 			.pipe(map(user => {
 				console.log(user);
 				// store user details and basic auth credentials in local storage to keep user logged in between page refreshes
 				//user.authdata = window.btoa(username + ':' + password);
+				this.cookiesService.setCookie("jwt", user.tokenJWT, 2);
 				this.cookiesService.setCookie("user", JSON.stringify(user.userData.user), 2);
 				this.cookiesService.setCookie("userEmail", email, 2);
 				this.router.navigate(["/profile"]);
@@ -64,6 +65,7 @@ export class AuthenticationService {
 		return this.http.post<any>(this.uriLogout, { email: email })
 			.pipe(map(user => {
 				if (user) {
+					this.cookiesService.setCookie("jwt", "", 2);
 					this.cookiesService.setCookie("user", "", 2);
 					this.cookiesService.setCookie("userEmail", "", 2);
 					this.isLoggedInSubject.next(false);

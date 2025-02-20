@@ -61,7 +61,7 @@ export class WineriesComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineryList().subscribe((wineryList => {
+		this.appService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

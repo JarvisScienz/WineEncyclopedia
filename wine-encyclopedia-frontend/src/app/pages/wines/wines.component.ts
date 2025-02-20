@@ -63,7 +63,7 @@ export class WinesComponent implements OnInit {
 	}
 
 	getAllWines() {
-		this.appService.getWines(this.userUid).subscribe((wines => {
+		this.appService.getWines().subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -73,7 +73,7 @@ export class WinesComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineryList().subscribe((wineryList => {
+		this.appService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

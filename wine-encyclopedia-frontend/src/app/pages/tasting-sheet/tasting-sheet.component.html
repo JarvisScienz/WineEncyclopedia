@@ -21,7 +21,7 @@
 								<div class="col-xl-3">
 									<label for="azienda">Azienda:</label> <input type="text"
 										class="form-control" formControlName="winery" placeholder="Azienda"
-										id="azienda" name="azienda">
+										id="azienda" name="azienda" [ngbTypeahead]="searchWineries" [resultFormatter]="formatter" (selectItem)="filterSelectWineries($event)">
 								</div>
 						
 								<div class="col-xl-3">
@@ -47,7 +47,7 @@
 						
 								<div class="col-xl-3">
 									<label for="uve">Uve:</label> <input type="text" class="form-control"
-										formControlName="grapeVariety" placeholder="Uve" id="uve" name="uve" [ngbTypeahead]="search" [resultFormatter]="formatter" (selectItem)="selected($event)">
+										formControlName="grapeVariety" placeholder="Uve" id="uve" name="uve" [ngbTypeahead]="searchGrapes" [resultFormatter]="formatter" (selectItem)="filterSelectGrapes($event)">
 								</div>
 						
 								<div class="col-xl-3">
@@ -200,7 +200,7 @@
 							<div class="col-xl-3">
 								<label for="complessita">Complessità:</label> <select
 									class="form-control" formControlName="olfactoryComplexity"
-									id="complessita" name="complessita">
+									id="complessita" name="complessita" (change)="updateWinePoint($event)">
 									<option value="Poco complesso">Poco complesso</option>
 									<option value="Sufficientemente complesso">Sufficientemente
 										complesso</option>
@@ -379,7 +379,7 @@
 					
 							<div class="col-xl-3">
 								<label for="qualita">Qualità:</label> <select class="form-control"
-									formControlName="tasteQuality" id="qualita" name="qualita">
+									formControlName="tasteQuality" id="qualita" name="qualita" (change)="updateWinePoint($event)">
 									<option value="Poco fine">Poco fine</option>
 									<option value="Sufficientemente fine">Sufficientemente fine</option>
 									<option value="Fine">Fine</option>

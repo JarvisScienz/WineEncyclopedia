@@ -1,25 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+import { CookiesService } from 'src/app/_services/cookies.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   user = {
     name: 'Mario Rossi',
-    email: 'mario.rossi@example.com',
+    email: '',
     registrationDate: new Date('2023-05-15'),
   };
+  userUid: string  = "";
 
-  totalTasted = 50; // Numero totale di vini degustati
-  yearlyTastings = { 2021: 12, 2022: 18, 2023: 20 }; // Dati annuali
+  totalTasted = 0; // Numero totale di vini degustati
+  yearlyTastings = { }; // Dati annuali
 
-  constructor() {}
+  constructor(private appService: AppService,
+    private cookiesService: CookiesService
+  ) {
+    this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
+    this.user.email = JSON.parse(this.cookiesService.getCookieUser()).email;
+  }
 
   ngOnInit() {
-    this.loadChart();
+    this.getWineTastedInYears();
+    
   }
 
   loadChart() {
@@ -43,5 +52,15 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
+  }
+
+  getWineTastedInYears(){
+    this.appService.getWineTastedInYears(this.userUid).subscribe(((count: null) => {
+			if (count == null)
+				this.yearlyTastings = {};
+			else
+				this.yearlyTastings = count;
+        this.loadChart();
+		}));
   }
 }

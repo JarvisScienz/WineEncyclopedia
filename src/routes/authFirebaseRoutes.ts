@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import firebaseAuthController from '../controllers/firebase-auth-controller.js'; // Assuming firebase-auth-controller.mjs uses ESM
+import firebaseAuthController from '../controllers/firebaseAuthController.js'; // Assuming firebase-auth-controller.mjs uses ESM
 
 const router = express.Router();
 

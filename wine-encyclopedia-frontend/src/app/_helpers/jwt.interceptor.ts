@@ -10,16 +10,17 @@ export class JwtInterceptor implements HttpInterceptor {
 		private cookiesService: CookiesService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		console.log("JWT INTERCEPTOR");
         // add auth header with jwt if user is logged in and request is to the api url
         const user = (this.cookiesService.getCookieUser() != "") ? JSON.parse(this.cookiesService.getCookieUser()) : null;
-        const isLoggedIn = user != null && user.userData && user.tokenJWT;
+        const jwtToken = (this.cookiesService.getCookie("jwt") != "") ? this.cookiesService.getCookie("jwt") : null;
+        const isLoggedIn = user != null && jwtToken != null;
         //const isApiUrl = request.url.startsWith(environment.apiUrl);
         if (isLoggedIn /*&& isApiUrl*/) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: `${user.tokenJWT}`
-                }
+                    Authorization: `Bearer ${jwtToken}`
+                },
+                withCredentials: true
             });
         }
 

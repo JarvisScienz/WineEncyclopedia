@@ -73,7 +73,7 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineryList().subscribe((wineryList => {
+		this.appService.getWineries().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

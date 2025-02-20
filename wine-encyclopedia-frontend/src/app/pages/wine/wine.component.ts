@@ -16,6 +16,7 @@ export class WineComponent implements OnInit {
 	wineDetails!: Wine;
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
+	winesByWinery: any = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
@@ -33,10 +34,16 @@ export class WineComponent implements OnInit {
 
 	ngOnInit() {
 		this.wineDetails = history.state.wineData;
-
-
+		
     	if (this.wineDetails) {
-			console.log("Wine: " + this.wineDetails);
+			this.appService.getWinesByWinery(this.wineDetails.wineryName).subscribe(wines => {
+				this.winesByWinery = wines;
+			});
+
+			// Carica vini simili
+			/*this.appService.getSimilarWines(this.wineDetails).subscribe(wines => {
+				this.similarWines = wines;
+			});*/
 		}
 	}
 
@@ -70,7 +77,7 @@ export class WineComponent implements OnInit {
 	}
 
 	getAllWines() {
-		this.appService.getWines(this.userUid).subscribe((wines => {
+		this.appService.getWines().subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -80,7 +87,7 @@ export class WineComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineryList().subscribe((wineryList => {
+		this.appService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

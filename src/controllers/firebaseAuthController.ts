@@ -55,12 +55,16 @@ class FirebaseAuthController {
       .then((userCredential) => {
         const idToken = userCredential.user.getIdToken();
         var userAndToken: any = {};
-        var token = jwt.sign({ data: JSON.stringify(userCredential) }, secretKey, { expiresIn: 60 * 60 });
+        var token = jwt.sign({ uid: userCredential.user.uid, email: userCredential.user.email }, secretKey, { expiresIn: 60 * 60 });
+        
 	    	userAndToken.userData = userCredential;
 	    	userAndToken.tokenJWT = token;
-        if (idToken) {
-          res.cookie('access_token', idToken, {
-            httpOnly: true
+        if (token) {
+          res.cookie('token', token, {
+            httpOnly: true,
+            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 3600000,
           });
           res.status(200).json(userAndToken);
         } else {
@@ -77,7 +81,7 @@ class FirebaseAuthController {
   logoutUser(req: any, res: any) {
     signOut(auth)
       .then(() => {
-        res.clearCookie('access_token');
+        res.clearCookie('token');
         res.status(200).json({ message: "User logged out successfully" });
       })
       .catch((error) => {

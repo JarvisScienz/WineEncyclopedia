@@ -22,8 +22,9 @@ export class TastginSheetComponent implements OnInit {
 	notificationService: NotificationsComponent;
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	destroy$: Subject<boolean> = new Subject<boolean>();
-	
+	previousValueForm: any = [];
 	grapes: any = [];
+	wineries: any = [];
 	buttonLabel = "Invia";
 	selectedItems: string[] = [];
 	@ViewChild('input') inputEl: any;
@@ -31,7 +32,7 @@ export class TastginSheetComponent implements OnInit {
 	isRedWine: boolean = false;
 	isEffervescentWine: boolean = false;
 	radarChartData: number[];
-	//@ViewChild('radarChart') radarChartComponent: RadarChartComponent;
+	winePoint: number = 0;
 
 	public model: any;
 
@@ -89,11 +90,12 @@ export class TastginSheetComponent implements OnInit {
 
 	ngOnInit() {
 		this.getAllGrapes();
+		this.getAllWineries();
 	}
 
 	formatter = (result: string) => result.toUpperCase();
 
-	search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+	searchGrapes: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
 		text$.pipe(
 			debounceTime(200),
 			distinctUntilChanged(),
@@ -107,8 +109,23 @@ export class TastginSheetComponent implements OnInit {
 					: this.grapes.filter((v: any) => v.toLowerCase().indexOf(lastTerm.toLowerCase()) > -1).slice(0, 10);
 			}),
 		);
+	
+	searchWineries: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+		text$.pipe(
+			debounceTime(200),
+			distinctUntilChanged(),
+			map((term: any) => {
+				// Se term contiene virgole, prendi solo l'ultimo termine
+				const termsArray = term.split(',');
+				const lastTerm = termsArray[termsArray.length - 1].trim();
 
-	selected($e: any) {
+				return lastTerm === ''
+					? []
+					: this.wineries.filter((v: any) => v.toLowerCase().indexOf(lastTerm.toLowerCase()) > -1).slice(0, 10);
+			}),
+		);
+
+	filterSelectGrapes($e: any) {
 		$e.preventDefault();
 		this.selectedItems.push($e.item);
 		var grapesSplitted = this.tastingSheetForm.value.grapeVariety.split(",");
@@ -125,12 +142,38 @@ export class TastginSheetComponent implements OnInit {
 		//this.inputEl.nativeElement.value = '';
 	}
 
+	filterSelectWineries($e: any) {
+		$e.preventDefault();
+		this.selectedItems.push($e.item);
+		var wineriesSplitted = this.tastingSheetForm.value.winery.split(",");
+		var finalString = "";
+		if (wineriesSplitted.length === 1){
+			finalString =  $e.item;
+		}else{
+			wineriesSplitted[wineriesSplitted.length-1] = $e.item;
+			finalString = wineriesSplitted.toString().replace(",", ", ");
+		}
+		this.tastingSheetForm.patchValue({
+			winery: finalString,
+		});
+		//this.inputEl.nativeElement.value = '';
+	}
+
 	getAllGrapes() {
 		this.appService.getGrapesName().subscribe((grapes => {
 			if (grapes == null)
 				this.grapes = [];
 			else
 				this.grapes = grapes;
+		}));
+	}
+
+	getAllWineries(){
+		this.appService.getWineriesList().subscribe((wineries => {
+			if (wineries == null)
+				this.wineries = [];
+			else
+				this.wineries = wineries;
 		}));
 	}
 
@@ -141,7 +184,7 @@ export class TastginSheetComponent implements OnInit {
 	saveTastingSheet(): void {
 		this.setWineInformation();
 
-		this.appService.addWine(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
+		this.appService.addWineTasted(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
 			console.log('message::::', data);
 			this.notificationService.successNotification("Vino salvato!");
 			this.tastingSheetForm.reset();
@@ -198,6 +241,48 @@ export class TastginSheetComponent implements OnInit {
 			case 'acidi':
 				//this.radarChartComponent.updateChartDataAtIndex(0, value);
 				this.radarChartData = [this.radarChartData[0], this.radarChartData[1], this.radarChartData[2], this.radarChartData[3], this.radarChartData[4], this.radarChartData[5], this.radarChartData[6], this.radarChartData[7], value];
+				break;
+		 }
+	}
+
+	updateWinePoint(event: Event){
+		let key = (event.target as HTMLSelectElement).name;
+		let value = (event.target as HTMLSelectElement).options.selectedIndex+1;
+		 switch (key){
+			case 'complessita':
+				let oldValue = 0;
+				if (this.previousValueForm['olfactoryComplexity'] !== undefined){
+					oldValue = this.previousValueForm['olfactoryComplexity'];
+				}
+				this.previousValueForm['olfactoryComplexity'] = value*3 ;
+				this.winePoint = this.winePoint - oldValue + (value*3);
+				this.tastingSheetForm.patchValue({
+					score: this.winePoint,
+				});	
+				break;
+			case 'qualita':
+				console.log("Olfattiva - qualita");
+				break;
+			case 'equilibrio':
+				console.log("Gusto olfattiva - equilibrio");
+				break;
+			case 'intensita':
+				console.log("Gusto olfattiva - intensità");
+				break;
+			case 'persistenza':
+				console.log("Gusto olfattiva - persistenza");
+				break;
+			case 'tasteQuality':
+				console.log("Gusto olfattiva - persistenza");
+				break;
+			case 'equilibrio':
+				
+				break;
+			case 'alcoli':
+				
+				break;
+			case 'acidi':
+				
 				break;
 		 }
 	}

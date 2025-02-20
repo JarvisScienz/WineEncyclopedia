@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { Wine } from './_models/wine';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,8 +12,9 @@ export class AppService {
 	private rootURL = environment.apiUrl;
 	constructor(private http: HttpClient) { }
 
-	getWines(uid: string) {
-		return this.http.post<any>(this.rootURL + '/wines', { uid })
+
+	getWines() {
+		return this.http.post<Wine[]>(this.rootURL + '/wines', {})
 		.pipe(map(wines => {
 			console.log("Wines:", wines);
 			if (wines == null)
@@ -69,8 +71,9 @@ export class AppService {
 		return this.http.post(this.rootURL + '/winesByWinery', { winery });
 	}
 
-	addWine(wine: any) {
-		return this.http.post(this.rootURL + '/wine', { wine });
+	addWineTasted(wine: any) {
+		wine.createdAt = new Date();
+		return this.http.post(this.rootURL + '/addWineTasted', { wine });
 	}
 	
 	editWine(wine: any): Observable<any> {
@@ -84,8 +87,19 @@ export class AppService {
 		);
 	}
 	
-	getWineryList() {
-		return this.http.get(this.rootURL + '/wineryList');
+	getWineriesList() {
+		return this.http.post<any>(this.rootURL + '/wineriesList', {})
+		.pipe(map(wineries => {
+			console.log("Wineries:", wineries);
+			if (wineries == null)
+				return [];
+			else
+				return wineries;
+		}),
+		catchError(error => {
+			console.error("Error on getWineries:", error);
+			return throwError(() => new Error("Error on getWines."));
+		}));
 	}
 
 	getWineries() {
@@ -101,6 +115,21 @@ export class AppService {
 			console.error("Error on getWineries:", error);
 			return throwError(() => new Error("Error on getWines."));
 		}));
+	}
+
+	addWine(wine: any) {
+		return this.http.post(this.rootURL + '/wine', { wine });
+	}
+
+	getWineTastedInYears(uid: string) {	
+		return this.http.post<any>(this.rootURL + '/wineTastedInYears', { uid })
+		.pipe(
+			map(count => count), // Mappiamo il valore
+			catchError(error => { // Gestione errori
+				console.error("Error on getWines:", error);
+				return throwError(() => new Error("Error on getWines."));
+			})
+		);
 	}
 
 }

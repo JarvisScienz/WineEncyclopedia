@@ -1,0 +1,29 @@
+.slider-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.slider {
+	display: flex;
+	overflow: hidden;
+	width: 100%;
+}
+
+.wine-card {
+	width: 150px;
+	margin: 5px;
+	text-align: center;
+}
+
+.prev-btn, .next-btn {
+	background-color: #f8b400;
+	color: white;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.prev-btn:hover, .next-btn:hover {
+	background-color: #d19800;
+}
