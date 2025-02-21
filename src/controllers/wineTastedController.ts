@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Errback, Request, Response } from 'express';
 
 import { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService } from '../services/wineTastedService.js';
 
@@ -48,9 +48,12 @@ class WineTastedController{
           try {
               const wines = await getWinesTastedService(uid);
               res.status(200).json(wines);
-            } catch (error) {
+            } catch (error: any) {
               console.error('[ERROR] getWinetasted. Unable to retrieve wines tasted. ', error);
-              res.status(500).json({ error: "Internal Server Error" });
+              if (error.code === 'permission-denied') {
+                return res.status(403).json({ error: "Permission Denied" });
+              }
+              res.status(500).json({ error: "Internal Server Error", description: error });
           }
         }
 
