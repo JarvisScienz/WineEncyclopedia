@@ -14,6 +14,27 @@
 		<label>Data di iscrizione:</label>
 		<span>{{ user.registrationDate | date:'dd/MM/yyyy' }}</span>
 	  </div>
+	  <div class="profile-field">
+		<label>Livello:</label>
+		<span>{{ levelInfo.name }}</span>
+	  </div>
+	  <div class="progress-bar">
+		<div
+		  class="progress-bar-fill"
+		  [style.width.%]="progressPercentage"
+		></div>
+	  </div>
+  
+	  <!-- Messaggio di progresso -->
+	  <div *ngIf="nextLevel; else maxLevel">
+		<p>
+		  Ti mancano <strong>{{ winesNeededForNextLevel }}</strong> vini per raggiungere il
+		  livello <strong>{{ nextLevel.name }}</strong>.
+		</p>
+	  </div>
+	  <ng-template #maxLevel>
+		<p>Hai raggiunto il massimo livello! Sei un vero esperto di vini. 🎉</p>
+	  </ng-template>
 	</div>
   
 	<!-- Statistiche -->

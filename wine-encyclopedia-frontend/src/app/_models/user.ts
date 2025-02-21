@@ -6,4 +6,8 @@
     lastName!: string;
     authdata?: string;
 	tokenJWT?: string;
+    email?: string;
+    name?: string;
+    registrationDate?: string;
+    level?: string;
 }

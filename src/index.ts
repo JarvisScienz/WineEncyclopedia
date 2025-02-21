@@ -18,6 +18,8 @@ import grapesRoutes from './routes/grapesRoutes.js';
 import myCellarRoutes from './routes/myCellarRoutes.js';
 import wineTastedRoutes from './routes/wineTastedRoutes.js';
 import wineriesRoutes from './routes/wineriesRoutes.js';
+import scriptsRoutes from './routes/scriptRoutes.js';
+import usersRoutes from "./routes/usersRoutes.js";
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -68,6 +70,11 @@ app.use(grapesRoutes);
 app.use(myCellarRoutes);
 app.use(wineTastedRoutes);
 app.use(wineriesRoutes);
+app.use(usersRoutes);
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(scriptsRoutes);
+}
 
 /*
  * API

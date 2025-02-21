@@ -132,4 +132,14 @@ export class AppService {
 		);
 	}
 
+	getUserInformation(uid: string) {	
+		return this.http.post<any>(this.rootURL + '/v1/userInformation', { uid })
+		.pipe(
+			map(user => user), // Mappiamo il valore
+			catchError(error => { // Gestione errori
+				console.error("Error on get profile information:", error);
+				return throwError(() => new Error("Error on getProfileInformation."));
+			})
+		);
+	}
 }

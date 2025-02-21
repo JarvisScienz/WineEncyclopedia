@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+import { User } from 'src/app/_models/user';
 import { CookiesService } from 'src/app/_services/cookies.service';
 import { AppService } from 'src/app/app.service';
+import { levels, getLevel } from 'src/app/config/levels';
 
 @Component({
   selector: 'app-profile',
@@ -9,15 +11,21 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user = {
-    name: 'Mario Rossi',
-    email: '',
-    registrationDate: new Date('2023-05-15'),
+  user: User = {
+    id: 0,
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: ''
   };
   userUid: string  = "";
-
-  totalTasted = 0; // Numero totale di vini degustati
+  totalTasted: number = 0; // Numero totale di vini degustati
   yearlyTastings = { }; // Dati annuali
+  levelInfo: any = {};
+  userLevel: any; // Livello corrente
+  nextLevel: any; // Livello successivo
+  progressPercentage: number = 0; // Percentuale di completamento
+  winesNeededForNextLevel: number = 0; // Vini mancanti per il prossimo livello
 
   constructor(private appService: AppService,
     private cookiesService: CookiesService
@@ -28,7 +36,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.getWineTastedInYears();
-    
+    this.getUserInformation();
   }
 
   loadChart() {
@@ -60,7 +68,45 @@ export class ProfileComponent implements OnInit {
 				this.yearlyTastings = {};
 			else
 				this.yearlyTastings = count;
+        this.totalTasted = parseInt(Object.values(this.yearlyTastings).reduce((acc: any, val: any) => acc + val, 0) as string);
         this.loadChart();
 		}));
+  }
+
+  getUserInformation(){
+    this.appService.getUserInformation(this.userUid).subscribe(((user: null) => {
+			if (user != null){
+        this.user = user;
+        this.levelInfo = getLevel(this.totalTasted);
+        this.calculateLevelProgress();
+      }
+				
+		}));
+  }
+
+  calculateLevelProgress(): void {
+    // Trova il livello corrente
+    this.userLevel = getLevel(this.totalTasted);
+
+    // Trova il livello successivo
+    const currentLevelIndex = levels.findIndex(
+      (level) => level.name === this.userLevel.name
+    );
+    if (currentLevelIndex < levels.length - 1) {
+      this.nextLevel = levels[currentLevelIndex + 1];
+    } else {
+      this.nextLevel = null; // Non c'è un livello successivo
+    }
+
+    // Calcola la percentuale di completamento e i vini mancanti
+    if (this.userLevel && this.nextLevel) {
+      const winesInCurrentLevel = this.userLevel.maxWines - this.userLevel.minWines;
+      const winesDegustedInLevel = this.totalTasted - this.userLevel.minWines;
+      this.progressPercentage = (winesDegustedInLevel / winesInCurrentLevel) * 100;
+      this.winesNeededForNextLevel = this.nextLevel.minWines - this.totalTasted;
+    } else {
+      this.progressPercentage = 100; // Se non c'è un livello successivo, la barra è piena
+      this.winesNeededForNextLevel = 0;
+    }
   }
 }
