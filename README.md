@@ -3,7 +3,7 @@
 **Welcome to Wine Encyclopedia!**  
 This project was born out of a passion for wine and the desire to create an accessible and comprehensive digital reference for wine enthusiasts, sommeliers, and casual drinkers alike. Whether you’re looking for information on Italian wineries, pairing suggestions, or in-depth details about wine regions, this project has you covered.
 
-![Wine Enthusiast](https://your-image-link-here) <!-- You can add a logo or banner image here -->
+<!-- ![Wine Enthusiast](https://your-image-link-here) -->
 
 ## 🎯 Purpose of the Project
 **Wine Encyclopedia** was created to centralize all the available information about wineries and wines in Italy. With thousands of vineyards and a deep history of wine production, finding accurate and detailed information can be a challenge. This project aims to:
@@ -20,12 +20,12 @@ This project leverages modern technologies to provide a seamless and efficient e
   Built with Node.js, the backend handles data aggregation, REST APIs, and the integration with wine databases.
 
 - **Frontend**:  
-  ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white)  
-  The project features both a React-based frontend and an Angular frontend to provide flexibility in UI design and user experience.
+  ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white)  
+  The project built with Angular frontend to provide flexibility in UI design and user experience.
 
 - **Databases**:  
-  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)  
-  These databases store information about the wineries, wine types, and user profiles.
+  ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=white)  
+  Authentication and wine data are managed by Firebase Authentication and Firebase Cloud Firestore.
 
 - **Authentication & Security**:  
   JWT-based authentication ensures secure access for users and admins.
@@ -39,94 +39,81 @@ This project leverages modern technologies to provide a seamless and efficient e
 To clone the project to your local machine, open your terminal and run:
 
 ```bash
-git clone https://github.com/your-username/wine-encyclopedia.git
-cd wine-encyclopedia
-
-git clone https://github.com/your-username/wine-encyclopedia.git
-cd wine-encyclopedia
-2. Install dependencies
+git clone https://github.com/JarvisScienz/WineEncyclopedia
+```
+### 2. Install dependencies
 After navigating to the project folder, install the necessary dependencies for both backend and frontend:
 
-bash
-Copia codice
-# For backend
-cd backend
+#### For backend
+```bash
+cd WineEncyclopedia
 npm install
+```
 
-# For frontend (React or Angular)
-cd ../frontend-react
+#### For frontend 
+```bash
+cd WineEncyclopedia/wine-encyclopedia-frontend
 npm install
+```
 
-# OR for Angular
-cd ../frontend-angular
-npm install
-3. Set up environment variables
-Create a .env file in the root directory of the backend and fill in the required variables (e.g., database URLs, API keys, JWT secrets). Example:
+### 3. Set up environment variables
+Rename a .env.example file in the root directory of the backend and fill in the required variables (e.g., database URLs, API keys, JWT secrets). Example:
 
-bash
-Copia codice
+```bash
 # .env file
 DB_POSTGRES_URL=your_postgres_url
 DB_MONGO_URL=your_mongo_url
 FIREBASE_API_KEY=your_firebase_api_key
 JWT_SECRET=your_jwt_secret
-4. Start the project
+```
+
+### 4. Start the project
 Once the dependencies are installed and the environment variables are set, you can start the backend and frontend:
 
-bash
-Copia codice
-# Start backend
-cd backend
-npm run dev
+#### Start backend
+```bash
+npm run start
+```
 
-# Start React frontend
-cd ../frontend-react
-npm start
+#### Start frontend
+```bash
+cd wine-encyclopedia-frontend
+npm run start
+```
 
-# OR Start Angular frontend
-cd ../frontend-angular
-npm start
-5. Access the application
-The frontend should be running on http://localhost:3000 (for React) or http://localhost:4200 (for Angular), and the backend on http://localhost:5000.
+### 5. Access the application
+The frontend should be running on http://localhost:3000  
+The backend on http://localhost:5000.
+	
+### 6. Step deploy using Firebase host
 
-🌐 Live Demo
-You can explore the live version of the Wine Encyclopedia here:
+```bash
+cd WineEncyclopedia/wine-encyclopedia-frontend
+ng build --prod --aot
+cd ..
+firebase deploy
+```
 
-Backend
-Frontend (React)
-Frontend (Angular) <!-- Update these URLs with actual links if applicable -->
-🔥 Features
-📚 Complete Wine Database: Access a massive collection of information on Italian wines and wineries.
-🍷 Wine Pairing Suggestions: Automatically get wine recommendations based on your meal.
-🔍 Search & Filter: Easily search for specific wines or filter results by region, grape variety, or winery.
-📊 Analytics & Insights: Visualize trends in wine production, popularity, and consumer preferences.
-👤 User Profiles: Create a personalized account to save your favorite wines and track tastings.
-💡 How to Contribute
-We welcome contributions from wine lovers and developers alike! If you'd like to contribute to this project:
+## 🌐 Live Demo
+You can explore the live version of the Wine Encyclopedia here: https://wineencyclopedia-245f5.web.app/login
 
-Fork the repository.
-Create a new branch for your feature/fix.
-Submit a pull request with a detailed explanation.
-Please read our Contributing Guide for more details.
+## 🔥 Features
+📚 Complete Wine Database: Access a massive collection of information on Italian wines and wineries.  
+🍷 Wine Pairing Suggestions: Automatically get wine recommendations based on your meal.  
+🔍 Search & Filter: Easily search for specific wines or filter results by region, grape variety, or winery.  
+📊 Analytics & Insights: Visualize trends in wine production, popularity, and consumer preferences.  
+👤 User Profiles: Create a personalized account to save your favorite wines and track tastings.  
 
-🛠️ Future Improvements
-AI-Powered Pairing: Integrating AI to recommend wines based on user preferences and meal types.
-Expansion to Global Wines: Adding support for wines from other regions around the world.
-Mobile App: Developing a mobile app for wine recommendations on-the-go.
-📝 License
+## 🛠️ Future Improvements
+🧠 AI-Powered Pairing: Integrating AI to recommend wines based on user preferences and meal types.  
+🍇 Expansion to Global Wines: Adding support for wines from other regions around the world.  
+📱 Mobile App: Developing a mobile app for wine recommendations on-the-go.  
+
+## 📝 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 Enjoy the world of wine exploration with the Wine Encyclopedia!
 
-Feel free to open issues for any bugs, feature requests, or general feedback!
+**Feel free to open issues for any bugs, feature requests, or general feedback!**
 
-🍇 Cheers! 🍷
-
-
-Step deploy
-	1.npm run build -> in Angular project. It will create dist folder
-	2.npm run start -> in nodejs project. Go to http://localhost:3000/
-	
-Step deploy firebase
-	1.ng build --prod --aot -> in Angular project.
-	2.firebase deploy -> in wine-encyclopedia nodejs project.
+## 🍇 Cheers! 🍷
