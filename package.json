@@ -10,7 +10,9 @@
     "dev": "tsx src/index.ts",
     "watch": "nodemon --ext *",
     "dev-old": "nodemon ./index.js localhost 3000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "jest --config ./jest.config.js",
+    "test:frontend": "ng test --project wine-encyclopedia-frontend --watch=false"
   },
   "author": "",
   "license": "ISC",
@@ -30,12 +32,17 @@
     "@types/connect-livereload": "^0.6.3",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
+    "@types/jest": "^29.5.14",
     "@types/livereload": "^0.9.5",
     "@types/node": "^22.8.1",
+    "@types/supertest": "^6.0.2",
     "connect-livereload": "^0.6.1",
     "firebase-admin": "^11.11.1",
+    "jest": "^29.7.0",
     "livereload": "^0.9.3",
     "nodemon": "^2.0.22",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"

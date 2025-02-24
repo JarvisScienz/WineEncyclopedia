@@ -6,8 +6,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AdminLayoutRoutes } from "./admin-layout.routing";
-import { DisplayBoardComponent } from '../../display-board.component';
-import { UsersComponent } from '../../users.component';
 import { TastginSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.component';
 import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.component';
 import { MyCellarComponent } from '../../pages/my-cellar/my-cellar.component';
@@ -27,8 +25,6 @@ import { WineTastedDetailsComponent } from "src/app/pages/wine-tasted-details/wi
 
 @NgModule({
   declarations: [
-    DisplayBoardComponent,
-    UsersComponent,
     TastginSheetComponent,
     WineTastedComponent,
     MyCellarComponent,

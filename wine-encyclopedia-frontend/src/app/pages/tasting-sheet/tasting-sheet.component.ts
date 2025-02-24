@@ -18,7 +18,7 @@ import { RadarChartComponent } from 'src/app/components/radar-chart/radar-chart.
 	templateUrl: './tasting-sheet.component.html',
 	styleUrls: ['./tasting-sheet.component.css']
 })
-export class TastginSheetComponent implements OnInit {
+export class TastingSheetComponent implements OnInit {
 	notificationService: NotificationsComponent;
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	destroy$: Subject<boolean> = new Subject<boolean>();

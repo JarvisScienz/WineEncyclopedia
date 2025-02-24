@@ -84,6 +84,8 @@ app.listen(port, () => {
     console.log(`Wine-encyclopedia\\index.ts - Server listening on the port::${port}`);
 });
 
+export default app;
+
 /*
  * Functions
  */
