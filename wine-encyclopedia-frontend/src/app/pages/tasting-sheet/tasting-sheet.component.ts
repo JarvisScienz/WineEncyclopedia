@@ -25,6 +25,7 @@ export class TastingSheetComponent implements OnInit {
 	previousValueForm: any = [];
 	grapes: any = [];
 	wineries: any = [];
+	wines: any = [];
 	buttonLabel = "Invia";
 	selectedItems: string[] = [];
 	@ViewChild('input') inputEl: any;
@@ -91,6 +92,7 @@ export class TastingSheetComponent implements OnInit {
 	ngOnInit() {
 		this.getAllGrapes();
 		this.getAllWineries();
+		this.getAllWines();
 	}
 
 	formatter = (result: string) => result.toUpperCase();
@@ -124,6 +126,24 @@ export class TastingSheetComponent implements OnInit {
 					: this.wineries.filter((v: any) => v.toLowerCase().indexOf(lastTerm.toLowerCase()) > -1).slice(0, 10);
 			}),
 		);
+	
+		searchWines: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+			text$.pipe(
+				debounceTime(200),
+				distinctUntilChanged(),
+				map((term: any) => {
+					// Se term contiene virgole, prendi solo l'ultimo termine
+					const termsArray = term.split(',');
+					const lastTerm = termsArray[termsArray.length - 1].trim();
+	
+					return lastTerm === ''
+						? []
+						: this.wines
+							.filter((v: any) => v.name.toLowerCase().includes(lastTerm.toLowerCase()))
+							.map((v: any) => v.name) // Estrai solo i nomi dei vini
+							.slice(0, 10); // Limita a 10 risultati
+				}),
+			);
 
 	filterSelectGrapes($e: any) {
 		$e.preventDefault();
@@ -159,6 +179,26 @@ export class TastingSheetComponent implements OnInit {
 		//this.inputEl.nativeElement.value = '';
 	}
 
+	filterSelectWines($e: any) {
+		$e.preventDefault();
+		const selectedWineName = $e.item;
+		const selectedWine = this.wines.find((v: any) => v.name === selectedWineName); 
+		this.selectedItems.push(selectedWineName);
+		var winesSplitted = this.tastingSheetForm.value.name.split(",");
+		var finalString = "";
+		if (winesSplitted.length === 1){
+			finalString =  selectedWineName;
+		}else{
+			winesSplitted[winesSplitted.length-1] = selectedWineName;
+			finalString = winesSplitted.toString().replace(",", ", ");
+		}
+		this.tastingSheetForm.patchValue({
+			name: finalString,
+			winery: selectedWine.wineryName,
+			wineType: this.getWineType(selectedWine.color),
+		});
+	}
+
 	getAllGrapes() {
 		this.appService.getGrapesName().subscribe((grapes => {
 			if (grapes == null)
@@ -174,6 +214,15 @@ export class TastingSheetComponent implements OnInit {
 				this.wineries = [];
 			else
 				this.wineries = wineries;
+		}));
+	}
+
+	getAllWines(){
+		this.appService.getWines().subscribe((wines => {
+			if (wines == null)
+				this.wines = [];
+			else
+				this.wines = wines;
 		}));
 	}
 
@@ -611,5 +660,25 @@ export class TastingSheetComponent implements OnInit {
 
 	  updateScore(event: any) {
 		this.score = event.target.value;
+	  }
+
+	  getWineType(color: string): string {
+		if (color.toLowerCase().includes('rosso')) {
+		  return 'Vino rosso';
+		} else if (color.toLowerCase().includes('bianco')) {
+		  return 'Vino bianco';	  
+		} else if (color.toLowerCase().includes('rosato')) {
+		  return 'Vino rosato';	  
+		} else if (color.toLowerCase().includes('sparkling')) {
+		  return 'Spumante';	  
+		} else if (color.toLowerCase().includes('liqueur')) {
+		  return 'iVino liquoroso';	  
+		} else if (color.toLowerCase().includes('champagne')) {
+		  return 'Champagne';	  
+		} else if (color.toLowerCase().includes('prosecco')) {
+		  return 'Prosecco';	  
+		} else {
+		  return 'Vino rosso';
+		}
 	  }
 }

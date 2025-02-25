@@ -15,7 +15,7 @@
 									<input type="hidden" formControlName="user">
 									<label for="nomeVino">Nome del vino:</label> <input type="text"
 										class="form-control" formControlName="name" placeholder="Nome vino"
-										id="nomeVino" name="nomeVino">
+										id="nomeVino" name="nomeVino" [ngbTypeahead]="searchWines" [resultFormatter]="formatter" (selectItem)="filterSelectWines($event)">
 								</div>
 						
 								<div class="col-xl-3">
