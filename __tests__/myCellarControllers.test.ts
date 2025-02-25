@@ -1,14 +1,29 @@
 import request from 'supertest';
-import app from '../src/index.js'; // Assumo che il tuo Express app sia esportato da `app.ts`
+import app from '../src/index';
 import { getMyCellarWinesService } from '../src/services/myCellarService';
-import { describe, it } from 'node:test';
 import { jest, expect } from '@jest/globals';
 
-jest.mock('../services/myCellarService');
+jest.mock('../src/services/myCellarService');
 
-describe('GET /my-cellar-wines', () => {
+jest.mock('../src/config/firebaseConfig.json', () => ({
+    apiKey: 'test-api-key',
+    authDomain: 'test-auth-domain',
+    // altre proprietà necessarie...
+  }), { virtual: true });
+
+  jest.mock('firebase/firestore', () => {
+    return {
+      getFirestore: jest.fn(() => ({})), // Restituisce un oggetto vuoto per evitare errori
+      collection: jest.fn(() => 'mockedCollection'),
+      query: jest.fn(() => 'mockedQuery'),
+      where: jest.fn(() => 'mockedWhere'),
+      getDocs: jest.fn(),
+    };
+  });
+
+describe('POST /api/myCellarWines', () => {
   it('should return a list of wines for a given user ID', async () => {
-    jest.mock('../services/myCellarService', () => ({
+    jest.mock('../src/services/myCellarService', () => ({
         getMyCellarWinesService: jest.fn() as jest.MockedFunction<typeof getMyCellarWinesService>
       }));
       
@@ -18,7 +33,7 @@ describe('GET /my-cellar-wines', () => {
       ]);
 
     const response = await request(app)
-      .get('/api/myCellarWines') // Assumendo che questa sia la tua rotta
+      .post('/api/myCellarWines')
       .send({ uid: 'test-uid' });
 
     expect(response.status).toBe(200);
@@ -26,7 +41,7 @@ describe('GET /my-cellar-wines', () => {
   });
 
   it('should return 422 if UID is missing', async () => {
-    const response = await request(app).get('/api/myCellarWines').send({});
+    const response = await request(app).post('/api/myCellarWines').send({});
 
     expect(response.status).toBe(422);
     expect(response.body).toEqual({ uid: "UID is required" });

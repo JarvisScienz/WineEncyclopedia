@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 
-import { TastginSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.component';
+import { TastingSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.component';
 import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.component';
 
 import { AuthGuard } from '../../_helpers';
@@ -15,7 +15,7 @@ import { WineTastedDetailsComponent } from "src/app/pages/wine-tasted-details/wi
 export const AdminLayoutRoutes: Routes = [
 	//{ path: "endpoints", component: EndPointsComponent, canActivate: [AuthGuard]},
 	//{ path: '', redirectTo: '/tasting-sheet', pathMatch: 'full' },
-	{ path: "tasting-sheet", component: TastginSheetComponent, canActivate: [AuthGuard] },
+	{ path: "tasting-sheet", component: TastingSheetComponent, canActivate: [AuthGuard] },
 	{ path: "wine-tasted", component: WineTastedComponent, canActivate: [AuthGuard] },
 	{ path: "wine-tasted-details", component: WineTastedDetailsComponent, canActivate: [AuthGuard] },
 	{ path: "my-cellar", component: MyCellarComponent, canActivate: [AuthGuard] },

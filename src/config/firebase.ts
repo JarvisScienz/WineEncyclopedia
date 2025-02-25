@@ -10,7 +10,8 @@ import {
   sendPasswordResetEmail
 } from 'firebase/auth';
 
-import firebaseAccountCredentials  from '../../wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json' assert { type: "json" };
+//import firebaseAccountCredentials  from '../../wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json' assert { type: "json" };
+const firebaseAccountCredentials = require('../../wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json');
 
 const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import updateWineTastedCollection from '../script/script-update-document.js';
+import { updateWineTastedCollection } from '../script/script-update-document.js';
   
 class ScriptController {
 async updateWinesTasted(_req: Request, res: Response) {
