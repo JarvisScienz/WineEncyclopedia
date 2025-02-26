@@ -1,7 +1,7 @@
 ﻿import { Wine } from "./wine";
 
 export class Winery {
-    id?: string;
+    id!: string;
     name!: string;
     city!: string;
     country!: string;

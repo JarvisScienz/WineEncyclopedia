@@ -26,6 +26,11 @@
 			<p><strong>Città:</strong> {{ wineryDetails.city }}</p>
 			<p><strong>Paese:</strong> {{ wineryDetails.village }}</p>
 			<p><strong>Distretto:</strong> {{ wineryDetails.district }}</p>
+			<p *ngIf="review">
+				<textarea rows="4" cols="50" [(ngModel)]="reviewComment"></textarea>
+				<button class="btn btn-warning" (click)="saveReview(wineryDetails.id, reviewComment)">Salva</button>
+			</p>
+			
 		  </div>
 		</div>
 	  </div>

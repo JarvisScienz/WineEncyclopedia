@@ -7,6 +7,9 @@ import { CookiesService } from '../../_services/cookies.service'
 import { Wine } from 'src/app/_models/wine';
 import { Winery } from 'src/app/_models/winery';
 import { WineryService } from 'src/app/_services/winery.service';
+import { UserService } from 'src/app/_services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationsComponent } from 'src/app/components/notifications/notifications.component';
 
 @Component({
 	selector: 'winery',
@@ -15,25 +18,33 @@ import { WineryService } from 'src/app/_services/winery.service';
 })
 export class WineryComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
+	notificationService: NotificationsComponent;
 	wines: Wine[] = [];
 	wineries: Winery[] = [];
 	wineryDetails!: Winery;
+	review: boolean = false;
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
 	filterWinerySelect: string = "";
 	userUid: string  = "";
+	reviewComment: string = "";
 
 	constructor(private wineryService: WineryService,
+		private userService: UserService,
 		private router: Router,
-		private cookiesService: CookiesService) {
+		private cookiesService: CookiesService,
+		private toastr: ToastrService, ) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
+			this.notificationService = new NotificationsComponent(this.toastr);
 		 }
 
 
 
 	ngOnInit() {
 		this.wineryDetails = history.state.wineryData;
+		this.review = history.state.review;
+		(this.review) ? this.loadReview() : '';
 	}
 
 	refresh() {
@@ -43,7 +54,11 @@ export class WineryComponent implements OnInit {
 		this.filterWinerySelect = "";
 	}
 
-
+	loadReview() {
+		this.userService.getUserInformation(this.userUid).subscribe((response) => {
+			this.reviewComment = response.reviews[this.wineryDetails.id] || "";
+		});
+	}
 
 	filterWinery() {
 		
@@ -101,4 +116,10 @@ export class WineryComponent implements OnInit {
 
 	}
 
+	saveReview(wineryID: string, review: string) {
+		this.userService.saveReviewService(this.userUid, wineryID, review).subscribe((response) => {
+			console.log(response);
+			this.notificationService.successNotification("Recensione salvata!");
+		});
+	}
 }

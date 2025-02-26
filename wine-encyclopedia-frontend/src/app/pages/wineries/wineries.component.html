@@ -26,15 +26,19 @@
 					<th>Nome</th>
 					<th>Luogo</th>
 					<th>Denominazione</th>
+					<th>Visitata?</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
 					*ngFor="let winery of wineries | winesFilter: filterText; let i = index ">
 					<td style="width: 20%">{{winery.id}}</td>
-					<td><a (click)="viewWineryDetails(winery)" style="cursor: pointer;">{{winery.name}}</a></td>
+					<td><a (click)="viewWineryDetails(winery, false)" style="cursor: pointer;">{{winery.name}}</a></td>
 					<td>{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</td>
 					<td>{{winery.denomination}}</td>
+					<td><i [ngClass]="isWineryVisited(winery.id) ? 'fas fa-check' : 'fas fa-xmark'" aria-hidden="true"></i></td>
+					<td><button class="btn btn-warning" (click)="viewWineryDetails(winery, true)">Recensione</button></td>
 				</tr>
 			</tbody>
 		</table>

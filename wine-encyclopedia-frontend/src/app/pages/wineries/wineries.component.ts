@@ -7,6 +7,7 @@ import { CookiesService } from '../../_services/cookies.service'
 import { Wine } from 'src/app/_models/wine';
 import { Winery } from 'src/app/_models/winery';
 import { WineryService } from 'src/app/_services/winery.service';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
 	selector: 'wineries',
@@ -22,20 +23,28 @@ export class WineriesComponent implements OnInit {
 	filterColor: string = "";
 	filterWinerySelect: string = "";
 	userUid: string  = "";
+	reviews: any;
 
 	constructor(private wineryService: WineryService,
+		private userService: UserService,
 		private router: Router,
 		private cookiesService: CookiesService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
+			
 		 }
 
 
 
 	ngOnInit() {
 		this.getAllWineries();
-		//this.getWineryList();
+		this.getUserInformation();
 	}
 
+	getUserInformation() {
+		this.userService.getUserInformation(this.userUid).subscribe((response) => {
+			this.reviews = response.reviews || {};
+		});
+	}
 	refresh() {
 		this.getAllWineries();
 		this.filterText = "";
@@ -43,9 +52,10 @@ export class WineriesComponent implements OnInit {
 		this.filterWinerySelect = "";
 	}
 
-	viewWineryDetails(winery: any) {
-		this.router.navigate(['/winery'], { state: { wineryData: winery } });
+	viewWineryDetails(winery: any, review: boolean) {
+		this.router.navigate(['/winery'], { state: { wineryData: winery, review: review } });
 	}
+
 	extractWineries(jsonArray: any[]) {
 		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
 	}
@@ -98,4 +108,7 @@ export class WineriesComponent implements OnInit {
 
 	}
 
+	isWineryVisited(wineryID: string) {
+		return (this.reviews[wineryID] != null);
+	}
 }
