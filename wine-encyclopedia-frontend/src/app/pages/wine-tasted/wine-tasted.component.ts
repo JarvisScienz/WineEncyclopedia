@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
-import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
+import { WineTastedService } from 'src/app/_services/wineTasted.service';
+import { WineryService } from 'src/app/_services/winery.service';
+import { WineService } from 'src/app/_services/wine.service';
 
 @Component({
 	selector: 'wine-tasted',
@@ -20,7 +22,9 @@ export class WineTastedComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 
-	constructor(private appService: AppService,
+	constructor(private wineTastedService: WineTastedService,
+		private wineService: WineService,
+		private wineryService: WineryService,
 		private router: Router,
 		private cookiesService: CookiesService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
@@ -41,7 +45,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	filterColorWine() {
-		this.appService.getWinesByColor(this.filterColor).subscribe((wines => {
+		this.wineService.getWinesByColor(this.filterColor).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -50,7 +54,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	filterWinery() {
-		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
+		this.wineService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -63,7 +67,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	getAllWinesTasted() {
-		this.appService.getWinesTasted(this.userUid).subscribe((wines => {
+		this.wineTastedService.getWinesTasted(this.userUid).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -73,7 +77,7 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineriesList().subscribe((wineryList => {
+		this.wineryService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

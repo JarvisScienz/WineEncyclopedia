@@ -11,6 +11,8 @@ router.post('/api/winesByColor', wineTastedController.getWinesByColor);
 
 router.post('/api/addWineTasted', wineTastedController.addWineTasted);
 
+router.post('/api/editWineTasted', wineTastedController.editWineTasted);
+
 router.post('/api/wineTastedInYears', wineTastedController.getWineTastedInYears);
 
 export default router;

@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 //import firebaseWinesService from '../services/firebaseWinesService.js';
 import app from '../config/firebase.js';
 import { Request, Response } from 'express';
-import { getWines, winesByWinery, getSimilarWines, addWine, addWines, editWine } from '../services/winesService.js';
+import { getWines, winesByWinery, getSimilarWines, addWine, addWines } from '../services/winesService.js';
 
 dotenv.config();
 const auth = getAuth(app.app);
@@ -46,18 +46,6 @@ class WinesController {
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
-
-  async editWine(req: Request, res: Response) {
-    const { wine } = req.body;
-    try {
-      const wineID = await editWine(wine);
-      res.status(200).json({ id: wineID });
-    } catch (error) { 
-      console.log('[ERROR] Failed to update wine information. Error:', error);
-      res.status(500).json({ error: error });
-    }
-  }
-
   
   async getWinesByVintage(_req: Request, _res: Response) {
     

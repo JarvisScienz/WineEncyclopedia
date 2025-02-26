@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
-import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
 import { Wine } from 'src/app/_models/wine';
 import { Winery } from 'src/app/_models/winery';
+import { WineryService } from 'src/app/_services/winery.service';
 
 @Component({
 	selector: 'winery',
@@ -24,7 +24,7 @@ export class WineryComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 
-	constructor(private appService: AppService,
+	constructor(private wineryService: WineryService,
 		private router: Router,
 		private cookiesService: CookiesService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
@@ -54,7 +54,7 @@ export class WineryComponent implements OnInit {
 	}
 
 	getAllWineries() {
-		this.appService.getWineries().subscribe((wineries => {
+		this.wineryService.getWineries().subscribe((wineries => {
 			if (wineries == null)
 				this.wines = [];
 			else
@@ -64,7 +64,7 @@ export class WineryComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineriesList().subscribe((wineryList => {
+		this.wineryService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

@@ -36,4 +36,19 @@ export const addWineTastedService = async (wine: WineTasted): Promise<String> =>
 	return newDocRef.id;
 };
 
-export default { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService };
+export const editWineTastedService = async (wine: Partial<WineTasted>): Promise<string> => {
+	try {
+		const { id, ...wineData } = wine;
+		if (!id) {
+			throw new Error("Wine ID is required to update the document.");
+		}
+		const docRef = doc(db, 'wine-tasted', id);
+		await updateDoc(docRef, wineData);
+		return docRef.id;
+	} catch (error) {
+		console.log('[ERROR] Failed to update wine information. Error:', error);
+		throw new Error('An error occurred while updating the wine information. Please try again later.');
+	}
+}
+
+export default { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService };

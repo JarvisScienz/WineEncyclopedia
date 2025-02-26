@@ -27,13 +27,6 @@ export class AppComponent implements OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   onSubmit() {
-
-    this.appService.addWine(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(data => {
-      console.log('message::::', data);
-      this.userCount = this.userCount + 1;
-      console.log(this.userCount);
-      this.userForm.reset();
-    });
   }
 
   getAllUsers() {

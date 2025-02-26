@@ -22,21 +22,6 @@ export const getSimilarWines = async (wine: Partial<Wine>): Promise<Partial<Wine
 	.filter(wineItem => wineItem.wineryName !== wine.wineryName);
 };
 
-export const editWine = async (wine: Partial<Wine>): Promise<string> => {
-	try {
-		const { id, ...wineData } = wine;
-		if (!id) {
-			throw new Error("Wine ID is required to update the document.");
-		}
-		const docRef = doc(db, 'wines', id);
-		await updateDoc(docRef, wineData);
-		return docRef.id;
-	} catch (error) {
-		console.log('[ERROR] Failed to update wine information. Error:', error);
-		throw new Error('An error occurred while updating the wine information. Please try again later.');
-	}
-}
-
 export const addWine = async (wine: Partial<Wine>): Promise<string> => {
 	try {
 		const newDocRef = await addDoc(collection(db, 'wines'), wine);

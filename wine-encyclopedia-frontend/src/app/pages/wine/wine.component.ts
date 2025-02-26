@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute  } from '@angular/router';
 
-import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
 import { Wine } from 'src/app/_models/wine';
+import { WineryService } from 'src/app/_services/winery.service';
+import { WineService } from 'src/app/_services/wine.service';
 
 @Component({
 	selector: 'wine',
@@ -24,7 +25,8 @@ export class WineComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 
-	constructor(private appService: AppService,
+	constructor(private wineryService: WineryService,
+		private wineService: WineService,
 		private router: Router,
 		private route: ActivatedRoute,
 		private cookiesService: CookiesService) {
@@ -37,12 +39,12 @@ export class WineComponent implements OnInit {
 		this.wineDetails = history.state.wineData;
 		
     	if (this.wineDetails) {
-			this.appService.getWinesByWinery(this.wineDetails.wineryName).subscribe(wines => {
+			this.wineService.getWinesByWinery(this.wineDetails.wineryName).subscribe(wines => {
 				this.winesByWinery = wines;
 			});
 
 			// Carica vini simili
-			this.appService.getSimilarWines(this.wineDetails).subscribe(wines => {
+			this.wineService.getSimilarWines(this.wineDetails).subscribe(wines => {
 				this.similarWines = wines;
 			});
 		}
@@ -56,7 +58,7 @@ export class WineComponent implements OnInit {
 	}
 
 	filterColorWine() {
-		this.appService.getWinesByColor(this.filterColor).subscribe((wines => {
+		this.wineService.getWinesByColor(this.filterColor).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -65,7 +67,7 @@ export class WineComponent implements OnInit {
 	}
 
 	filterWinery() {
-		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
+		this.wineService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -78,7 +80,7 @@ export class WineComponent implements OnInit {
 	}
 
 	getAllWines() {
-		this.appService.getWines().subscribe((wines => {
+		this.wineService.getWines().subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -88,7 +90,7 @@ export class WineComponent implements OnInit {
 	}
 
 	getWineryList() {
-		this.appService.getWineriesList().subscribe((wineryList => {
+		this.wineryService.getWineriesList().subscribe((wineryList => {
 			if (wineryList == null)
 				this.wineryList = [];
 			else

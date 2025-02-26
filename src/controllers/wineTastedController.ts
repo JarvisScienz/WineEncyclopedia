@@ -1,6 +1,6 @@
 import { Errback, Request, Response } from 'express';
 
-import { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService } from '../services/wineTastedService.js';
+import { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService } from '../services/wineTastedService.js';
 
 class WineTastedController{
 
@@ -84,6 +84,17 @@ class WineTastedController{
         console.error('[ERROR] addWineTasted. Unable to add new wine tasted. ', error);
         res.status(500).json({ error: "Internal Server Error" });
         }
+    }
+
+    async editWineTasted(req: Request, res: Response) {
+      const { wine } = req.body;
+          try {
+            const wineID = await editWineTastedService(wine);
+            res.status(200).json({ id: wineID });
+          } catch (error) { 
+            console.log('[ERROR] Failed to update wine information. Error:', error);
+            res.status(500).json({ error: error });
+          }
     }
 }
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
-import { AppService } from '../../app.service';
+import { MyCellarService } from '../../_services/myCellar.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
 import { CookiesService } from '../../_services/cookies.service'
+import { WineService } from 'src/app/_services/wine.service';
 
 @Component({
 	selector: 'my-cellar',
@@ -20,7 +21,8 @@ export class MyCellarComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 
-	constructor(private appService: AppService,
+	constructor(private myCellarService: MyCellarService,
+		private wineService: WineService,
 		private router: Router,
 		private cookiesService: CookiesService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
@@ -41,7 +43,7 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	filterColorWine() {
-		this.appService.getWinesByColor(this.filterColor).subscribe((wines => {
+		this.wineService.getWinesByColor(this.filterColor).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -50,7 +52,7 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	filterWinery() {
-		this.appService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
+		this.wineService.getWinesByWinery(this.filterWinerySelect).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -63,21 +65,12 @@ export class MyCellarComponent implements OnInit {
 	}
 
 	getMyCellarWines() {
-		this.appService.getMyCellarWines(this.userUid).subscribe((wines => {
+		this.myCellarService.getMyCellarWines(this.userUid).subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
 				this.wines = wines;
 			this.extractWineries(this.wines);
-		}));
-	}
-
-	getWineryList() {
-		this.appService.getWineries().subscribe((wineryList => {
-			if (wineryList == null)
-				this.wineryList = [];
-			else
-				this.wineryList = wineryList;
 		}));
 	}
 

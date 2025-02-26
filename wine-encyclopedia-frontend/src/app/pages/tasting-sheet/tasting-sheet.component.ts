@@ -6,11 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { CookiesService } from '../../_services/cookies.service'
 import { RadarChartComponent } from 'src/app/components/radar-chart/radar-chart.component';
+import { WineTastedService } from 'src/app/_services/wineTasted.service';
+import { GrapeService } from 'src/app/_services/grape.service';
+import { WineService } from 'src/app/_services/wine.service';
+import { WineryService } from 'src/app/_services/winery.service';
 
 
 @Component({
@@ -37,7 +40,10 @@ export class TastingSheetComponent implements OnInit {
 
 	public model: any;
 
-	constructor(private appService: AppService,
+	constructor(private wineTastedService: WineTastedService,
+		private wineryService: WineryService,
+		private wineService: WineService,
+		private grapeService: GrapeService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private toastr: ToastrService, 
@@ -200,7 +206,7 @@ export class TastingSheetComponent implements OnInit {
 	}
 
 	getAllGrapes() {
-		this.appService.getGrapesName().subscribe((grapes => {
+		this.grapeService.getGrapesName().subscribe((grapes => {
 			if (grapes == null)
 				this.grapes = [];
 			else
@@ -209,7 +215,7 @@ export class TastingSheetComponent implements OnInit {
 	}
 
 	getAllWineries(){
-		this.appService.getWineriesList().subscribe((wineries => {
+		this.wineryService.getWineriesList().subscribe((wineries => {
 			if (wineries == null)
 				this.wineries = [];
 			else
@@ -218,7 +224,7 @@ export class TastingSheetComponent implements OnInit {
 	}
 
 	getAllWines(){
-		this.appService.getWines().subscribe((wines => {
+		this.wineService.getWines().subscribe((wines => {
 			if (wines == null)
 				this.wines = [];
 			else
@@ -233,7 +239,7 @@ export class TastingSheetComponent implements OnInit {
 	saveTastingSheet(): void {
 		this.setWineInformation();
 
-		this.appService.addWineTasted(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
+		this.wineTastedService.addWineTasted(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
 			console.log('message::::', data);
 			this.notificationService.successNotification("Vino salvato!");
 			this.tastingSheetForm.reset();

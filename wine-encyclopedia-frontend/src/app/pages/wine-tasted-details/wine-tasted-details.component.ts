@@ -6,11 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppService } from '../../app.service';
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { CookiesService } from '../../_services/cookies.service'
 import { RadarChartComponent } from 'src/app/components/radar-chart/radar-chart.component';
+import { WineTastedService } from 'src/app/_services/wineTasted.service';
+import { GrapeService } from 'src/app/_services/grape.service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class WineTastedDetailsComponent implements OnInit {
 
 	public model: any;
 
-	constructor(private appService: AppService,
+	constructor(private wineTastedService: WineTastedService,
+		private grapeService: GrapeService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private toastr: ToastrService, 
@@ -137,7 +139,7 @@ export class WineTastedDetailsComponent implements OnInit {
 	}
 
 	getAllGrapes() {
-		this.appService.getGrapesName().subscribe((grapes => {
+		this.grapeService.getGrapesName().subscribe((grapes => {
 			if (grapes == null)
 				this.grapes = [];
 			else
@@ -154,7 +156,7 @@ export class WineTastedDetailsComponent implements OnInit {
 	updateTastingSheet() {
 		this.setWineInformation();
 
-		this.appService.editWine(this.tastingSheetForm.value)
+		this.wineTastedService.editWineTasted(this.tastingSheetForm.value)
 		.pipe(
 			takeUntil(this.destroy$),
 			catchError(error => {

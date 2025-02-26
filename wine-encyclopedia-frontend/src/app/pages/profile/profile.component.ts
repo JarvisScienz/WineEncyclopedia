@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { User } from 'src/app/_models/user';
 import { CookiesService } from 'src/app/_services/cookies.service';
-import { AppService } from 'src/app/app.service';
+import { UserService } from 'src/app/_services/user.service';
+import { WineTastedService } from 'src/app/_services/wineTasted.service';
 import { levels, getLevel } from 'src/app/config/levels';
 
 @Component({
@@ -27,7 +28,8 @@ export class ProfileComponent implements OnInit {
   progressPercentage: number = 0; // Percentuale di completamento
   winesNeededForNextLevel: number = 0; // Vini mancanti per il prossimo livello
 
-  constructor(private appService: AppService,
+  constructor(private userService: UserService,
+    private wineTastedService: WineTastedService,
     private cookiesService: CookiesService
   ) {
     this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
@@ -63,7 +65,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getWineTastedInYears(){
-    this.appService.getWineTastedInYears(this.userUid).subscribe(((count: null) => {
+    this.wineTastedService.getWineTastedInYears(this.userUid).subscribe(((count: null) => {
 			if (count == null)
 				this.yearlyTastings = {};
 			else
@@ -74,7 +76,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserInformation(){
-    this.appService.getUserInformation(this.userUid).subscribe(((user: null) => {
+    this.userService.getUserInformation(this.userUid).subscribe(((user: null) => {
 			if (user != null){
         this.user = user;
         this.levelInfo = getLevel(this.totalTasted);

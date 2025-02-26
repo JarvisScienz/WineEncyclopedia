@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
@@ -7,14 +7,21 @@ import { Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class WineryService {
   private rootURL = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getUserInformation(uid: string): Observable<any> {
-    return this.http.post<any>(`${this.rootURL}/v1/userInformation`, { uid }).pipe(
-      map(user => user),
+  getWineriesList(): Observable<any[]> {
+    return this.http.post<any[]>(`${this.rootURL}/wineriesList`, {}).pipe(
+      map(wineries => wineries ?? []),
+      catchError(this.handleError)
+    );
+  }
+
+  getWineries(): Observable<any[]> {
+    return this.http.post<any[]>(`${this.rootURL}/wineries`, {}).pipe(
+      map(wineries => wineries ?? []),
       catchError(this.handleError)
     );
   }
