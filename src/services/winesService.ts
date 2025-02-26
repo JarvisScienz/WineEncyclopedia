@@ -14,6 +14,14 @@ export const winesByWinery = async (winery: string): Promise<Partial<Wine>[]> =>
 	return snapshot.docs.map(doc => doc.data() as Partial<Wine>);
 };
 
+export const getSimilarWines = async (wine: Partial<Wine>): Promise<Partial<Wine>[]> => {
+	const winesWineryQuery = query(collection(db, 'wines'), where('denomination', '==', wine.denomination), where('color', '==', wine.color));
+	const snapshot = await getDocs(winesWineryQuery);
+	return snapshot.docs
+	.map(doc => doc.data() as Partial<Wine>)
+	.filter(wineItem => wineItem.wineryName !== wine.wineryName);
+};
+
 export const editWine = async (wine: Partial<Wine>): Promise<string> => {
 	try {
 		const { id, ...wineData } = wine;

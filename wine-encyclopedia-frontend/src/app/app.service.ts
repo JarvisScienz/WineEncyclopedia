@@ -71,6 +71,11 @@ export class AppService {
 		return this.http.post(this.rootURL + '/winesByWinery', { winery });
 	}
 
+	getSimilarWines(wine: Wine) {
+		console.log(`[INFO] Fetching wines for winery: ${wine}`);
+		return this.http.post(this.rootURL + '/getSimilarWines', { wine });
+	}
+
 	addWineTasted(wine: any) {
 		wine.createdAt = new Date();
 		return this.http.post(this.rootURL + '/addWineTasted', { wine });

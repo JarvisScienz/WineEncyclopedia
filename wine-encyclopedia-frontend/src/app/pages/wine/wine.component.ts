@@ -17,6 +17,7 @@ export class WineComponent implements OnInit {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
 	winesByWinery: any = [];
+	similarWines: any = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
@@ -41,9 +42,9 @@ export class WineComponent implements OnInit {
 			});
 
 			// Carica vini simili
-			/*this.appService.getSimilarWines(this.wineDetails).subscribe(wines => {
+			this.appService.getSimilarWines(this.wineDetails).subscribe(wines => {
 				this.similarWines = wines;
-			});*/
+			});
 		}
 	}
 
