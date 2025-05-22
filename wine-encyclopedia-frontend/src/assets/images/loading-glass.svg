@@ -1,0 +1,36 @@
+<svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5e0000;stop-opacity:1" />
+    </linearGradient>
+    
+    <clipPath id="glassClip">
+      <path d="M 70 40 Q 70 20, 100 20 Q 130 20, 130 40 L 130 120 Q 130 150, 100 150 Q 70 150, 70 120 Z" />
+    </clipPath>
+  </defs>
+  
+  <!-- Stelo del calice -->
+  <rect x="95" y="150" width="10" height="60" fill="#e0e0e0" />
+  
+  <!-- Base del calice -->
+  <ellipse cx="100" cy="215" rx="35" ry="10" fill="#e0e0e0" />
+  
+  <!-- Contorno del calice -->
+  <path d="M 70 40 Q 70 20, 100 20 Q 130 20, 130 40 L 130 120 Q 130 150, 100 150 Q 70 150, 70 120 Z" 
+        fill="none" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Riflessi sul vetro -->
+  <path d="M 75 40 L 75 115 Q 75 140, 100 140" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5" />
+  
+  <!-- Vino che si riempie, con clip-path per contenere il liquido nel bicchiere -->
+  <rect x="70" y="40" width="60" height="110" fill="url(#wineGradient)" clip-path="url(#glassClip)">
+    <animate attributeName="y" from="150" to="40" dur="3s" begin="0s" repeatCount="indefinite" />
+    <animate attributeName="height" from="0" to="110" dur="3s" begin="0s" repeatCount="indefinite" />
+  </rect>
+  
+  <!-- Brillantezza sul vino -->
+  <ellipse cx="85" cy="100" rx="3" ry="10" fill="#ffffff" opacity="0.3">
+    <animate attributeName="cy" from="150" to="70" dur="3s" begin="0s" repeatCount="indefinite" />
+  </ellipse>
+</svg>
