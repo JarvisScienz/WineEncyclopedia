@@ -9,6 +9,9 @@ export const getWines = async (): Promise<Partial<Wine>[]> => {
 };
 
 export const winesByWinery = async (winery: string): Promise<Partial<Wine>[]> => {
+	if (!winery) {
+		return [];
+	}
 	const winesWineryQuery = query(collection(db, 'wines'), where('wineryName', '==', winery));
 	const snapshot = await getDocs(winesWineryQuery);
 	return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<Wine>));
