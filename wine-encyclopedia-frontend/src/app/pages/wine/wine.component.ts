@@ -124,7 +124,20 @@ export class WineComponent implements OnInit {
 				break;
 		}
 		return pathImage;
+	}
 
+
+	getImageWine(wine: Wine) {
+		var url = wine.img;
+		if (url != null && url != ""){
+			return url;
+		}else{
+			if (wine.color == "Bianco"){
+				return "../../assets/images/generic-white-bottle.png";
+			}else {
+				return "../../assets/images/generic-red-bottle.png";
+			}
+		}
 	}
 
 }

@@ -1,8 +1,5 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-7 mrgnbtm">
-			<h2>Scheda dettaglio vino</h2>
-		</div>
 		<div class="col-md-4 mrgnbtm">
 			<div class="btn">
 				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
@@ -18,7 +15,7 @@
 		<div class="row">
 		  <!-- Colonna per l'immagine -->
 		  <div class="col-md-4">
-			<img [src]="wineDetails.img" class="img-fluid" style="max-width: 40%">
+			<img [src]="getImageWine(wineDetails)" class="img-fluid" style="max-width: 40%">
 		  </div>
 		  
 		  <!-- Colonna per i dettagli -->
@@ -38,11 +35,15 @@
 		  </div>
 		</div>
 	  </div>
-	  <h3>Vini della stessa cantina</h3>
-	  <app-wine-slider [wines]="winesByWinery"></app-wine-slider>
-
-	  <h3>Vini simili</h3>
-	  <app-wine-slider [wines]="similarWines"></app-wine-slider>
+	  <div *ngIf="winesByWinery != null && winesByWinery.length > 0">
+		<h3>Vini della stessa cantina</h3>
+		<app-wine-slider [wines]="winesByWinery"></app-wine-slider>
+	  </div>
+	  
+	  <div *ngIf="similarWines != null && similarWines.length > 0">
+		<h3>Vini simili</h3>
+		<app-wine-slider [wines]="similarWines"></app-wine-slider>
+	  </div>
 	</div>
   </div>
   

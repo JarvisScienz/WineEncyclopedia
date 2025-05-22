@@ -25,7 +25,8 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
         AuthLayoutComponent
     ],
     bootstrap: [AppComponent],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA], imports: [AppRoutingModule,
+    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA], 
+    imports: [AppRoutingModule,
         BrowserModule,
         ComponentsModule,
         BrowserAnimationsModule,

@@ -12,4 +12,5 @@ interface Wine {
     winery: string;
     winemaking: string;
     img?: string;
+    tastedCount?: number;
 }

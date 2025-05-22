@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-wine-slider',
@@ -10,6 +11,8 @@ export class WineSliderComponent {
 	visibleWines: any[] = [];
 	currentIndex = 0;
 	itemsPerPage = 6;
+
+	constructor(private router: Router) {}
 
 	ngOnChanges() {
 		this.updateVisibleWines();
@@ -31,5 +34,12 @@ export class WineSliderComponent {
 			this.currentIndex -= this.itemsPerPage;
 			this.updateVisibleWines();
 		}
+	}
+
+	viewWineDetails(wine: any) {
+		console.log('Wine details:', wine);
+		 this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+			this.router.navigate(['/wine'], { state: { wineData: wine } });
+		});
 	}
 }

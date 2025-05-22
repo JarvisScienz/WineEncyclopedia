@@ -59,13 +59,14 @@ export class TastingSheetComponent implements OnInit {
 		name: new UntypedFormControl('', Validators.required),
 		winery: new UntypedFormControl('', Validators.required),
 		wineType: new UntypedFormControl(''),
-		vintage: new UntypedFormControl(''),
+		wineId: new UntypedFormControl(''),
+		vintage: new UntypedFormControl('', Validators.required),
 		grapeVariety: new UntypedFormControl(''),
 		alcoholContent: new UntypedFormControl(''),
 		servingTemperature: new UntypedFormControl(''),
 		price: new UntypedFormControl(''),
 		score: new UntypedFormControl(''),
-		color: new UntypedFormControl(''),
+		color: new UntypedFormControl('', Validators.required),
 		colorDensity: new UntypedFormControl(''),
 		limpidity: new UntypedFormControl(''),
 		consistency: new UntypedFormControl(''),
@@ -202,6 +203,7 @@ export class TastingSheetComponent implements OnInit {
 			name: finalString,
 			winery: selectedWine.wineryName,
 			wineType: this.getWineType(selectedWine.color),
+			wineId: selectedWine.id,
 		});
 	}
 
@@ -607,6 +609,7 @@ export class TastingSheetComponent implements OnInit {
 		//this.wineTastingSheet.id = "4";
 		this.wineTastingSheet.user = this.userUid;
 		this.wineTastingSheet.id = this.tastingSheetForm.controls['id'].value;
+		this.wineTastingSheet.wineId = this.tastingSheetForm.controls['wineId'].value;
 		this.wineTastingSheet.name = this.tastingSheetForm.controls['name'].value;
 		this.wineTastingSheet.winery = this.tastingSheetForm.controls['winery'].value;
 		this.wineTastingSheet.wineType = this.tastingSheetForm.controls['wineType'].value;

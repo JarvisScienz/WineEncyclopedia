@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc, arrayUnion, increment } from 'firebase/firestore';
 
 const db = getFirestore();
 
@@ -11,10 +11,13 @@ export const getWines = async (): Promise<Partial<Wine>[]> => {
 export const winesByWinery = async (winery: string): Promise<Partial<Wine>[]> => {
 	const winesWineryQuery = query(collection(db, 'wines'), where('wineryName', '==', winery));
 	const snapshot = await getDocs(winesWineryQuery);
-	return snapshot.docs.map(doc => doc.data() as Partial<Wine>);
+	return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<Wine>));
 };
 
 export const getSimilarWines = async (wine: Partial<Wine>): Promise<Partial<Wine>[]> => {
+	if (!wine.denomination || !wine.color) {
+		return [];
+	}
 	const winesWineryQuery = query(collection(db, 'wines'), where('denomination', '==', wine.denomination), where('color', '==', wine.color));
 	const snapshot = await getDocs(winesWineryQuery);
 	return snapshot.docs
@@ -35,9 +38,14 @@ export const addWine = async (wine: Partial<Wine>): Promise<string> => {
 export const addWines = async (wines: Partial<Wine>[]): Promise<string[]> => {
 	try {
 		const newDocRefs = await Promise.all(wines.map(async (wine) => {
-			const newDocRef = await addDoc(collection(db, 'wines'), wine);
-			return newDocRef.id;
-		}));
+		const newDocRef = await addDoc(collection(db, 'wines'), wine);
+		const wineryid = wine.winery;
+		if (wineryid != undefined) {
+			const wineryDoc = doc(db, 'wineries', wineryid);
+			await updateDoc(wineryDoc, { wines: arrayUnion(newDocRef.id) });
+		}
+		return newDocRef.id;
+	}));
 		return newDocRefs;
 	} catch (error) {
 		console.log('[ERROR] Failed to add wines. Error:', error);
@@ -45,5 +53,10 @@ export const addWines = async (wines: Partial<Wine>[]): Promise<string[]> => {
 	}
 }
 
+export const incrementWineTastedCount = async (wineID: string): Promise<void> => {
+	const wineDocRef = doc(db, 'wines', wineID);
+	await updateDoc(wineDocRef, { tastedCount: increment(1) });
+}
 
-export default { getWines, winesByWinery, addWine, addWines };
+
+export default { getWines, winesByWinery, addWine, addWines, incrementWineTastedCount };

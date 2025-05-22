@@ -7,6 +7,7 @@ export class WineTastingSheet {
 	public name: string;
 	public winery: string;
 	public wineType: string;
+	public wineId: string;
 	public grapeVariety: string;
 	public alcoholContent: string;
 	public servingTemperature: string;
@@ -57,6 +58,7 @@ export class WineTastingSheet {
 		// Initialize properties with default values
 		this.user = '';
 		this.id = '';
+		this.wineId = '';
 		this.color = '';
 		this.chromaticDensity = '';
 		this.clarity = '';

@@ -3,6 +3,7 @@ interface WineTasted {
 	// Wine information properties
 	id: string;
 	name: string;
+	wineId: string;
 	winery: string;
 	wineType: string;
 	grapeVariety: string;

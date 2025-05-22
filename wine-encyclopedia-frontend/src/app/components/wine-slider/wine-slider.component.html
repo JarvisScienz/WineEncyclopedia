@@ -1,7 +1,7 @@
 <div class="slider-container">
 	<button class="prev-btn" (click)="prevSlide()">❮</button>
 	<div class="slider">
-		<div class="wine-card" *ngFor="let wine of visibleWines">
+		<div class="wine-card" *ngFor="let wine of visibleWines" (click)="viewWineDetails(wine)">
 			<img [src]="wine.img" class="img-fluid">
 			<p>{{ wine.name }}</p>
 			<p>{{ wine.denomination }}</p>

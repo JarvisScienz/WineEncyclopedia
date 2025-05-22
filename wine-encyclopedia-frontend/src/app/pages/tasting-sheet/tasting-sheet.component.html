@@ -13,19 +13,19 @@
 								<div class="col-xl-3">
 									<input type="hidden" formControlName="id">
 									<input type="hidden" formControlName="user">
-									<label for="nomeVino">Nome del vino:</label> <input type="text"
+									<label for="nomeVino">Nome del vino*</label> <input type="text"
 										class="form-control" formControlName="name" placeholder="Nome vino"
 										id="nomeVino" name="nomeVino" [ngbTypeahead]="searchWines" [resultFormatter]="formatter" (selectItem)="filterSelectWines($event)">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="azienda">Azienda:</label> <input type="text"
+									<label for="azienda">Azienda*</label> <input type="text"
 										class="form-control" formControlName="winery" placeholder="Azienda"
 										id="azienda" name="azienda" [ngbTypeahead]="searchWineries" [resultFormatter]="formatter" (selectItem)="filterSelectWineries($event)">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="tipologia">Tipologia:</label>
+									<label for="tipologia">Tipologia*</label>
 										<select (change)="changeWineType($event)"
 											class="form-control" formControlName="wineType"
 											id="tipologia" name="tipologia">
@@ -40,36 +40,36 @@
 								</div>
 								
 								<div class="col-xl-3">
-									<label for="tipologia">Annata</label> <input type="text"
+									<label for="tipologia">Annata*</label> <input type="text"
 										class="form-control" formControlName="vintage" placeholder="Annata"
 										id="annata" name="annata">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="uve">Uve:</label> <input type="text" class="form-control"
+									<label for="uve">Uve</label> <input type="text" class="form-control"
 										formControlName="grapeVariety" placeholder="Uve" id="uve" name="uve" [ngbTypeahead]="searchGrapes" [resultFormatter]="formatter" (selectItem)="filterSelectGrapes($event)">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="gradazione">Gradazione:</label> <input type="text"
+									<label for="gradazione">Gradazione</label> <input type="text"
 										class="form-control" formControlName="alcoholContent"
 										placeholder="Gradazione" id="gradazione" name="gradazione">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="temperatura">Temperatura:</label> <input type="text"
+									<label for="temperatura">Temperatura</label> <input type="text"
 										class="form-control" formControlName="servingTemperature"
 										placeholder="Temperatura" id="temperatura" name="temperatura">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="prezzo">Prezzo:</label> <input type="text"
+									<label for="prezzo">Prezzo</label> <input type="text"
 										class="form-control" formControlName="price" placeholder="Prezzo"
 										id="prezzo" name="prezzo">
 								</div>
 						
 								<div class="col-xl-3">
-									<label for="punteggio">Punteggio:</label> <input type="number"
+									<label for="punteggio">Punteggio</label> <input type="number"
 										class="form-control" formControlName="score" placeholder="Punteggio"
 										id="punteggio" name="punteggio" [ngClass]="getScoreClass(score)"
 										(input)="updateScore($event)">
@@ -91,7 +91,7 @@
 					<ng-template>
 						<div class="row">
 							<div class="col-xl-3">
-								<label for="colore">Colore:</label> <select class="form-control"
+								<label for="colore">Colore*</label> <select class="form-control"
 									formControlName="color" id="colore" name="colore" (change)="changeColor($event); updateWinePoint($event)">
 									<option value="yellow_greenish">Giallo verdolino</option>
 									<option value="yellow_straw">Giallo paglierino</option>
@@ -111,7 +111,7 @@
 							</div>
 					
 							<div class="col-xl-3" *ngIf="isRedWine">
-								<label for="densitaCromatica">Densità cromatica:</label> <select
+								<label for="densitaCromatica">Densità cromatica</label> <select
 									class="form-control" formControlName="colorDensity"
 									id="densitaCromatica" name="densitaCromatica">
 									<option value="Trasparente">Trasparente</option>
@@ -123,7 +123,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="limpidezza">Limpidezza:</label> <select
+								<label for="limpidezza">Limpidezza</label> <select
 									class="form-control" formControlName="limpidity" id="limpidezza"
 									name="limpidezza" (change)="updateWinePoint($event)">
 									<option value="Velato">Velato</option>
@@ -135,7 +135,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="consistenza">Consistenza:</label> <select
+								<label for="consistenza">Consistenza</label> <select
 									class="form-control" formControlName="consistency" id="consistenza"
 									name="consistenza">
 									<option value="Poco consistente">Poco consistente</option>
@@ -145,7 +145,7 @@
 								</select>
 							</div>					
 							<div class="col-xl-3" *ngIf="isEffervescentWine">
-								<label for="granaBollicine">Grana della bollicine:</label> <select
+								<label for="granaBollicine">Grana della bollicine</label> <select
 									class="form-control" formControlName="effervescenceBubbleGrain"
 									id="granaBollicine" name="granaBollicine">
 									<option value="Fini">Fini</option>
@@ -154,7 +154,7 @@
 							</div>
 					
 							<div class="col-xl-3" *ngIf="isEffervescentWine">
-								<label for="numeroBollicine">Numero bollicine:</label> <select
+								<label for="numeroBollicine">Numero bollicine</label> <select
 									class="form-control" formControlName="effervescenceBubbleNumber"
 									id="numeroBollicine" name="numeroBollicine">
 									<option value="Numerose">Numerose</option>
@@ -163,7 +163,7 @@
 							</div>
 					
 							<div class="col-xl-3" *ngIf="isEffervescentWine">
-								<label for="persistenza">Persistenza:</label> <select
+								<label for="persistenza">Persistenza</label> <select
 									class="form-control"
 									formControlName="effervescenceBubblePersistence"
 									id="effervescenceBubblePersistence" name="persistenza">
@@ -187,7 +187,7 @@
 					<ng-template>
 						<div class="row">
 							<div class="col-xl-3">
-								<label for="intensita">Intensità:</label> <select
+								<label for="intensita">Intensità</label> <select
 									class="form-control" formControlName="olfactoryIntensity"
 									id="intensita" name="intensita">
 									<option value="Poco intenso">Poco intenso</option>
@@ -199,7 +199,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="complessita">Complessità:</label> <select
+								<label for="complessita">Complessità</label> <select
 									class="form-control" formControlName="olfactoryComplexity"
 									id="complessita" name="complessita" (change)="updateWinePoint($event)">
 									<option value="Poco complesso">Poco complesso</option>
@@ -211,7 +211,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="olfactoryQuality">Qualità:</label> <select class="form-control"
+								<label for="olfactoryQuality">Qualità</label> <select class="form-control"
 									formControlName="olfactoryQuality" id="olfactoryQuality" name="olfactoryQuality" (change)="updateWinePoint($event)">
 									<option value="Poco fine">Poco fine</option>
 									<option value="Sufficientemente fine">Sufficientemente fine</option>
@@ -221,7 +221,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="sentoreDominante">Sentore olfattivo dominante:</label> <select
+								<label for="sentoreDominante">Sentore olfattivo dominante</label> <select
 									class="form-control" formControlName="olfactorySense"
 									id="sentoreDominante" name="sentoreDominante">
 									<option value="Aromatico">Aromatico</option>
@@ -243,7 +243,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="descrizione">Descrizione:</label>
+								<label for="descrizione">Descrizione</label>
 								<textarea id="descrizione" name="descrizione" class="form-control"
 									formControlName="olfactoryDescription" placeholder="Descrizione"></textarea>
 							</div>
@@ -265,7 +265,7 @@
 							<h3>Morbidezze</h3>
 					
 							<div class="col-xl-3">
-								<label for="zuccheri">Zuccheri:</label> <select class="form-control"
+								<label for="zuccheri">Zuccheri</label> <select class="form-control"
 									formControlName="sugars" id="zuccheri" name="zuccheri">
 									<option value="Secco">Secco</option>
 									<option value="Amabile">Amabile</option>
@@ -275,7 +275,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="alcoli">Alcoli:</label> <select class="form-control"
+								<label for="alcoli">Alcoli</label> <select class="form-control"
 									formControlName="alcohols" id="alcoli" name="alcoli" (change)="updateRadarChart($event)">
 									<option value="Poco caldo">Poco caldo</option>
 									<option value="Moderatamente caldo">Moderatamente caldo</option>
@@ -285,7 +285,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="polialcoli">Polialcoli:</label> 
+								<label for="polialcoli">Polialcoli</label> 
 								<select
 									class="form-control" formControlName="polyalcohols" id="polialcoli"
 									name="polialcoli" (change)="updateRadarChart($event)">
@@ -299,7 +299,7 @@
 							<h3>Durezze</h3>
 					
 							<div class="col-xl-3">
-								<label for="acidi">Acidi:</label> <select class="form-control"
+								<label for="acidi">Acidi</label> <select class="form-control"
 									formControlName="acids" id="acidi" name="acidi" (change)="updateRadarChart($event)">
 									<option value="Poco fresco">Poco fresco</option>
 									<option value="Moderatamente fresco">Moderatamente fresco</option>
@@ -309,7 +309,7 @@
 							</div>
 					
 							<div class="col-xl-3" *ngIf="isRedWine">
-								<label for="tanninoQuantita">Tannino (Quantità):</label> <select
+								<label for="tanninoQuantita">Tannino (Quantità)</label> <select
 									class="form-control" formControlName="tanninsQuantity"
 									id="tanninoQuantita" name="tanninoQuantita">
 									<option value="Poco tannico">Poco tannico</option>
@@ -320,7 +320,7 @@
 							</div>
 					
 							<div class="col-xl-3" *ngIf="isRedWine">
-								<label for="tanninoQualita">Tannino (Qualità):</label> <select
+								<label for="tanninoQualita">Tannino (Qualità)</label> <select
 									class="form-control" formControlName="tanninsQuality"
 									id="tanninoQualita" name="tanninoQualita" (change)="updateRadarChart($event)">
 									<option value="Grossolano">Grossolano</option>
@@ -331,7 +331,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="sostanzeMinerali">Sostanze minerali:</label> <select
+								<label for="sostanzeMinerali">Sostanze minerali</label> <select
 									class="form-control" formControlName="mineralSubstances"
 									id="sostanzeMinerali" name="sostanzeMinerali">
 									<option value="Poco sapido">Poco sapido</option>
@@ -343,7 +343,7 @@
 					
 					
 							<div class="col-xl-3">
-								<label for="equilibrio">Equilibrio:</label> <select
+								<label for="equilibrio">Equilibrio</label> <select
 									class="form-control" formControlName="equilibrium" id="equilibrio"
 									name="equilibrio" (change)="updateRadarChart($event); updateWinePoint($event)">
 									<option value="Sbilanciato">Sbilanciato</option>
@@ -355,7 +355,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="tasteIntensity">Intensità:</label> <select
+								<label for="tasteIntensity">Intensità</label> <select
 									class="form-control" formControlName="tasteIntensity" id="tasteIntensity"
 									name="tasteIntensity" (change)="updateRadarChart($event); updateWinePoint($event)">
 									<option value="Poco intenso">Poco intenso</option>
@@ -367,7 +367,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="tastePersistence">Persistenza:</label> <select
+								<label for="tastePersistence">Persistenza</label> <select
 									class="form-control" formControlName="tastePersistence"
 									id="tastePersistence" name="tastePersistence" (change)="updateRadarChart($event); updateWinePoint($event)">
 									<option value="Poco persistente">Poco persistente</option>
@@ -379,7 +379,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="tasteQuality">Qualità:</label> <select class="form-control"
+								<label for="tasteQuality">Qualità</label> <select class="form-control"
 									formControlName="tasteQuality" id="tasteQuality" name="tasteQuality" (change)="updateWinePoint($event); updateRadarChart($event)">
 									<option value="Poco fine">Poco fine</option>
 									<option value="Sufficientemente fine">Sufficientemente fine</option>
@@ -389,7 +389,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="corpo">Corpo del vino:</label> <select
+								<label for="corpo">Corpo del vino</label> <select
 									class="form-control" formControlName="bodyWine" id="corpo"
 									name="corpo" (change)="updateRadarChart($event)">
 									<option value="Leggero">Leggero</option>
@@ -414,7 +414,7 @@
 					<ng-template>
 						<div class="row">
 							<div class="col-xl-3">
-								<label for="statoEvolutivo">Stato evolutivo:</label> <select
+								<label for="statoEvolutivo">Stato evolutivo</label> <select
 									class="form-control" formControlName="evolutionaryState"
 									id="statoEvolutivo" name="statoEvolutivo">
 									<option value="Giovane">Giovane</option>
@@ -425,7 +425,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="armonia">Armonia:</label> <select class="form-control"
+								<label for="armonia">Armonia</label> <select class="form-control"
 									formControlName="harmony" id="armonia" name="armonia">
 									<option value="Disarmonico">Disarmonico</option>
 									<option value="Poco armonico">Poco armonico</option>
@@ -436,7 +436,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="tipicita">Tipicità:</label> <select class="form-control"
+								<label for="tipicita">Tipicità</label> <select class="form-control"
 									formControlName="typicality" id="tipicita" name="tipicita" (change)="updateWinePoint($event)">
 									<option value="Poco tipico">Poco tipico</option>
 									<option value="Sufficientemente tipico">Sufficientemente
@@ -447,7 +447,7 @@
 							</div>
 					
 							<div class="col-xl-3">
-								<label for="abbinamenti">Abbinamenti:</label>
+								<label for="abbinamenti">Abbinamenti</label>
 								<textarea id="abbinamenti" name="abbinamenti" class="form-control"
 									formControlName="foodPairings" placeholder="Abbinamenti"></textarea>
 							</div>
@@ -479,5 +479,6 @@
 	
 	<h2>Parte conclusiva</h2>
 	
-	<button type="submit">{{buttonLabel}}</button>
+	<button type="submit" class="btn btn-warning" [disabled]="!tastingSheetForm.valid" >{{buttonLabel}}</button>
+
 </form>

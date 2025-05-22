@@ -1,4 +1,5 @@
 import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { incrementWineTastedCount } from './winesService.js';
 
 const db = getFirestore();
 
@@ -32,6 +33,7 @@ export const getWineTastedInYears = async (uid: string): Promise<any> => {
 };
 
 export const addWineTastedService = async (wine: WineTasted): Promise<String> => {
+	incrementWineTastedCount(wine.wineId);
 	const newDocRef = await addDoc(collection(db, 'wine-tasted'), wine);
 	return newDocRef.id;
 };
