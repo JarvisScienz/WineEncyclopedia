@@ -7,6 +7,7 @@ import { CookiesService } from '../../_services/cookies.service'
 import { Wine } from 'src/app/_models/wine';
 import { WineryService } from 'src/app/_services/winery.service';
 import { WineService } from 'src/app/_services/wine.service';
+import { LoadingService } from 'src/app/_services/loading-spinner.service';
 
 @Component({
 	selector: 'wine',
@@ -24,28 +25,33 @@ export class WineComponent implements OnInit {
 	filterColor: string = "";
 	filterWinerySelect: string = "";
 	userUid: string  = "";
+	 isLoading = false;
 
 	constructor(private wineryService: WineryService,
 		private wineService: WineService,
 		private router: Router,
 		private route: ActivatedRoute,
-		private cookiesService: CookiesService) {
+		private cookiesService: CookiesService,
+		private loadingService: LoadingService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		 }
 
 
 
 	ngOnInit() {
+		this.isLoading = true;
 		this.wineDetails = history.state.wineData;
 		
     	if (this.wineDetails) {
 			this.wineService.getWinesByWinery(this.wineDetails.wineryName).subscribe(wines => {
 				this.winesByWinery = wines;
+				this.isLoading = false;
 			});
 
 			// Carica vini simili
 			this.wineService.getSimilarWines(this.wineDetails).subscribe(wines => {
 				this.similarWines = wines;
+				this.isLoading = false;
 			});
 		}
 	}

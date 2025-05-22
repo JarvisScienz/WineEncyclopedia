@@ -15,6 +15,7 @@ import { WinesFilterFilterPipe } from '../../filters/wines-filters.pipe';
 import { NotificationsComponent } from '../../components/notifications/notifications.component';
 import { RadarChartComponent } from '../../components/radar-chart/radar-chart.component';
 import { WineSliderComponent } from '../../components/wine-slider/wine-slider.component';
+import { LoadingSpinnerComponent } from "src/app/components/loading-spinner/loading-spinner.component";
 
 import { ErrorInterceptor } from '../../_helpers';
 import { JwtInterceptor } from '../../_helpers/jwt.interceptor';
@@ -37,7 +38,8 @@ import { WineTastedDetailsComponent } from "src/app/pages/wine-tasted-details/wi
     WineComponent,
     ProfileComponent,
     WineTastedDetailsComponent,
-    WineSliderComponent
+    WineSliderComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     CommonModule,

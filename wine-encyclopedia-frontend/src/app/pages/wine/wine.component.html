@@ -8,6 +8,12 @@
 		</div>
 	</div>
 </div>
+<app-loading-spinner 
+  [isVisible]="isLoading"
+  [svgPath]="'assets/images/loading-glass-2.svg'"
+  loadingText="Caricamento..."
+  [speed]="'normal'">
+</app-loading-spinner>
 <div class="mrgnbtm">
 	<div class="container">
 	  <div *ngIf="wineDetails">
@@ -41,7 +47,7 @@
 	  </div>
 	  
 	  <div *ngIf="similarWines != null && similarWines.length > 0">
-		<h3>Vini simili</h3>
+		<h3>Vini simili</h3>	
 		<app-wine-slider [wines]="similarWines"></app-wine-slider>
 	  </div>
 	</div>
