@@ -11,4 +11,5 @@ export class Winery {
     village!: string;
     wines?: Wine[];
     link?: string;
+    url?: string;
 }

@@ -4,6 +4,7 @@ import { TastingSheetComponent } from '../../pages/tasting-sheet/tasting-sheet.c
 import { WineTastedComponent } from '../../pages/wine-tasted/wine-tasted.component';
 
 import { AuthGuard } from '../../_helpers';
+import { HomeComponent } from "src/app/pages/home/home.component";
 import { MyCellarComponent } from "src/app/pages/my-cellar/my-cellar.component";
 import { WineriesComponent } from "src/app/pages/wineries/wineries.component";
 import { WinesComponent } from "src/app/pages/wines/wines.component";
@@ -15,6 +16,7 @@ import { WineTastedDetailsComponent } from "src/app/pages/wine-tasted-details/wi
 export const AdminLayoutRoutes: Routes = [
 	//{ path: "endpoints", component: EndPointsComponent, canActivate: [AuthGuard]},
 	//{ path: '', redirectTo: '/tasting-sheet', pathMatch: 'full' },
+	{ path: "home", component: HomeComponent, canActivate: [AuthGuard]},
 	{ path: "tasting-sheet", component: TastingSheetComponent, canActivate: [AuthGuard] },
 	{ path: "wine-tasted", component: WineTastedComponent, canActivate: [AuthGuard] },
 	{ path: "wine-tasted-details", component: WineTastedDetailsComponent, canActivate: [AuthGuard] },

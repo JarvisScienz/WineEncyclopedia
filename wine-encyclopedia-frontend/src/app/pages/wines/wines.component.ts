@@ -6,6 +6,7 @@ import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { CookiesService } from '../../_services/cookies.service'
 import { WineService } from 'src/app/_services/wine.service';
 import { WineryService } from 'src/app/_services/winery.service';
+import { Grapes } from 'src/app/_models/wine';
 
 @Component({
 	selector: 'wines',
@@ -114,6 +115,14 @@ export class WinesComponent implements OnInit {
 		}
 		return pathImage;
 
+	}
+
+	extractGrapes(grapes: any){
+		var grapesList = "";
+		for (const grape of grapes){
+			grapesList += grape.nameGrape + "\n";
+		}
+		return grapesList;
 	}
 
 }

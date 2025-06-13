@@ -11,6 +11,7 @@ import { AuthenticationService } from '../../_services/authentication.service'
 })
 export class HeaderComponent implements OnInit {
 	userLogged = true;
+    userName: string = '';
 	constructor(private authService: AuthenticationService,
 		private cookiesService: CookiesService) { }
 
@@ -20,8 +21,13 @@ export class HeaderComponent implements OnInit {
 			var isLogged = (this.cookiesService.getCookieUser() != "") ? true : false;
 			if (isLogged) {
 				this.userLogged = isLogged;
+                const currentUser = this.authService.currentUserValue;
+                if (currentUser && currentUser.username) {
+                    this.userName = currentUser.username;
+                }
 			} else {
 				this.userLogged = isLoggedIn;
+                this.userName = '';
 			}
 
 			// Puoi eseguire altre operazioni qui in base allo stato di autenticazione
@@ -39,4 +45,11 @@ export class HeaderComponent implements OnInit {
 					console.log("AuthService.logout error. Description: " + error);
 			});
 	}
+
+    getFirstLetter(): string {
+        if (this.userName) {
+            return this.userName.charAt(0).toUpperCase();
+        }
+        return 'D';
+    }
 }

@@ -89,9 +89,9 @@ The backend on http://localhost:5000.
 
 ```bash
 cd WineEncyclopedia/wine-encyclopedia-frontend
-ng build --prod --aot
+ng build --configuration --production
 cd ..
-firebase deploy
+firebase deploy --project project_id --only hosting
 ```
 
 ## 🌐 Live Demo

@@ -1,39 +1,91 @@
-<div class="container">
-	<div class="row">
-		<div class="col-md-7 mrgnbtm">
-			<h2>Scheda dettaglio {{wineryDetails.name}}</h2>
-		</div>
-		<div class="col-md-4 mrgnbtm">
-			<div class="btn">
-				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
-			</div>
+<div class="container py-4">
+	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">{{ wineryDetails.name }}</h1>
 
+	<!--<div class="card mb-4" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.08);">
+		<img src="https://via.placeholder.com/900x400/f0f0f0/cccccc?text=Vineyard+Image" alt="Vineyard Estates" class="card-img-top" style="width: 100%; height: auto; object-fit: cover;">
+	</div>-->
+
+	<div class="mb-4">
+		<!--<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">About {{ wineryDetails.name }}</h2>-->
+		<p style="font-size: 1rem; color: #555; line-height: 1.6;">
+			{{ wineryDetails.description }}
+		</p>
+	</div>
+
+	<div class="mb-4">
+		<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">Contact Information</h2>
+		<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+			<div class="list-group list-group-flush">
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<span style="font-weight: 500; color: #333;">Paese</span>
+					<span style="color: #555;">{{ wineryDetails.country }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<span style="font-weight: 500; color: #333;">Regione</span>
+					<span style="color: #555;">{{ wineryDetails.region }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<span style="font-weight: 500; color: #333;">Città</span>
+					<span style="color: #555;">{{ wineryDetails.city }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<span style="font-weight: 500; color: #333;">Comune</span>
+					<span style="color: #555;">{{ wineryDetails.village }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<span style="font-weight: 500; color: #333;">Contrada</span>
+					<span style="color: #555;">{{ wineryDetails.district }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border: none;">
+					<span style="font-weight: 500; color: #333;">Website</span>
+					<span style="color: #555;">{{ wineryDetails.url }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">Wines</h2>
+		<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+			<div class="card-body p-0">
+				<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
+					<div style="flex: 2;">Wine</div>
+					<div style="flex: 1;">Vintage</div>
+					<div style="flex: 1;">Varietal</div>
+					<div style="flex: 0.5;">Rating</div>
+				</div>
+				<div class="list-group list-group-flush">
+					<!-- Assuming wineryDetails.wines is an array of wine objects with name, vintage, varietal, and rating properties -->
+					<div *ngFor="let wine of wineryDetails.wines" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+						<div style="flex: 2; color: #555; font-weight: 500;">{{ wine.name }}</div>
+						<div style="flex: 1; color: #555;">wine.vintage</div>
+						<div style="flex: 1; color: #555;">wine.varietal</div>
+						<div style="flex: 0.5; color: #555;"> wine.rating</div>
+					</div>
+					<!-- Example placeholder items, remove when dynamic data is available -->
+					<div *ngIf="!wineryDetails.wines || wineryDetails.wines.length === 0">
+						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+							<div style="flex: 2; color: #555; font-weight: 500;">Cabernet Sauvignon</div>
+							<div style="flex: 1; color: #555;">2018</div>
+							<div style="flex: 1; color: #555;">Cabernet Sauvignon</div>
+							<div style="flex: 0.5; color: #555;">4.5</div>
+						</div>
+						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+							<div style="flex: 2; color: #555; font-weight: 500;">Chardonnay</div>
+							<div style="flex: 1; color: #555;">2019</div>
+							<div style="flex: 1; color: #555;">Chardonnay</div>
+							<div style="flex: 0.5; color: #555;">4.2</div>
+						</div>
+						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border: none;">
+							<div style="flex: 2; color: #555; font-weight: 500;">Pinot Noir</div>
+							<div style="flex: 1; color: #555;">2020</div>
+							<div style="flex: 1; color: #555;">Pinot Noir</div>
+							<div style="flex: 0.5; color: #555;">4.0</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="mrgnbtm">
-	<div class="container">
-	  <div *ngIf="wineryDetails">
-		<h2>{{ wineryDetails.name }} {{ wineryDetails.denomination }}</h2>
-		<div class="row">
-		  
-		  <!-- Colonna per i dettagli -->
-		  <div class="col-md-8">
-			<p><strong>Azienda:</strong> {{ wineryDetails.name }}</p>
-			
-			<p><strong>Nazione:</strong> {{ wineryDetails.country }}</p>
-			<p><strong>Regione:</strong> {{ wineryDetails.region }}</p>
-			<p><strong>Città:</strong> {{ wineryDetails.city }}</p>
-			<p><strong>Paese:</strong> {{ wineryDetails.village }}</p>
-			<p><strong>Distretto:</strong> {{ wineryDetails.district }}</p>
-			<p *ngIf="review">
-				<textarea rows="4" cols="50" [(ngModel)]="reviewComment"></textarea>
-				<button class="btn btn-warning" (click)="saveReview(wineryDetails.id, reviewComment)">Salva</button>
-			</p>
-			
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
   

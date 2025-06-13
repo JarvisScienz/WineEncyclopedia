@@ -1,62 +1,56 @@
-<div class="container">
-	<div class="row">
-		<div class="col-md-7 mrgnbtm">
-			<h2>Storico vini</h2>
-		</div>
-		<div class="col-md-4 mrgnbtm">
-			<div class="btn">
-				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
-			</div>
+<div class="container py-4">
+	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">Vini degustati</h1>
 
+	<div class="d-flex mb-4">
+		<div class="dropdown mr-3">
+			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+				<option value="" disabled selected>Region</option>
+				<!-- Add region options dynamically if available -->
+			</select>
+		</div>
+		<div class="dropdown mr-3">
+			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+				<option value="" disabled selected>Varietal</option>
+				<!-- Add varietal options dynamically if available -->
+			</select>
+		</div>
+		<div class="dropdown mr-3">
+			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+				<option value="" disabled selected>Producer</option>
+				<!-- Add producer options dynamically if available -->
+			</select>
+		</div>
+		<div class="dropdown">
+			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+				<option value="" disabled selected>Rating</option>
+				<!-- Add rating options dynamically if available -->
+			</select>
 		</div>
 	</div>
-</div>
-<div class="mrgnbtm">
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-3">
-				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
+
+	<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+		<div class="card-body p-0">
+			<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
+				<div style="flex: 2;">Wine</div>
+				<div style="flex: 1;">Region</div>
+				<div style="flex: 1;">Varietal</div>
+				<div style="flex: 1;">Producer</div>
+				<div style="flex: 0.5;">Rating</div>
 			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
-					<option value="" disabled selected>Seleziona colore</option>
-					<option value="yellow">Giallo</option>
-					<option value="rose">Rosato</option>
-					<option value="red">Rosso</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
-					<option value="" disabled selected>Seleziona produttore</option>
-					<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<input type="text" class="form-control" placeholder="Annata">
+			<div class="list-group list-group-flush">
+				<div *ngFor="let wine of wines; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<div style="flex: 2; display: flex; align-items: center;">
+						<img [src]="getWineIcon(wine)" alt="Wine Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
+						<span style="color: #333; font-weight: 500;">{{ wine.name }}</span>
+					</div>
+					<!-- Assuming wine object has 'region', 'varietal', and 'rating' properties. Adjust properties as needed based on your actual data model. -->
+					<div style="flex: 1; color: #555;">{{ wine.region }}</div>
+					<div style="flex: 1; color: #555;">{{ wine.varietal }}</div>
+					<div style="flex: 1; color: #555;">{{ wine.winery }}</div>
+					<div style="flex: 0.5; color: #555;">{{ wine.rating }}</div>
+				</div>
+				<!-- Add more wine items dynamically -->
 			</div>
 		</div>
-		
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Nome</th>
-					<th>Azienda</th>
-					<th>Annata</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr
-					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
-					<td style="width: 20%">{{i + 1}} <img src="{{getWineIcon(wine)}}" style="width: 15%" ></td>
-					<td><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></td>
-					<td>{{wine.winery}}</td>
-					<td>{{wine.vintage}}</td>
-					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
-
 </div>

@@ -1,47 +1,40 @@
-<div class="container">
-	<div class="row">
-		<div class="col-md-7 mrgnbtm">
-			<h2>Storico vini</h2>
-		</div>
-		<div class="col-md-4 mrgnbtm">
-			<div class="btn">
-				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
-			</div>
+<div class="container py-4">
+	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">Explore Wineries</h1>
 
+	<div class="d-flex mb-4">
+		<div class="dropdown mr-3">
+			<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter by Name..." style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+		</div>
+		<div class="dropdown">
+			<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+				<option value="" disabled selected>Producer</option>
+				<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
+			</select>
 		</div>
 	</div>
-</div>
-<div class="mrgnbtm">
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-3">
-				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
+
+	<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+		<div class="card-body p-0">
+			<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
+				<div style="flex: 0.5;">Id</div>
+				<div style="flex: 2;">Nome</div>
+				<div style="flex: 2;">Luogo</div>
+				<div style="flex: 1;">Denominazione</div>
+				<div style="flex: 0.5; text-align: center;">Visitata?</div>
+			</div>
+			<div class="list-group list-group-flush">
+				<div *ngFor="let winery of wineries | winesFilter: filterText; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+					<div style="flex: 0.5; color: #555;">{{winery.id}}</div>
+					<div style="flex: 2;">
+						<a (click)="viewWineryDetails(winery, false)" style="cursor: pointer; color: #333; font-weight: 500;">{{winery.name}}</a>
+					</div>
+					<div style="flex: 2; color: #555;">{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</div>
+					<div style="flex: 1; color: #555;">{{winery.denomination}}</div>
+					<div style="flex: 0.5; text-align: center;">
+						<i [ngClass]="isWineryVisited(winery.id) ? 'fas fa-check' : 'fas fa-xmark'" aria-hidden="true" [ngStyle]="{'color': isWineryVisited(winery.id) ? 'green' : 'red'}"></i>
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Nome</th>
-					<th>Luogo</th>
-					<th>Denominazione</th>
-					<th>Visitata?</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr
-					*ngFor="let winery of wineries | winesFilter: filterText; let i = index ">
-					<td style="width: 20%">{{winery.id}}</td>
-					<td><a (click)="viewWineryDetails(winery, false)" style="cursor: pointer;">{{winery.name}}</a></td>
-					<td>{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</td>
-					<td>{{winery.denomination}}</td>
-					<td><i [ngClass]="isWineryVisited(winery.id) ? 'fas fa-check' : 'fas fa-xmark'" aria-hidden="true"></i></td>
-					<td><button class="btn btn-warning" (click)="viewWineryDetails(winery, true)">Recensione</button></td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
-
 </div>
