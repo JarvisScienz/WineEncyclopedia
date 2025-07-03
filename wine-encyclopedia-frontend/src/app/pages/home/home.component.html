@@ -12,63 +12,29 @@
         </div>
     </div>
 
-    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Featured Wines</h2>
+    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Last Three Wines Tasted</h2>
     <div class="row mb-5">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngFor="let wine of lastThreeWines">
             <div class="card wine-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle+1" class="card-img-top" alt="Wine Bottle" style="background-color: #f8f5f3; padding: 20px; object-fit: contain; height: 350px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">2018 Cabernet Sauvignon</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">A full-bodied red with notes of black cherry and cedar.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card wine-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle+2" class="card-img-top" alt="Wine Bottle" style="background-color: #f8f5f3; padding: 20px; object-fit: contain; height: 350px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">2020 Pinot Noir</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">A light and fruity red with hints of raspberry and earth.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card wine-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle+3" class="card-img-top" alt="Wine Bottle" style="background-color: #f8f5f3; padding: 20px; object-fit: contain; height: 350px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">2019 Chardonnay</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">A crisp white with flavors of green apple and vanilla.</p>
-                </div>
+                <a (click)="viewWineDetails(wine)" style="cursor: pointer;">
+                    <img [src]="wine.url || 'https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle'" class="card-img-top" alt="Wine Bottle" style="background-color: #f8f5f3; padding: 20px; object-fit: contain; height: 350px;">
+                    <div class="card-body" style="padding: 20px;">
+                        <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">{{ wine.name }} - {{wine.winery}}{{ wine.vintage ? ', ' + wine.vintage : '' }}</h5>
+                        <p class="card-text" style="font-size: 0.9rem; color: #666;"><a (click)="viewWineTastedDetails(wine)" style="cursor: pointer;">Guarda scheda degustativa.</a></p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 
-    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Featured Wineries</h2>
+    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Last Three Wineries Visited</h2>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngFor="let winery of lastThreeWineries">
             <div class="card winery-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Vineyard+Estates" class="card-img-top" alt="Winery View" style="object-fit: cover; height: 200px;">
+                <img [src]="winery.img || 'https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Winery'" class="card-img-top" alt="Winery View" style="object-fit: cover; height: 200px;">
                 <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">Vineyard Estates</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">Known for its award-winning Cabernet Sauvignons.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card winery-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Valley+View+Cellars" class="card-img-top" alt="Winery View" style="object-fit: cover; height: 200px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">Valley View Cellars</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">Specializing in small-batch Pinot Noirs.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card winery-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img src="https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Hillside+Winery" class="card-img-top" alt="Winery View" style="object-fit: cover; height: 200px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">Hillside Winery</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">Producing exceptional Chardonnays with a focus on sustainability.</p>
+                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">{{ winery.name }}</h5>
+                    <p class="card-text" style="font-size: 0.9rem; color: #666;">{{ winery.description || 'No description available.' }}</p>
                 </div>
             </div>
         </div>
