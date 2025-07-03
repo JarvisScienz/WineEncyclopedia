@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 //import firebaseWinesService from '../services/firebaseWinesService.js';
 import app from '../config/firebase.js';
 import { Request, Response } from 'express';
-import { getWines, winesByWinery, getSimilarWines, addWine, addWines } from '../services/winesService.js';
+import { getWines, winesByWinery, getSimilarWines, addWine, addWines, winesById } from '../services/winesService.js';
 
 dotenv.config();
 const auth = getAuth(app.app);
@@ -31,6 +31,17 @@ class WinesController {
       res.status(200).json(wines);
     } catch (error) {
       console.error('[ERROR] winesByWinery. Unable to retrieve wines by winery. ', error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async winesById(req: Request, res: Response) {
+    const { id } = req.body;
+    try {
+      const wine = await winesById(id)
+      res.status(200).json(wine);
+    } catch (error) {
+      console.error('[ERROR] winesById. Unable to retrieve wine by id. ', error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }

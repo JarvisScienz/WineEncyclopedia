@@ -16,15 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
-import { HomeComponent } from './pages/home/home.component';
 
 
 
 @NgModule({ declarations: [
         AppComponent,
         AdminLayoutComponent,
-        AuthLayoutComponent,
-        HomeComponent
+        AuthLayoutComponent
     ],
     bootstrap: [AppComponent],
     schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA], 

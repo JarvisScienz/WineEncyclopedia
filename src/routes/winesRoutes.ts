@@ -15,6 +15,8 @@ router.post('/api/wines',  verifyToken, winesController.getWines);
 
 router.post('/api/winesByWinery', winesController.winesByWinery);
 
+router.post('/api/winesById', winesController.winesById);
+
 router.post('/api/getSimilarWines', winesController.getSimilarWines);
 
 router.post('/api/addWine', winesController.addWine);

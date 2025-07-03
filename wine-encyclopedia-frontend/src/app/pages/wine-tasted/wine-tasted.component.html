@@ -36,18 +36,20 @@
 				<div style="flex: 1;">Varietal</div>
 				<div style="flex: 1;">Producer</div>
 				<div style="flex: 0.5;">Rating</div>
+				<div style="flex: 0.5;">Action</div>
 			</div>
 			<div class="list-group list-group-flush">
 				<div *ngFor="let wine of wines; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
 					<div style="flex: 2; display: flex; align-items: center;">
 						<img [src]="getWineIcon(wine)" alt="Wine Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
-						<span style="color: #333; font-weight: 500;">{{ wine.name }}</span>
+						<span style="color: #333; font-weight: 500;"><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></span>
 					</div>
 					<!-- Assuming wine object has 'region', 'varietal', and 'rating' properties. Adjust properties as needed based on your actual data model. -->
 					<div style="flex: 1; color: #555;">{{ wine.region }}</div>
 					<div style="flex: 1; color: #555;">{{ wine.varietal }}</div>
 					<div style="flex: 1; color: #555;">{{ wine.winery }}</div>
 					<div style="flex: 0.5; color: #555;">{{ wine.rating }}</div>
+					<div style="flex: 0.5; color: #555;"><button class="btn btn-primary" (click)="updateTastedWine(wine)">Guarda scheda</button></div>
 				</div>
 				<!-- Add more wine items dynamically -->
 			</div>

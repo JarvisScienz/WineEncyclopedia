@@ -147,8 +147,8 @@ export class TastingSheetComponent implements OnInit {
 						? []
 						: this.wines
 							.filter((v: any) => v.name.toLowerCase().includes(lastTerm.toLowerCase()))
-							.map((v: any) => v.name) // Estrai solo i nomi dei vini
-							.slice(0, 10); // Limita a 10 risultati
+							.map((v: any) => v.name + " - " + v.wineryName) // Estrai solo i nomi dei vini
+							.slice(0, 20); // Limita a 10 risultati
 				}),
 			);
 
@@ -188,7 +188,7 @@ export class TastingSheetComponent implements OnInit {
 
 	filterSelectWines($e: any) {
 		$e.preventDefault();
-		const selectedWineName = $e.item;
+		const selectedWineName = $e.item.split(" - ")[0];
 		const selectedWine = this.wines.find((v: any) => v.name === selectedWineName); 
 		this.selectedItems.push(selectedWineName);
 		var winesSplitted = this.tastingSheetForm.value.name.split(",");

@@ -24,6 +24,10 @@ export class WineService {
     return this.http.post<Wine[]>(`${this.rootURL}/winesByColor`, { color });
   }
 
+  getWinesById(id: string): Observable<Wine> {
+    return this.http.post<Wine>(`${this.rootURL}/winesById`, { id });
+  }
+
   getWinesByWinery(winery: string): Observable<Wine[]> {
     return this.http.post<Wine[]>(`${this.rootURL}/winesByWinery`, { winery });
   }

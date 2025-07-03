@@ -55,15 +55,15 @@
 					<div style="flex: 0.5;">Rating</div>
 				</div>
 				<div class="list-group list-group-flush">
-					<!-- Assuming wineryDetails.wines is an array of wine objects with name, vintage, varietal, and rating properties -->
-					<div *ngFor="let wine of wineryDetails.wines" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-						<div style="flex: 2; color: #555; font-weight: 500;">{{ wine.name }}</div>
+					<!-- Assuming winesList is an array of wine objects with name, vintage, varietal, and rating properties -->
+					<div *ngFor="let wine of winesList" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
+						<div style="flex: 2; color: #555; font-weight: 500;"><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></div>
 						<div style="flex: 1; color: #555;">wine.vintage</div>
 						<div style="flex: 1; color: #555;">wine.varietal</div>
 						<div style="flex: 0.5; color: #555;"> wine.rating</div>
 					</div>
 					<!-- Example placeholder items, remove when dynamic data is available -->
-					<div *ngIf="!wineryDetails.wines || wineryDetails.wines.length === 0">
+					<div *ngIf="!winesList || winesList.length === 0">
 						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
 							<div style="flex: 2; color: #555; font-weight: 500;">Cabernet Sauvignon</div>
 							<div style="flex: 1; color: #555;">2018</div>

@@ -12,4 +12,5 @@ export class Winery {
     wines?: Wine[];
     link?: string;
     url?: string;
+    description?: string;
 }

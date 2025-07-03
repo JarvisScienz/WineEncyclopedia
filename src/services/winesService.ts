@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc, arrayUnion, increment } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc, arrayUnion, increment, getDoc } from 'firebase/firestore';
 
 const db = getFirestore();
 
@@ -15,6 +15,12 @@ export const winesByWinery = async (winery: string): Promise<Partial<Wine>[]> =>
 	const winesWineryQuery = query(collection(db, 'wines'), where('wineryName', '==', winery));
 	const snapshot = await getDocs(winesWineryQuery);
 	return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<Wine>));
+};
+
+export const winesById = async (id: string): Promise<Partial<Wine>> => {
+	const wineDocRef = doc(db, 'wines', id);
+	const snapshot = await getDoc(wineDocRef);
+	return snapshot.data() as Partial<Wine>;
 };
 
 export const getSimilarWines = async (wine: Partial<Wine>): Promise<Partial<Wine>[]> => {
@@ -62,4 +68,4 @@ export const incrementWineTastedCount = async (wineID: string): Promise<void> =>
 }
 
 
-export default { getWines, winesByWinery, addWine, addWines, incrementWineTastedCount };
+export default { getWines, winesByWinery, addWine, addWines, incrementWineTastedCount, winesById };

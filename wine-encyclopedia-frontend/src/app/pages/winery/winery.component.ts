@@ -10,6 +10,7 @@ import { WineryService } from 'src/app/_services/winery.service';
 import { UserService } from 'src/app/_services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationsComponent } from 'src/app/components/notifications/notifications.component';
+import { WineService } from 'src/app/_services/wine.service';
 
 @Component({
 	selector: 'winery',
@@ -22,6 +23,7 @@ export class WineryComponent implements OnInit {
 	wines: Wine[] = [];
 	wineries: Winery[] = [];
 	wineryDetails!: Winery;
+	winesList: Wine[] = [];
 	review: boolean = false;
 	wineryList: any = [];
 	filterText: string = "";
@@ -34,7 +36,8 @@ export class WineryComponent implements OnInit {
 		private userService: UserService,
 		private router: Router,
 		private cookiesService: CookiesService,
-		private toastr: ToastrService, ) {
+		private toastr: ToastrService,
+		private wineService: WineService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 			this.notificationService = new NotificationsComponent(this.toastr);
 		 }
@@ -43,6 +46,9 @@ export class WineryComponent implements OnInit {
 
 	ngOnInit() {
 		this.wineryDetails = history.state.wineryData;
+		this.wineService.getWinesByWinery(this.wineryDetails.name).subscribe((wines: any[]) => {
+			this.winesList = wines;
+		});
 		this.review = history.state.review;
 		(this.review) ? this.loadReview() : '';
 	}
@@ -96,6 +102,10 @@ export class WineryComponent implements OnInit {
 		};
 
 		this.router.navigate(['/tasting-sheet'], navigationExtras);
+	}
+
+	viewWineDetails(wine: any) {
+		this.router.navigate(['/wine'], { state: { wineData: wine } });
 	}
 
 	getWineIcon(wine: WineTastingSheet) {
