@@ -1,0 +1,144 @@
+/* ============================================
+   WINES PAGE STYLES
+   ============================================ */
+
+/* Page Title */
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Filter Selects */
+.filter-select {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 0.5rem 0.9375rem;
+  background-color: #f8f5f3;
+  color: #555;
+  font-weight: 500;
+  min-height: 44px;
+}
+
+/* Wines Card */
+.wines-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  border: none;
+}
+
+/* Table Header */
+.table-header {
+  display: flex;
+  padding: 1rem;
+  background-color: #f8f5f3;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Wine Item */
+.wine-item {
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 1rem;
+}
+
+.wine-item:last-child {
+  border-bottom: none;
+}
+
+/* Desktop Table Layout */
+.wine-row-desktop {
+  display: flex;
+  align-items: center;
+}
+
+.col-wine {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.col-denomination {
+  flex: 1;
+  color: #555;
+}
+
+.col-varietal {
+  flex: 1;
+  color: #555;
+}
+
+.col-producer {
+  flex: 1;
+  color: #555;
+}
+
+.col-rating {
+  flex: 0.5;
+  color: #555;
+}
+
+/* Wine Icon */
+.wine-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+/* Wine Link */
+.wine-link {
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.wine-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* Mobile Card Layout */
+.wine-card-mobile {
+  padding: 0.5rem 0;
+}
+
+.wine-icon-mobile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.wine-name-mobile {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+.wine-details-mobile {
+  margin-top: 0.25rem;
+}
+
+.wine-details-mobile small {
+  line-height: 1.6;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .wine-item {
+    padding: 1rem 0.75rem;
+  }
+}

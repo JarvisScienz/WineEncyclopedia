@@ -1,0 +1,112 @@
+/* ============================================
+   MY CELLAR PAGE STYLES
+   ============================================ */
+
+/* Page Title */
+.page-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+}
+
+/* Refresh Button */
+.btn-refresh {
+  width: 100%;
+  min-height: 44px;
+}
+
+@media (min-width: 768px) {
+  .btn-refresh {
+    width: auto;
+  }
+}
+
+/* Table Styles */
+.cellar-table {
+  background-color: #fff;
+  margin-bottom: 0;
+}
+
+.cellar-table thead th {
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.cellar-table tbody td {
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 767px) {
+  .cellar-table {
+    font-size: 0.85rem;
+  }
+
+  .cellar-table thead th,
+  .cellar-table tbody td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Wine Link */
+.wine-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.wine-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Mobile Details */
+.mobile-details {
+  margin-top: 0.25rem;
+}
+
+/* Value Cell */
+.value-cell {
+  font-weight: 600;
+  color: #28a745;
+}
+
+/* Button Styles */
+.btn-sm {
+  min-height: 36px;
+}
+
+@media (max-width: 767px) {
+  .btn-sm {
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  .btn-sm i {
+    font-size: 1rem;
+  }
+}
+
+/* Responsive Table Adjustments */
+@media (max-width: 767px) {
+  .responsive-table-wrapper {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .cellar-table {
+    min-width: 500px;
+  }
+}

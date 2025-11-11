@@ -1,25 +1,247 @@
-.header {
-  width: 100%;
-  padding: 2%;
-  background-color: blueviolet;
-  color: white;
-  text-align: center;
+/* ============================================
+   NAVBAR CUSTOM STYLES
+   ============================================ */
+.navbar-custom {
+  background-color: #f8f5f3;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  padding: 0.75rem 0;
+  margin-bottom: 1rem;
 }
 
-.button-container {
+/* ============================================
+   NAVBAR BRAND
+   ============================================ */
+.navbar-brand {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px; /* Aggiungi un margine superiore per spaziare i pulsanti dal titolo */
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #333;
+  text-decoration: none;
+  gap: 0.5rem;
 }
 
-.button-container button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+.navbar-brand:hover {
+  color: #666;
+}
+
+.navbar-brand svg {
+  flex-shrink: 0;
+}
+
+.brand-text {
+  white-space: nowrap;
+}
+
+/* Hide brand text on very small screens */
+@media (max-width: 375px) {
+  .brand-text {
+    display: none;
+  }
+}
+
+/* ============================================
+   NAVBAR TOGGLER (Hamburger Menu)
+   ============================================ */
+.navbar-toggler {
+  border: 1px solid rgba(0,0,0,.1);
+  padding: 0.5rem 0.75rem;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0,0,0,.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ============================================
+   NAVIGATION LINKS
+   ============================================ */
+.navbar-nav {
+  gap: 0.25rem;
+}
+
+.nav-link {
+  color: #555;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #333;
+  background-color: rgba(0,0,0,0.05);
+}
+
+/* Stack navigation on mobile */
+@media (max-width: 991px) {
+  .navbar-nav {
+    padding: 1rem 0;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ============================================
+   SEARCH INPUT
+   ============================================ */
+.search-input-container {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+}
+
+@media (max-width: 991px) {
+  .search-input-container {
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.search-input {
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding-left: 35px;
+  height: 44px;
+  font-size: 0.95rem;
+}
+
+.search-input:focus {
+  border-color: #999;
+  box-shadow: 0 0 0 0.2rem rgba(0,0,0,.05);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+
+/* ============================================
+   NOTIFICATION BUTTON
+   ============================================ */
+.notification-btn {
+  color: #888;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.notification-btn:hover {
+  color: #555;
+}
+
+@media (max-width: 991px) {
+  .notification-btn {
+    align-self: flex-start;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ============================================
+   PROFILE DROPDOWN
+   ============================================ */
+.profile-pic-container {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #e0baba;
   cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 }
 
-.button-container button:hover {
-  background-color: #45a049;
+.profile-pic-container:hover {
+  transform: scale(1.05);
+}
+
+.profile-initial {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 991px) {
+  .profile-pic-container {
+    align-self: flex-start;
+  }
+}
+
+/* ============================================
+   COLLAPSE BEHAVIOR
+   ============================================ */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin-top: 1rem;
+  }
+}
+
+/* ============================================
+   RIGHT SIDE CONTAINER
+   ============================================ */
+.gap-2 {
+  gap: 0.5rem;
+}
+
+@media (max-width: 991px) {
+  .gap-2 {
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .gap-2 > * {
+    width: 100%;
+  }
+
+  .gap-2 .dropdown {
+    width: auto;
+  }
+}
+
+/* ============================================
+   DROPDOWN MENU
+   ============================================ */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
+  min-width: 150px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f5f3;
 }

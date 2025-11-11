@@ -1,40 +1,47 @@
-<div class="container py-4">
-    <div class="search-bar-main mb-5">
-        <div class="input-group" style="border-radius: 30px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.08);">
-            <div class="input-group-prepend" style="background-color: #fff; border-right: none;">
-                <span class="input-group-text border-0" style="background-color: #fff; padding-left: 20px;">
+<div class="container py-responsive">
+    <!-- Main Search Bar -->
+    <div class="search-bar-main mb-4 mb-md-5">
+        <div class="input-group home-search-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text border-0 home-search-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#888" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                     </svg>
                 </span>
             </div>
-            <input type="text" class="form-control border-0" placeholder="Search wines or wineries" style="padding: 10px 15px; font-size: 1.1rem;">
+            <input type="text" class="form-control border-0 home-search-input" placeholder="Search wines or wineries">
         </div>
     </div>
 
-    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Last Three Wines Tasted</h2>
-    <div class="row mb-5">
-        <div class="col-md-4" *ngFor="let wine of lastThreeWines">
-            <div class="card wine-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <a (click)="viewWineDetails(wine)" style="cursor: pointer;">
-                    <img [src]="wine.url || 'https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle'" class="card-img-top" alt="Wine Bottle" style="background-color: #f8f5f3; padding: 20px; object-fit: contain; height: 350px;">
-                    <div class="card-body" style="padding: 20px;">
-                        <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">{{ wine.name }} - {{wine.winery}}{{ wine.vintage ? ', ' + wine.vintage : '' }}</h5>
-                        <p class="card-text" style="font-size: 0.9rem; color: #666;"><a (click)="viewWineTastedDetails(wine)" style="cursor: pointer;">Guarda scheda degustativa.</a></p>
+    <!-- Last Three Wines Tasted -->
+    <h2 class="section-title">Last Three Wines Tasted</h2>
+    <div class="row mb-4 mb-md-5">
+        <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let wine of lastThreeWines">
+            <div class="card wine-card h-100">
+                <a (click)="viewWineDetails(wine)" class="wine-card-link">
+                    <img [src]="wine.url || 'https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle'"
+                         class="card-img-top wine-img" alt="Wine Bottle">
+                    <div class="card-body">
+                        <h5 class="card-title wine-title">{{ wine.name }} - {{wine.winery}}{{ wine.vintage ? ', ' + wine.vintage : '' }}</h5>
+                        <p class="card-text wine-text">
+                            <a (click)="viewWineTastedDetails(wine)" class="tasting-link">Guarda scheda degustativa.</a>
+                        </p>
                     </div>
                 </a>
             </div>
         </div>
     </div>
 
-    <h2 style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 30px;">Last Three Wineries Visited</h2>
+    <!-- Last Three Wineries Visited -->
+    <h2 class="section-title">Last Three Wineries Visited</h2>
     <div class="row">
-        <div class="col-md-4" *ngFor="let winery of lastThreeWineries">
-            <div class="card winery-card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05); border: none;">
-                <img [src]="winery.img || 'https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Winery'" class="card-img-top" alt="Winery View" style="object-fit: cover; height: 200px;">
-                <div class="card-body" style="padding: 20px;">
-                    <h5 class="card-title" style="font-weight: bold; font-size: 1.1rem; color: #333;">{{ winery.name }}</h5>
-                    <p class="card-text" style="font-size: 0.9rem; color: #666;">{{ winery.description || 'No description available.' }}</p>
+        <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let winery of lastThreeWineries">
+            <div class="card winery-card h-100">
+                <img [src]="winery.img || 'https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Winery'"
+                     class="card-img-top winery-img" alt="Winery View">
+                <div class="card-body">
+                    <h5 class="card-title winery-title">{{ winery.name }}</h5>
+                    <p class="card-text winery-text">{{ winery.description || 'No description available.' }}</p>
                 </div>
             </div>
         </div>

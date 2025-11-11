@@ -1,70 +1,79 @@
-<div class="container">
-	<div class="row">
-		<div class="col-md-7 mrgnbtm">
-			<h2>La mia cantina</h2>
+<div class="container py-responsive">
+	<!-- Header Section -->
+	<div class="row align-items-center mb-3 mb-md-4">
+		<div class="col-12 col-md-7 mb-3 mb-md-0">
+			<h2 class="page-title">La mia cantina</h2>
 		</div>
-		<div class="col-md-4 mrgnbtm">
-			<div class="btn">
-				<button class="btn btn-warning" (click)="refresh()">Aggiorna</button>
-			</div>
-
+		<div class="col-12 col-md-5 text-md-end">
+			<button class="btn btn-warning btn-refresh" (click)="refresh()">
+				<i class="fas fa-sync-alt me-2"></i>Aggiorna
+			</button>
 		</div>
 	</div>
-</div>
-<div class="mrgnbtm">
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-3">
-				<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter...">
-			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
-					<option value="" disabled selected>Seleziona colore</option>
-					<option value="yellow">Giallo</option>
-					<option value="rose">Rosato</option>
-					<option value="red">Rosso</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
-					<option value="" disabled selected>Seleziona produttore</option>
-					<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
-				</select>
-			</div>
-			<div class="col-xl-3">
-				<input type="text" class="form-control" placeholder="Annata">
-			</div>
+
+	<!-- Filters Section -->
+	<div class="row mb-3 mb-md-4 g-2 g-md-3">
+		<div class="col-12 col-md-6 col-lg-3">
+			<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Cerca...">
 		</div>
-		
-		<table class="table table-bordered">
-			<thead>
+		<div class="col-12 col-md-6 col-lg-3">
+			<select class="form-control" id="colore" name="colore" [(ngModel)]="filterColor" (change)="filterColorWine()">
+				<option value="" disabled selected>Seleziona colore</option>
+				<option value="yellow">Giallo</option>
+				<option value="rose">Rosato</option>
+				<option value="red">Rosso</option>
+			</select>
+		</div>
+		<div class="col-12 col-md-6 col-lg-3">
+			<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" (change)="filterWinery()">
+				<option value="" disabled selected>Seleziona produttore</option>
+				<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
+			</select>
+		</div>
+		<div class="col-12 col-md-6 col-lg-3">
+			<input type="text" class="form-control" placeholder="Annata">
+		</div>
+	</div>
+
+	<!-- Table Section - Responsive Wrapper -->
+	<div class="responsive-table-wrapper">
+		<table class="table table-bordered table-hover cellar-table">
+			<thead class="table-light">
 				<tr>
-					<th>Id</th>
+					<th class="mobile-hide">#</th>
 					<th>Nome</th>
-					<th>Azienda</th>
-					<th>Annata</th>
-					<th>Valore iniziale</th>
-					<th>Data di acquisto</th>
-					<th>Valore attuale</th>
-					<th>Data ultima valutazione</th>
-					<th></th>
+					<th class="mobile-hide">Azienda</th>
+					<th class="mobile-hide">Annata</th>
+					<th class="mobile-hide">Val. iniziale</th>
+					<th class="mobile-hide">Data acquisto</th>
+					<th>Val. attuale</th>
+					<th class="mobile-hide">Ultima val.</th>
+					<th>Azioni</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					*ngFor="let wine of wines | winesFilter: filterText; let i = index ">
-					<td style="width: 20%">{{i + 1}} <!--<img src="{{getWineIcon(wine)}}" style="width: 15%" >--></td>
-					<td><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.wineName }}</a></td>
-					<td>{{wine.winery}}</td>
-					<td>{{wine.wineVintage}}</td>
-					<td>{{wine.startedValue}} €</td>
-					<td>{{wine.insertionDate}}</td>
-					<td>{{wine.lastValue}} €</td>
-					<td>{{wine.lastValueDate}}</td>
-					<td><button class="btn btn-warning" (click)="updateTastedWine(wine)">Modifica</button></td>
+				<tr *ngFor="let wine of wines | winesFilter: filterText; let i = index">
+					<td class="mobile-hide">{{i + 1}}</td>
+					<td>
+						<a (click)="viewWineDetails(wine)" class="wine-link">{{ wine.wineName }}</a>
+						<div class="mobile-only mobile-details">
+							<small class="text-muted d-block">{{ wine.winery }} - {{ wine.wineVintage }}</small>
+						</div>
+					</td>
+					<td class="mobile-hide">{{wine.winery}}</td>
+					<td class="mobile-hide">{{wine.wineVintage}}</td>
+					<td class="mobile-hide">{{wine.startedValue}} €</td>
+					<td class="mobile-hide">{{wine.insertionDate}}</td>
+					<td class="value-cell">{{wine.lastValue}} €</td>
+					<td class="mobile-hide">{{wine.lastValueDate}}</td>
+					<td>
+						<button class="btn btn-sm btn-warning" (click)="updateTastedWine(wine)">
+							<span class="mobile-hide">Modifica</span>
+							<i class="fas fa-edit mobile-only-inline"></i>
+						</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-
 </div>

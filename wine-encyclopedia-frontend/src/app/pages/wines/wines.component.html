@@ -1,55 +1,79 @@
-<div class="container py-4">
-	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">Explore Wines</h1>
+<div class="container py-responsive">
+	<h1 class="page-title mb-4">Explore Wines</h1>
 
-	<div class="d-flex mb-4">
-		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+	<!-- Filters - Responsive Grid -->
+	<div class="row g-2 g-md-3 mb-4">
+		<div class="col-12 col-sm-6 col-lg-3">
+			<select class="form-control filter-select">
 				<option value="" disabled selected>Region</option>
 				<!-- Add region options dynamically if available -->
 			</select>
 		</div>
-		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+		<div class="col-12 col-sm-6 col-lg-3">
+			<select class="form-control filter-select">
 				<option value="" disabled selected>Varietal</option>
 				<!-- Add varietal options dynamically if available -->
 			</select>
 		</div>
-		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+		<div class="col-12 col-sm-6 col-lg-3">
+			<select class="form-control filter-select">
 				<option value="" disabled selected>Producer</option>
 				<!-- Add producer options dynamically if available -->
 			</select>
 		</div>
-		<div class="dropdown">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+		<div class="col-12 col-sm-6 col-lg-3">
+			<select class="form-control filter-select">
 				<option value="" disabled selected>Rating</option>
 				<!-- Add rating options dynamically if available -->
 			</select>
 		</div>
 	</div>
 
-	<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+	<!-- Wines List Card -->
+	<div class="card wines-card">
 		<div class="card-body p-0">
-			<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
-				<div style="flex: 2;">Wine</div>
-				<div style="flex: 1;">Denominazione</div>
-				<div style="flex: 1;">Varietal</div>
-				<div style="flex: 1;">Producer</div>
-				<div style="flex: 0.5;">Rating</div>
+			<!-- Desktop Table Header -->
+			<div class="table-header mobile-hide">
+				<div class="col-wine">Wine</div>
+				<div class="col-denomination">Denominazione</div>
+				<div class="col-varietal">Varietal</div>
+				<div class="col-producer">Producer</div>
+				<div class="col-rating">Rating</div>
 			</div>
+
+			<!-- Wine List Items -->
 			<div class="list-group list-group-flush">
-				<div *ngFor="let wine of wines; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<div style="flex: 2; display: flex; align-items: center;">
-						<img [src]="getWineIcon(wine)" alt="Wine Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
-						<span style="color: #333; font-weight: 500;"><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></span>
+				<div *ngFor="let wine of wines; let i = index" class="list-group-item wine-item">
+					<!-- Mobile: Card Layout -->
+					<div class="mobile-only wine-card-mobile">
+						<div class="d-flex align-items-start mb-2">
+							<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon-mobile me-3">
+							<div class="flex-grow-1">
+								<div class="wine-name-mobile mb-1">
+									<a (click)="viewWineDetails(wine)" class="wine-link">{{ wine.name }}</a>
+								</div>
+								<div class="wine-details-mobile">
+									<small class="d-block text-muted">{{ wine.wineryName }}</small>
+									<small class="d-block text-muted">{{ wine.denomination }}</small>
+									<small class="d-block text-muted">{{ extractGrapes(wine.grapes) }}</small>
+									<small *ngIf="wine.rating" class="d-block text-muted">Rating: {{ wine.rating }}</small>
+								</div>
+							</div>
+						</div>
 					</div>
-					<!-- Assuming wine object has 'region', 'varietal', and 'rating' properties -->
-					<div style="flex: 1; color: #555;">{{ wine.denomination }}</div>
-					<div style="flex: 1; color: #555;">{{ extractGrapes(wine.grapes) }}</div>
-					<div style="flex: 1; color: #555;">{{ wine.wineryName }}</div>
-					<div style="flex: 0.5; color: #555;">{{ wine.rating }}</div>
+
+					<!-- Desktop: Table Layout -->
+					<div class="mobile-hide wine-row-desktop">
+						<div class="col-wine">
+							<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon">
+							<a (click)="viewWineDetails(wine)" class="wine-link">{{ wine.name }}</a>
+						</div>
+						<div class="col-denomination">{{ wine.denomination }}</div>
+						<div class="col-varietal">{{ extractGrapes(wine.grapes) }}</div>
+						<div class="col-producer">{{ wine.wineryName }}</div>
+						<div class="col-rating">{{ wine.rating }}</div>
+					</div>
 				</div>
-				<!-- Add more wine items dynamically -->
 			</div>
 		</div>
 	</div>

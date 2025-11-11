@@ -1,43 +1,73 @@
-<nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center p-3" style="background-color: #f8f5f3; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.1);">
-    <div class="d-flex align-items-center">
-        <a class="navbar-brand d-flex align-items-center" href="#" style="font-weight: bold; font-size: 1.5rem; color: #333;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wine mr-2" viewBox="0 0 16 16" style="margin-right: 8px;">
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <!-- Brand and Toggle Button for Mobile -->
+    <div class="container-fluid px-responsive">
+        <a class="navbar-brand" [routerLink]="['/home']">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wine" viewBox="0 0 16 16">
                 <path d="M8 5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h2zm-.5-.5H6.5v-.5h1V4.5zM12 11h2a1 1 0 0 0 1-1V6.5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1V10a1 1 0 0 0 1 1zM7 11.5v-3.5a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1zm-2 0h-2a1 1 0 0 0-1 1V14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1.5a1 1 0 0 0-1-1zM5 11.5v-3.5a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/>
             </svg>
-            Wine Encyclopedia
+            <span class="brand-text">Wine Encyclopedia</span>
         </a>
-        <ul class="navbar-nav ml-4">
-            <li class="nav-item active"><a class="nav-link" [routerLink]="['/home']">Home</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['/wines']">Vini</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['/wine-tasted']">Vini degustati</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['/tasting-sheet']">Scheda tecnica</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['/wineries']">Wineries</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['/my-cellar']">La mia cantina</a></li>
-        </ul>
-    </div>
-    <div class="d-flex align-items-center">
-        <div class="search-input-container mr-3 position-relative" style="width: 250px;">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" style="border-radius: 20px; border: 1px solid #ddd; background-color: #fff; padding-left: 35px; height: 38px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888;">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-        </div>
-        <button class="btn btn-link p-0 mr-3" style="color: #888; font-size: 1.25rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.5 4.5 0 0 0 4.995 4.65a2.5 2.5 0 0 1-1.254 2.185 6.5 6.5 0 0 0-1.745 6.127.5.5 0 0 0 .399.292H13.8a.5.5 0 0 0 .399-.292 6.5 6.5 0 0 0-1.745-6.127 2.5 2.5 0 0 1-1.254-2.185A4.5 4.5 0 0 0 8 1.918zm-2.203-.927c.563-2.558 4.515-2.558 5.078 0 .114.513.023 1.037-.093 1.57-.275 1.258-1.74 2.109-3.078 2.109-1.338 0-2.803-.85-3.078-2.109-.116-.533-.207-1.057-.093-1.57z"/>
-            </svg>
+
+        <!-- Hamburger Toggle Button -->
+        <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed"
+                [attr.aria-expanded]="!isMenuCollapsed" aria-controls="navbarContent">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="dropdown" ngbDropdown>
-            <a class="profile-pic-container d-flex align-items-center justify-content-center" 
-               ngbDropdownToggle
-               style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background-color: #e0baba; cursor: pointer; text-decoration: none;"
-               id="dropdownMenuButton">
-                <span style="color: #fff; font-weight: bold; font-size: 1.2rem;">{{ getFirstLetter() }}</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" [routerLink]="['/profile']">Profile</a></li>
-                <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+
+        <!-- Collapsible Content -->
+        <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed" id="navbarContent">
+            <!-- Navigation Links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active" (click)="isMenuCollapsed = true">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/wines']" routerLinkActive="active" (click)="isMenuCollapsed = true">Vini</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/wine-tasted']" routerLinkActive="active" (click)="isMenuCollapsed = true">Vini degustati</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/tasting-sheet']" routerLinkActive="active" (click)="isMenuCollapsed = true">Scheda tecnica</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/wineries']" routerLinkActive="active" (click)="isMenuCollapsed = true">Wineries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/my-cellar']" routerLinkActive="active" (click)="isMenuCollapsed = true">La mia cantina</a>
+                </li>
             </ul>
+
+            <!-- Right Side: Search, Notifications, Profile -->
+            <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
+                <!-- Search -->
+                <div class="search-input-container position-relative">
+                    <input type="text" class="form-control search-input" placeholder="Search" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search search-icon" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </div>
+
+                <!-- Notifications -->
+                <button class="btn btn-link notification-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.5 4.5 0 0 0 4.995 4.65a2.5 2.5 0 0 1-1.254 2.185 6.5 6.5 0 0 0-1.745 6.127.5.5 0 0 0 .399.292H13.8a.5.5 0 0 0 .399-.292 6.5 6.5 0 0 0-1.745-6.127 2.5 2.5 0 0 1-1.254-2.185A4.5 4.5 0 0 0 8 1.918zm-2.203-.927c.563-2.558 4.515-2.558 5.078 0 .114.513.023 1.037-.093 1.57-.275 1.258-1.74 2.109-3.078 2.109-1.338 0-2.803-.85-3.078-2.109-.116-.533-.207-1.057-.093-1.57z"/>
+                    </svg>
+                </button>
+
+                <!-- Profile Dropdown -->
+                <div class="dropdown" ngbDropdown>
+                    <a class="profile-pic-container"
+                       ngbDropdownToggle
+                       id="dropdownMenuButton">
+                        <span class="profile-initial">{{ getFirstLetter() }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" [routerLink]="['/profile']">Profile</a></li>
+                        <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </nav>

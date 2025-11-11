@@ -12,6 +12,7 @@ import { AuthenticationService } from '../../_services/authentication.service'
 export class HeaderComponent implements OnInit {
 	userLogged = true;
     userName: string = '';
+	isMenuCollapsed = true;
 	constructor(private authService: AuthenticationService,
 		private cookiesService: CookiesService) { }
 

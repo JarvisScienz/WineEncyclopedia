@@ -1,29 +1,127 @@
+/* ============================================
+   WINE SLIDER STYLES
+   ============================================ */
+
 .slider-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	gap: 0.5rem;
+	margin: 1rem 0;
 }
 
 .slider {
 	display: flex;
 	overflow: hidden;
 	width: 100%;
+	gap: 1rem;
+	padding: 0.5rem 0;
 }
 
+/* Wine Card Container */
 .wine-card {
-	width: 150px;
-	margin: 5px;
+	flex: 0 0 auto;
+	width: 140px;
 	text-align: center;
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	padding: 0.5rem;
+	border-radius: 8px;
 }
 
+.wine-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@media (min-width: 768px) {
+	.wine-card {
+		width: 160px;
+	}
+}
+
+/* Fixed Size Image Container */
+.wine-card img {
+	width: 120px;
+	height: 160px;
+	object-fit: contain;
+	object-position: center;
+	background-color: #f8f5f3;
+	border-radius: 6px;
+	padding: 0.5rem;
+	margin: 0 auto;
+	display: block;
+}
+
+@media (min-width: 768px) {
+	.wine-card img {
+		width: 140px;
+		height: 200px;
+	}
+}
+
+/* Wine Name and Denomination */
+.wine-card p {
+	margin: 0.5rem 0 0 0;
+	font-size: 0.8rem;
+	color: #333;
+	line-height: 1.3;
+}
+
+.wine-card p:first-of-type {
+	font-weight: 600;
+	margin-top: 0.75rem;
+}
+
+.wine-card p:last-of-type {
+	font-size: 0.75rem;
+	color: #666;
+}
+
+@media (min-width: 768px) {
+	.wine-card p {
+		font-size: 0.875rem;
+	}
+
+	.wine-card p:last-of-type {
+		font-size: 0.8rem;
+	}
+}
+
+/* Navigation Buttons */
 .prev-btn, .next-btn {
 	background-color: #f8b400;
 	color: white;
 	border: none;
-	padding: 10px;
+	padding: 0.75rem;
 	cursor: pointer;
+	border-radius: 50%;
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.25rem;
+	flex-shrink: 0;
+	transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .prev-btn:hover, .next-btn:hover {
 	background-color: #d19800;
+	transform: scale(1.1);
+}
+
+.prev-btn:active, .next-btn:active {
+	transform: scale(0.95);
+}
+
+@media (max-width: 767px) {
+	.prev-btn, .next-btn {
+		padding: 0.5rem;
+		font-size: 1rem;
+	}
+
+	.slider {
+		gap: 0.5rem;
+	}
 }
