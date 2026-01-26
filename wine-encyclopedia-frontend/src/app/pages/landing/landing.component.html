@@ -1,0 +1,81 @@
+<!-- Main Landing Page Container -->
+<div class="landing-page">
+  <!-- Navigation Header -->
+  <header class="landing-nav" [class.scrolled]="isScrolled()">
+    <div class="nav-container">
+      <!-- Logo -->
+      <a class="nav-logo" (click)="scrollToSection('hero')">
+        <span class="logo-icon">
+          <i class="fas fa-wine-glass-alt"></i>
+        </span>
+        <span class="logo-text">Wine Encyclopedia</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links desktop-nav">
+        <a class="nav-link" (click)="scrollToSection('why')">{{ 'nav.why' | translate }}</a>
+        <a class="nav-link" (click)="scrollToSection('features')">{{ 'nav.features' | translate }}</a>
+        <a class="nav-link" (click)="scrollToSection('vision')">{{ 'nav.vision' | translate }}</a>
+        <a class="nav-link" (click)="scrollToSection('tech')">{{ 'nav.tech' | translate }}</a>
+      </nav>
+
+      <!-- Right Side Actions -->
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <button
+          class="lang-switcher"
+          (click)="toggleLanguage()"
+          [attr.aria-label]="translationService.isItalian() ? 'Switch to English' : 'Passa all\'italiano'"
+        >
+          <span class="lang-flag">{{ translationService.isItalian() ? '🇮🇹' : '🇬🇧' }}</span>
+          <span class="lang-code">{{ translationService.isItalian() ? 'IT' : 'EN' }}</span>
+        </button>
+
+        <!-- Login Button (Desktop) -->
+        <a routerLink="/login" class="nav-btn desktop-only">
+          {{ 'nav.login' | translate }}
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          class="mobile-menu-toggle"
+          (click)="toggleMobileMenu()"
+          [attr.aria-expanded]="isMobileMenuOpen()"
+          aria-label="Toggle menu"
+        >
+          <span class="hamburger" [class.open]="isMobileMenuOpen()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" [class.open]="isMobileMenuOpen()">
+      <nav class="mobile-nav-links">
+        <a class="mobile-nav-link" (click)="scrollToSection('why')">{{ 'nav.why' | translate }}</a>
+        <a class="mobile-nav-link" (click)="scrollToSection('features')">{{ 'nav.features' | translate }}</a>
+        <a class="mobile-nav-link" (click)="scrollToSection('vision')">{{ 'nav.vision' | translate }}</a>
+        <a class="mobile-nav-link" (click)="scrollToSection('tech')">{{ 'nav.tech' | translate }}</a>
+        <a routerLink="/login" class="mobile-nav-link mobile-nav-btn" (click)="closeMobileMenu()">
+          {{ 'nav.login' | translate }}
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Sections -->
+  <main class="landing-main">
+    <app-landing-hero id="hero"></app-landing-hero>
+    <app-landing-why id="why"></app-landing-why>
+    <app-landing-features id="features"></app-landing-features>
+    <app-landing-vision id="vision"></app-landing-vision>
+    <app-landing-tech id="tech"></app-landing-tech>
+    <app-landing-cta id="cta"></app-landing-cta>
+  </main>
+
+  <!-- Footer -->
+  <app-landing-footer></app-landing-footer>
+</div>

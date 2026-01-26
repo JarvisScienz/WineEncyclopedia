@@ -1,0 +1,36 @@
+<!-- Why Section -->
+<section class="why-section">
+  <div class="section-container">
+    <!-- Section Header -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">
+        <i class="fas fa-question-circle"></i>
+        {{ 'nav.why' | translate }}
+      </span>
+      <h2 class="section-title">{{ 'why.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'why.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Reasons Grid -->
+    <div class="reasons-grid">
+      <div
+        *ngFor="let reason of reasons; let i = index"
+        class="reason-card animate-on-scroll"
+        [style.animation-delay]="(i * 0.15) + 's'"
+      >
+        <div class="reason-icon">
+          <i [class]="reason.icon"></i>
+        </div>
+        <h3 class="reason-title">{{ reason.titleKey | translate }}</h3>
+        <p class="reason-description">{{ reason.descriptionKey | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Decorative Divider -->
+    <div class="section-divider animate-on-scroll">
+      <span class="divider-line"></span>
+      <i class="fas fa-wine-glass-alt divider-icon"></i>
+      <span class="divider-line"></span>
+    </div>
+  </div>
+</section>

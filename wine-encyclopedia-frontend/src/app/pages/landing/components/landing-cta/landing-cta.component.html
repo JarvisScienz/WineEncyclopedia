@@ -1,0 +1,42 @@
+<!-- CTA Section -->
+<section class="cta-section">
+  <!-- Background -->
+  <div class="cta-bg">
+    <div class="cta-gradient"></div>
+    <div class="cta-pattern"></div>
+  </div>
+
+  <div class="section-container animate-on-scroll">
+    <!-- Content -->
+    <div class="cta-content">
+      <!-- Icon -->
+      <div class="cta-icon">
+        <i class="fas fa-wine-glass-alt"></i>
+      </div>
+
+      <!-- Title -->
+      <h2 class="cta-title">{{ 'cta.title' | translate }}</h2>
+
+      <!-- Description -->
+      <p class="cta-description">{{ 'cta.description' | translate }}</p>
+
+      <!-- Buttons -->
+      <div class="cta-buttons">
+        <button class="cta-btn cta-btn-primary" (click)="openGitHub()">
+          <i class="fab fa-github"></i>
+          <span>{{ 'cta.github' | translate }}</span>
+        </button>
+        <button class="cta-btn cta-btn-secondary" (click)="openContact()">
+          <i class="fas fa-envelope"></i>
+          <span>{{ 'cta.contact' | translate }}</span>
+        </button>
+      </div>
+
+      <!-- Feedback Message -->
+      <p class="cta-feedback">
+        <i class="fas fa-heart"></i>
+        {{ 'cta.feedback' | translate }}
+      </p>
+    </div>
+  </div>
+</section>

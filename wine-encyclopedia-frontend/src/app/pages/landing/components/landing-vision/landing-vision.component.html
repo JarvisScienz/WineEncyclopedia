@@ -1,0 +1,54 @@
+<!-- Vision Section -->
+<section class="vision-section">
+  <div class="section-container">
+    <!-- Section Header -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">
+        <i class="fas fa-eye"></i>
+        {{ 'nav.vision' | translate }}
+      </span>
+      <h2 class="section-title">{{ 'vision.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'vision.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Vision Timeline -->
+    <div class="vision-timeline">
+      <div
+        *ngFor="let item of visionItems; let i = index; let last = last"
+        class="timeline-item animate-on-scroll"
+        [style.animation-delay]="(i * 0.15) + 's'"
+      >
+        <!-- Timeline Connector -->
+        <div class="timeline-connector">
+          <div class="connector-dot">
+            <i [class]="item.icon"></i>
+          </div>
+          <div class="connector-line" *ngIf="!last"></div>
+        </div>
+
+        <!-- Timeline Content -->
+        <div class="timeline-content">
+          <div class="content-card">
+            <div class="card-number">0{{ i + 1 }}</div>
+            <h3 class="card-title">{{ item.titleKey | translate }}</h3>
+            <p class="card-description">{{ item.descriptionKey | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vision Statement -->
+    <div class="vision-statement animate-on-scroll">
+      <div class="statement-content">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <p class="statement-text">
+          {{ translationService.isItalian()
+            ? 'Il vino racchiude più filosofia di tutti i libri.'
+            : 'Wine contains more philosophy than all the books.'
+          }}
+        </p>
+        <span class="statement-author">— Louis Pasteur</span>
+      </div>
+    </div>
+  </div>
+</section>

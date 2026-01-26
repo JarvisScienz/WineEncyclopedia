@@ -4,6 +4,25 @@
    CSS VARIABLES
    ============================================ */
 :root {
+  /* Wine-inspired Color Palette */
+  --wine-burgundy: #722F37;
+  --wine-burgundy-dark: #5A252C;
+  --wine-burgundy-light: #8B3A44;
+  --wine-purple: #4A2040;
+  --wine-purple-light: #6B3058;
+  --wine-gold: #C9A962;
+  --wine-gold-light: #D4BC80;
+  --wine-beige: #F5F0E8;
+  --wine-beige-dark: #E8E0D4;
+  --wine-cream: #FAF8F5;
+  --wine-charcoal: #2D2D2D;
+  --wine-gray: #6B6B6B;
+  --wine-gray-light: #9A9A9A;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -43,6 +62,7 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -50,6 +70,9 @@ body {
   padding: 0;
   overflow-x: hidden;
   min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--wine-charcoal);
+  background-color: var(--wine-cream);
 }
 
 img {

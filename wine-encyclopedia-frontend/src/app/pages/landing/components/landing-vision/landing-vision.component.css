@@ -1,0 +1,338 @@
+/* ============================================
+   VISION SECTION
+   ============================================ */
+
+:host {
+  --wine-burgundy: #722F37;
+  --wine-burgundy-dark: #5A252C;
+  --wine-purple: #4A2040;
+  --wine-gold: #C9A962;
+  --wine-gold-light: #D4BC80;
+  --wine-beige: #F5F0E8;
+  --wine-cream: #FAF8F5;
+  --wine-charcoal: #2D2D2D;
+  --wine-gray: #6B6B6B;
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  display: block;
+}
+
+.vision-section {
+  padding: 6rem 2rem;
+  background: var(--wine-cream);
+  position: relative;
+}
+
+.section-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--wine-burgundy);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.section-label i {
+  font-size: 0.875rem;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--wine-gray);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Vision Timeline */
+.vision-timeline {
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* Timeline Connector */
+.timeline-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.connector-dot {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--wine-burgundy), var(--wine-burgundy-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(114, 47, 55, 0.3);
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+}
+
+.timeline-item:hover .connector-dot {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(114, 47, 55, 0.4);
+}
+
+.connector-dot i {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.connector-line {
+  flex: 1;
+  width: 2px;
+  background: linear-gradient(180deg, var(--wine-burgundy), var(--wine-gold));
+  margin-top: 1rem;
+  min-height: 80px;
+}
+
+/* Timeline Content */
+.timeline-content {
+  flex: 1;
+  padding-top: 0.5rem;
+}
+
+.content-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.content-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--wine-burgundy), var(--wine-gold));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+
+.timeline-item:hover .content-card {
+  transform: translateX(8px);
+  box-shadow: 0 8px 30px rgba(114, 47, 55, 0.1);
+}
+
+.timeline-item:hover .content-card::before {
+  transform: scaleY(1);
+}
+
+.card-number {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--wine-beige);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  line-height: 1;
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--wine-charcoal);
+  margin: 0 0 1rem 0;
+}
+
+.card-description {
+  font-size: 1rem;
+  color: var(--wine-gray);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 90%;
+}
+
+/* Vision Statement */
+.vision-statement {
+  margin-top: 3rem;
+}
+
+.statement-content {
+  background: linear-gradient(135deg, var(--wine-burgundy-dark), var(--wine-purple));
+  border-radius: 1.5rem;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.quote-icon {
+  font-size: 2rem;
+  color: var(--wine-gold);
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.statement-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.statement-author {
+  font-size: 1rem;
+  color: var(--wine-gold);
+  font-weight: 500;
+}
+
+/* Scroll Animation */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .vision-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .timeline-item {
+    gap: 1.5rem;
+  }
+
+  .timeline-connector {
+    width: 48px;
+  }
+
+  .connector-dot {
+    width: 48px;
+    height: 48px;
+  }
+
+  .connector-dot i {
+    font-size: 1rem;
+  }
+
+  .connector-line {
+    min-height: 60px;
+  }
+
+  .content-card {
+    padding: 1.5rem;
+  }
+
+  .card-number {
+    font-size: 2rem;
+    top: 0.75rem;
+    right: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .statement-content {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .vision-section {
+    padding: 3rem 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .timeline-connector {
+    flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .connector-dot {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .connector-line {
+    height: 2px;
+    width: auto;
+    flex: 1;
+    min-height: auto;
+    margin-top: 0;
+  }
+
+  .content-card {
+    padding: 1.25rem;
+  }
+
+  .card-description {
+    max-width: 100%;
+  }
+
+  .timeline-item:hover .content-card {
+    transform: none;
+  }
+}

@@ -1,0 +1,51 @@
+<!-- Features Section -->
+<section class="features-section">
+  <!-- Background Pattern -->
+  <div class="features-bg">
+    <div class="bg-pattern"></div>
+  </div>
+
+  <div class="section-container">
+    <!-- Section Header -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">
+        <i class="fas fa-star"></i>
+        {{ 'nav.features' | translate }}
+      </span>
+      <h2 class="section-title">{{ 'features.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'features.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-grid">
+      <div
+        *ngFor="let feature of features; let i = index"
+        class="feature-card animate-on-scroll"
+        [class.coming-soon]="feature.comingSoon"
+        [style.animation-delay]="(i * 0.1) + 's'"
+      >
+        <!-- Coming Soon Badge -->
+        <div *ngIf="feature.comingSoon" class="coming-soon-badge">
+          <i class="fas fa-clock"></i>
+          <span>{{ 'features.comingsoon' | translate }}</span>
+        </div>
+
+        <!-- Icon -->
+        <div class="feature-icon" [class]="feature.gradient">
+          <i [class]="feature.icon"></i>
+        </div>
+
+        <!-- Content -->
+        <div class="feature-content">
+          <h3 class="feature-title">{{ feature.titleKey | translate }}</h3>
+          <p class="feature-description">{{ feature.descriptionKey | translate }}</p>
+        </div>
+
+        <!-- Hover Decoration -->
+        <div class="feature-decoration">
+          <i [class]="feature.icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

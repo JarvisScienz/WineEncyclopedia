@@ -1,0 +1,307 @@
+/* ============================================
+   TECH SECTION
+   ============================================ */
+
+:host {
+  --wine-burgundy: #722F37;
+  --wine-burgundy-dark: #5A252C;
+  --wine-purple: #4A2040;
+  --wine-gold: #C9A962;
+  --wine-beige: #F5F0E8;
+  --wine-beige-dark: #E8E0D4;
+  --wine-cream: #FAF8F5;
+  --wine-charcoal: #2D2D2D;
+  --wine-gray: #6B6B6B;
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
+
+  display: block;
+}
+
+.tech-section {
+  padding: 6rem 2rem;
+  background: var(--wine-beige);
+  position: relative;
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--wine-burgundy);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.section-label i {
+  font-size: 0.875rem;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--wine-gray);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Tech Badges */
+.tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.tech-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: white;
+  border: 1px solid var(--wine-beige-dark);
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--wine-charcoal);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tech-badge:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--tech-color, var(--wine-burgundy));
+}
+
+.tech-badge i {
+  font-size: 1rem;
+  color: var(--tech-color, var(--wine-burgundy));
+}
+
+/* Philosophy Cards */
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.philosophy-card {
+  display: flex;
+  gap: 1.25rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.4s ease;
+}
+
+.philosophy-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(114, 47, 55, 0.1);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--wine-beige);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+}
+
+.philosophy-card:hover .card-icon {
+  background: var(--wine-burgundy);
+}
+
+.card-icon i {
+  font-size: 1.25rem;
+  color: var(--wine-burgundy);
+  transition: color 0.4s ease;
+}
+
+.philosophy-card:hover .card-icon i {
+  color: white;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--wine-charcoal);
+  margin: 0 0 0.5rem 0;
+}
+
+.card-description {
+  font-size: 0.9375rem;
+  color: var(--wine-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Code Preview */
+.code-preview {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.code-window {
+  background: #1E1E2E;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #181825;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.window-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #FF5F56; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #27C93F; }
+
+.window-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.window-content {
+  padding: 1.5rem;
+}
+
+.window-content pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.window-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: #CDD6F4;
+}
+
+/* Code Syntax Colors */
+.code-keyword { color: #CBA6F7; }
+.code-variable { color: #89DCEB; }
+.code-property { color: #F38BA8; }
+.code-string { color: #A6E3A1; }
+.code-bracket { color: #F9E2AF; }
+
+/* Scroll Animation */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 991px) {
+  .tech-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .tech-section {
+    padding: 3rem 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .tech-badges {
+    gap: 0.75rem;
+  }
+
+  .tech-badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .philosophy-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .card-icon {
+    margin: 0 auto;
+  }
+
+  .window-content {
+    padding: 1rem;
+  }
+
+  .window-content code {
+    font-size: 0.75rem;
+  }
+}

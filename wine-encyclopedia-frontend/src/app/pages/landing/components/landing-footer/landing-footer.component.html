@@ -1,0 +1,74 @@
+<!-- Footer -->
+<footer class="landing-footer">
+  <div class="footer-container">
+    <!-- Footer Main -->
+    <div class="footer-main">
+      <!-- Brand Column -->
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <i class="fas fa-wine-glass-alt"></i>
+          <span>Wine Encyclopedia</span>
+        </div>
+        <p class="brand-tagline">{{ 'footer.tagline' | translate }}</p>
+        <div class="brand-social">
+          <a
+            *ngFor="let link of quickLinks"
+            [href]="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            [attr.aria-label]="link.label"
+          >
+            <i [class]="link.icon"></i>
+          </a>
+          <a
+            href="mailto:contact@wine-encyclopedia.com"
+            class="social-link"
+            aria-label="Email"
+          >
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Links Column -->
+      <div class="footer-links">
+        <h4 class="footer-title">{{ 'footer.links.title' | translate }}</h4>
+        <nav class="footer-nav">
+          <a class="footer-link" (click)="scrollToSection('why')">{{ 'nav.why' | translate }}</a>
+          <a class="footer-link" (click)="scrollToSection('features')">{{ 'nav.features' | translate }}</a>
+          <a class="footer-link" (click)="scrollToSection('vision')">{{ 'nav.vision' | translate }}</a>
+          <a class="footer-link" (click)="scrollToSection('tech')">{{ 'nav.tech' | translate }}</a>
+        </nav>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="footer-contact">
+        <h4 class="footer-title">{{ 'footer.contact.title' | translate }}</h4>
+        <div class="contact-items">
+          <a href="mailto:contact@wine-encyclopedia.com" class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>contact&#64;wine-encyclopedia.com</span>
+          </a>
+          <a href="https://github.com/yourusername/wine-encyclopedia" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <i class="fab fa-github"></i>
+            <span>GitHub Repository</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        &copy; {{ currentYear }} Wine Encyclopedia. {{ 'footer.copyright' | translate }}
+      </div>
+      <div class="footer-attribution">
+        {{ 'footer.madeWith' | translate }}
+        <i class="fas fa-heart heart-icon"></i>
+        {{ 'footer.and' | translate }}
+        <i class="fas fa-wine-glass-alt wine-icon"></i>
+      </div>
+    </div>
+  </div>
+</footer>

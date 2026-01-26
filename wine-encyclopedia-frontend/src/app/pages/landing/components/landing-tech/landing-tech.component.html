@@ -1,0 +1,65 @@
+<!-- Tech Section -->
+<section class="tech-section">
+  <div class="section-container">
+    <!-- Section Header -->
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">
+        <i class="fas fa-cogs"></i>
+        {{ 'nav.tech' | translate }}
+      </span>
+      <h2 class="section-title">{{ 'tech.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'tech.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Tech Stack Badges -->
+    <div class="tech-badges animate-on-scroll">
+      <div
+        *ngFor="let tech of technologies"
+        class="tech-badge"
+        [style.--tech-color]="tech.color"
+      >
+        <i [class]="tech.icon"></i>
+        <span>{{ tech.name }}</span>
+      </div>
+    </div>
+
+    <!-- Philosophy Cards -->
+    <div class="philosophy-grid">
+      <div
+        *ngFor="let item of techItems; let i = index"
+        class="philosophy-card animate-on-scroll"
+        [style.animation-delay]="(i * 0.1) + 's'"
+      >
+        <div class="card-icon">
+          <i [class]="item.icon"></i>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">{{ item.titleKey | translate }}</h3>
+          <p class="card-description">{{ item.descriptionKey | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Preview Decoration -->
+    <div class="code-preview animate-on-scroll">
+      <div class="code-window">
+        <div class="window-header">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="window-title">wine-encyclopedia.ts</span>
+        </div>
+        <div class="window-content">
+          <pre><code><span class="code-keyword">const</span> <span class="code-variable">wineEncyclopedia</span> = <span class="code-bracket">&#123;</span>
+  <span class="code-property">passion</span>: <span class="code-string">'wine'</span>,
+  <span class="code-property">mission</span>: <span class="code-string">'knowledge'</span>,
+  <span class="code-property">tech</span>: [<span class="code-string">'Angular'</span>, <span class="code-string">'TypeScript'</span>],
+  <span class="code-property">status</span>: <span class="code-string">'growing'</span>
+<span class="code-bracket">&#125;</span>;</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

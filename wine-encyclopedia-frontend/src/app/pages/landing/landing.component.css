@@ -1,0 +1,439 @@
+/* ============================================
+   LANDING PAGE - WINE ENCYCLOPEDIA
+   Modern, elegant, wine-inspired design
+   ============================================ */
+
+/* CSS Variables - Wine-inspired color palette */
+:host {
+  --wine-burgundy: #722F37;
+  --wine-burgundy-dark: #5A252C;
+  --wine-burgundy-light: #8B3A44;
+  --wine-purple: #4A2040;
+  --wine-purple-light: #6B3058;
+  --wine-gold: #C9A962;
+  --wine-gold-light: #D4BC80;
+  --wine-beige: #F5F0E8;
+  --wine-beige-dark: #E8E0D4;
+  --wine-cream: #FAF8F5;
+  --wine-charcoal: #2D2D2D;
+  --wine-gray: #6B6B6B;
+  --wine-gray-light: #9A9A9A;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing */
+  --section-padding: 6rem;
+  --section-padding-mobile: 3rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
+
+  display: block;
+  font-family: var(--font-sans);
+  color: var(--wine-charcoal);
+  background: var(--wine-cream);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.landing-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all var(--transition-medium);
+  background: transparent;
+}
+
+.landing-nav.scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
+  padding: 0.75rem 0;
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  color: var(--wine-burgundy);
+}
+
+.logo-text {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--wine-charcoal);
+  letter-spacing: -0.02em;
+}
+
+.landing-nav:not(.scrolled) .logo-text {
+  color: white;
+}
+
+.landing-nav:not(.scrolled) .logo-icon {
+  color: var(--wine-gold);
+}
+
+/* Desktop Navigation */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--wine-charcoal);
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color var(--transition-fast);
+}
+
+.landing-nav:not(.scrolled) .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--wine-burgundy);
+  transition: width var(--transition-medium);
+}
+
+.landing-nav:not(.scrolled) .nav-link::after {
+  background: var(--wine-gold);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--wine-burgundy);
+}
+
+.landing-nav:not(.scrolled) .nav-link:hover {
+  color: var(--wine-gold);
+}
+
+/* Navigation Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Language Switcher */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: transparent;
+  border: 1px solid var(--wine-burgundy);
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--wine-burgundy);
+}
+
+.landing-nav:not(.scrolled) .lang-switcher {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.lang-switcher:hover {
+  background: var(--wine-burgundy);
+  color: white;
+  border-color: var(--wine-burgundy);
+}
+
+.landing-nav:not(.scrolled) .lang-switcher:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: white;
+}
+
+.lang-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.lang-code {
+  font-weight: 600;
+}
+
+/* Nav Button */
+.nav-btn {
+  padding: 0.625rem 1.5rem;
+  background: var(--wine-burgundy);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-btn:hover {
+  background: var(--wine-burgundy-dark);
+  transform: translateY(-1px);
+}
+
+.landing-nav:not(.scrolled) .nav-btn {
+  background: white;
+  color: var(--wine-burgundy);
+}
+
+.landing-nav:not(.scrolled) .nav-btn:hover {
+  background: var(--wine-gold);
+  color: var(--wine-charcoal);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 24px;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--wine-charcoal);
+  border-radius: 2px;
+  transition: all var(--transition-medium);
+}
+
+.landing-nav:not(.scrolled) .hamburger span {
+  background: white;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: var(--shadow-lg);
+  padding: 1rem 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all var(--transition-medium);
+}
+
+.mobile-nav.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav-link {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--wine-charcoal);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.mobile-nav-link:hover {
+  background: var(--wine-beige);
+  color: var(--wine-burgundy);
+}
+
+.mobile-nav-btn {
+  margin: 1rem 2rem;
+  padding: 1rem;
+  background: var(--wine-burgundy);
+  color: white !important;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.mobile-nav-btn:hover {
+  background: var(--wine-burgundy-dark);
+}
+
+/* Desktop Only */
+.desktop-only {
+  display: block;
+}
+
+.desktop-nav {
+  display: flex;
+}
+
+/* ============================================
+   RESPONSIVE NAVIGATION
+   ============================================ */
+@media (max-width: 991px) {
+  .desktop-nav,
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .nav-container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .lang-code {
+    display: none;
+  }
+
+  .lang-switcher {
+    padding: 0.5rem;
+  }
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.landing-main {
+  overflow: hidden;
+}
+
+/* Global Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scroll Animation Class */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
