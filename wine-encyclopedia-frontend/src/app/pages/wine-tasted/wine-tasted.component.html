@@ -1,57 +1,59 @@
 <div class="container py-4">
-	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">Vini degustati</h1>
+	<h1 class="page-title">Vini degustati</h1>
 
-	<div class="d-flex mb-4">
+	<div class="filters-row">
 		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
-				<option value="" disabled selected>Region</option>
-				<!-- Add region options dynamically if available -->
+			<select class="form-control">
+				<option value="" disabled selected>Vintage</option>
+				<!-- Add vintage options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
-				<option value="" disabled selected>Varietal</option>
+			<select class="form-control">
+				<option value="" disabled selected>Vitigno</option>
 				<!-- Add varietal options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown mr-3">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
-				<option value="" disabled selected>Producer</option>
+			<select class="form-control">
+				<option value="" disabled selected>Produttore</option>
 				<!-- Add producer options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown">
-			<select class="form-control" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
-				<option value="" disabled selected>Rating</option>
+			<select class="form-control">
+				<option value="" disabled selected>Punteggio</option>
 				<!-- Add rating options dynamically if available -->
 			</select>
 		</div>
 	</div>
 
-	<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+	<div class="card tasted-card">
 		<div class="card-body p-0">
-			<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
-				<div style="flex: 2;">Wine</div>
-				<div style="flex: 1;">Region</div>
-				<div style="flex: 1;">Varietal</div>
-				<div style="flex: 1;">Producer</div>
-				<div style="flex: 0.5;">Rating</div>
-				<div style="flex: 0.5;">Action</div>
+			<div class="tasted-table-header d-flex py-3 px-4">
+				<div style="flex: 2;">Vino</div>
+				<div style="flex: 1;">Annata</div>
+				<div style="flex: 1.5;">Vitigno</div>
+				<div style="flex: 1;">Produttore</div>
+				<div style="flex: 0.5;">Score</div>
+				<div style="flex: 1;">Data degustazione</div>
+				<div style="flex: 0.5;">Scheda</div>
 			</div>
 			<div class="list-group list-group-flush">
-				<div *ngFor="let wine of wines; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<div style="flex: 2; display: flex; align-items: center;">
-						<img [src]="getWineIcon(wine)" alt="Wine Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
-						<span style="color: #333; font-weight: 500;"><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></span>
+				<div *ngFor="let wine of wines" class="tasted-row list-group-item d-flex align-items-center py-3 px-4">
+					<div class="wine-name-col" style="flex: 2; display: flex; align-items: center;">
+						<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon">
+						<a (click)="viewWineDetails(wine)">{{ wine.name }}</a>
 					</div>
-					<!-- Assuming wine object has 'region', 'varietal', and 'rating' properties. Adjust properties as needed based on your actual data model. -->
-					<div style="flex: 1; color: #555;">{{ wine.region }}</div>
-					<div style="flex: 1; color: #555;">{{ wine.varietal }}</div>
-					<div style="flex: 1; color: #555;">{{ wine.winery }}</div>
-					<div style="flex: 0.5; color: #555;">{{ wine.rating }}</div>
-					<div style="flex: 0.5; color: #555;"><button class="btn btn-primary" (click)="updateTastedWine(wine)">Guarda scheda</button></div>
+					<div class="col-text" style="flex: 1;">{{ wine.vintage }}</div>
+					<div class="col-text" style="flex: 1.5;">{{ wine.grapeVariety }}</div>
+					<div class="col-text" style="flex: 1;">{{ wine.winery }}</div>
+					<div class="col-text" style="flex: 0.5;">{{ wine.score }}</div>
+					<div class="col-text" style="flex: 1;">
+						{{ (wine.createdAt?.toDate ? wine.createdAt.toDate() : wine.createdAt) | date:'dd/MM/yyyy' }}
+					</div>
+					<div style="flex: 0.5;"><button class="btn btn-primary btn-sm" (click)="updateTastedWine(wine)">Apri</button></div>
 				</div>
-				<!-- Add more wine items dynamically -->
 			</div>
 		</div>
 	</div>

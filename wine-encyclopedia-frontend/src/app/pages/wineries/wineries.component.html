@@ -1,21 +1,21 @@
 <div class="container py-4">
-	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">Explore Wineries</h1>
+	<h1 class="page-title">Explore Wineries</h1>
 
-	<div class="d-flex mb-4">
+	<div class="filters-row">
 		<div class="dropdown mr-3">
-			<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter by Name..." style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+			<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter by Name...">
 		</div>
 		<div class="dropdown">
-			<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect" style="border-radius: 8px; border: 1px solid #ddd; padding: 8px 15px; background-color: #f8f5f3; color: #555; font-weight: 500;">
+			<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect">
 				<option value="" disabled selected>Producer</option>
 				<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
 			</select>
 		</div>
 	</div>
 
-	<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+	<div class="card wineries-card">
 		<div class="card-body p-0">
-			<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
+			<div class="winery-table-header d-flex py-3 px-4">
 				<div style="flex: 0.5;">Id</div>
 				<div style="flex: 2;">Nome</div>
 				<div style="flex: 2;">Luogo</div>
@@ -23,15 +23,15 @@
 				<div style="flex: 0.5; text-align: center;">Visitata?</div>
 			</div>
 			<div class="list-group list-group-flush">
-				<div *ngFor="let winery of wineries | winesFilter: filterText; let i = index" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<div style="flex: 0.5; color: #555;">{{winery.id}}</div>
+				<div *ngFor="let winery of wineries | winesFilter: filterText; let i = index" class="winery-row list-group-item d-flex align-items-center py-3 px-4">
+					<div class="col-text" style="flex: 0.5;">{{winery.id}}</div>
 					<div style="flex: 2;">
-						<a (click)="viewWineryDetails(winery, false)" style="cursor: pointer; color: #333; font-weight: 500;">{{winery.name}}</a>
+						<a (click)="viewWineryDetails(winery, false)" class="winery-link">{{winery.name}}</a>
 					</div>
-					<div style="flex: 2; color: #555;">{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</div>
-					<div style="flex: 1; color: #555;">{{winery.denomination}}</div>
+					<div class="col-text" style="flex: 2;">{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</div>
+					<div class="col-text" style="flex: 1;">{{winery.denomination}}</div>
 					<div style="flex: 0.5; text-align: center;">
-						<i [ngClass]="isWineryVisited(winery.id) ? 'fas fa-check' : 'fas fa-xmark'" aria-hidden="true" [ngStyle]="{'color': isWineryVisited(winery.id) ? 'green' : 'red'}"></i>
+						<i [ngClass]="isWineryVisited(winery.id) ? ['fas', 'fa-check', 'visited-icon'] : ['fas', 'fa-xmark', 'not-visited-icon']" aria-hidden="true"></i>
 					</div>
 				</div>
 			</div>

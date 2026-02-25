@@ -1,18 +1,19 @@
 .profile-container {
-  max-width: 1200px; /* Aumenta la larghezza massima per ospitare due colonne */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   display: flex;
-  flex-wrap: wrap; /* Permette ai figli di andare a capo su schermi piccoli */
-  gap: 20px; /* Aggiunge spazio tra le colonne */
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 h2 {
+  font-family: var(--font-serif);
   text-align: center;
-  color: #6b3e26;
+  color: var(--wine-charcoal);
 }
 
 .profile-info, .stats-section {
@@ -33,15 +34,23 @@ h2 {
 
 .profile-field input {
   padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid var(--wine-beige-dark);
+  border-radius: 0.5rem;
+  font-family: var(--font-sans);
+  transition: border-color 0.2s ease;
+}
+
+.profile-field input:focus {
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
+  outline: none;
 }
 
 .stats-card {
   text-align: center;
   padding: 10px;
-  background: #f4f1ed;
-  border-radius: 10px;
+  background: var(--wine-beige);
+  border-radius: 0.75rem;
   margin-bottom: 20px;
 }
 
@@ -59,7 +68,7 @@ h2 {
 .progress-bar {
   width: 100%;
   height: 20px;
-  background-color: #e0e0e0;
+  background-color: var(--wine-beige-dark);
   border-radius: 10px;
   overflow: hidden;
   margin: 20px 0;
@@ -67,6 +76,6 @@ h2 {
 
 .progress-bar-fill {
   height: 100%;
-  background-color: #4caf50; /* Colore della barra di progresso */
+  background: linear-gradient(90deg, var(--wine-burgundy), var(--wine-burgundy-light));
   transition: width 0.3s ease;
 }

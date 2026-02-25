@@ -14,11 +14,11 @@ import { LoginComponent } from "../../pages/login/login.component";
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
 	ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+	LoginComponent
   ],
   declarations: [
-	SignupComponent,
-	LoginComponent
+	  SignupComponent
   ],
 	schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })

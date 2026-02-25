@@ -8,7 +8,7 @@
 		</div>
 	</div>
 </div>
-<app-loading-spinner 
+<app-loading-spinner
   [isVisible]="isLoading"
   [svgPath]="'assets/images/loading-glass-2.svg'"
   loadingText="Caricamento..."
@@ -17,17 +17,17 @@
 <div class="mrgnbtm">
 	<div class="container">
 	  <div *ngIf="wineDetails">
-		<h2>{{ wineDetails.name }} {{ wineDetails.denomination }}</h2>
+		<h2 class="wine-name-heading">{{ wineDetails.name }} {{ wineDetails.denomination }}</h2>
 		<div class="row">
 		  <!-- Colonna per l'immagine -->
 		  <div class="col-md-4">
-			<img [src]="getImageWine(wineDetails)" class="img-fluid" style="max-width: 40%">
+			<img [src]="getImageWine(wineDetails)" class="img-fluid wine-image">
 		  </div>
-		  
+
 		  <!-- Colonna per i dettagli -->
 		  <div class="col-md-8">
 			<p><strong>Azienda:</strong> {{ wineDetails.wineryName }}</p>
-			<p><strong>Uvaggio:</strong> 
+			<p><strong>Uvaggio:</strong>
 				<span *ngFor="let grape of wineDetails.grapes; let last = last">
 					{{ grape.nameGrape }} ({{ grape.percentageGrape }}%)<span *ngIf="!last">, </span>
 				  </span>
@@ -42,14 +42,13 @@
 		</div>
 	  </div>
 	  <div *ngIf="winesByWinery != null && winesByWinery.length > 0">
-		<h3>Vini della stessa cantina</h3>
+		<h3 class="related-section-heading">Vini della stessa cantina</h3>
 		<app-wine-slider [wines]="winesByWinery"></app-wine-slider>
 	  </div>
-	  
+
 	  <div *ngIf="similarWines != null && similarWines.length > 0">
-		<h3>Vini simili</h3>	
+		<h3 class="related-section-heading">Vini simili</h3>
 		<app-wine-slider [wines]="similarWines"></app-wine-slider>
 	  </div>
 	</div>
   </div>
-  

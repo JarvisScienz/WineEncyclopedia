@@ -356,3 +356,229 @@ h3, .h3 {
     margin-right: var(--spacing-md);
   }
 }
+
+/* ============================================
+   BOOTSTRAP OVERRIDES — WINE THEME
+   ============================================ */
+
+/* Primary button → burgundy */
+.btn-primary {
+  background-color: var(--wine-burgundy);
+  border-color: var(--wine-burgundy);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  background-color: var(--wine-burgundy-dark);
+  border-color: var(--wine-burgundy-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 47, 55, 0.3);
+}
+
+/* Warning button → gold */
+.btn-warning {
+  background-color: var(--wine-gold);
+  border-color: var(--wine-gold);
+  color: var(--wine-charcoal);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning.active {
+  background-color: var(--wine-gold-light);
+  border-color: var(--wine-gold-light);
+  color: var(--wine-charcoal);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 169, 98, 0.35);
+}
+
+/* Outline primary → burgundy */
+.btn-outline-primary {
+  color: var(--wine-burgundy);
+  border-color: var(--wine-burgundy);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--wine-burgundy);
+  border-color: var(--wine-burgundy);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 47, 55, 0.25);
+}
+
+/* Table headers */
+.table thead th,
+.table > thead > tr > th {
+  background-color: var(--wine-beige) !important;
+  color: var(--wine-charcoal);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-color: var(--wine-beige-dark);
+}
+.table tbody tr:hover {
+  background-color: rgba(245, 240, 232, 0.5);
+}
+.table td,
+.table th {
+  border-color: var(--wine-beige-dark);
+}
+
+/* Form focus states */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
+}
+
+/* Accordion */
+.accordion-button {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--wine-charcoal);
+  background-color: var(--wine-cream);
+}
+.accordion-button:not(.collapsed) {
+  color: var(--wine-burgundy);
+  background-color: var(--wine-beige);
+  box-shadow: inset 0 -1px 0 var(--wine-beige-dark);
+}
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
+}
+.accordion-item {
+  border-color: var(--wine-beige-dark);
+  margin-bottom: 0.75rem;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+}
+.accordion-body {
+  background-color: #fff;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  border-color: var(--wine-beige-dark);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--wine-beige);
+  color: var(--wine-burgundy);
+}
+
+/* Links */
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item) {
+  color: var(--wine-burgundy);
+  transition: color 0.2s ease;
+}
+a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
+  color: var(--wine-burgundy-dark);
+}
+
+/* ============================================
+   WINE THEME UTILITY CLASSES
+   ============================================ */
+
+/* Page heading — Playfair Display serif */
+.page-heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  letter-spacing: -0.02em;
+}
+
+/* Wine-themed card */
+.wine-theme-card {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.wine-theme-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(114, 47, 55, 0.12);
+}
+
+/* Wine link */
+.wine-link {
+  color: var(--wine-burgundy);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.wine-link:hover {
+  color: var(--wine-burgundy-dark);
+  text-decoration: underline;
+}
+
+/* Flex-based table header */
+.wine-table-header {
+  display: flex;
+  padding: 0.875rem 1rem;
+  background-color: var(--wine-beige);
+  border-bottom: 1px solid var(--wine-beige-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--wine-charcoal);
+}
+
+/* Flex-based table row */
+.wine-table-row {
+  border-bottom: 1px solid var(--wine-beige-dark);
+  transition: background-color 0.2s ease;
+}
+.wine-table-row:hover {
+  background-color: rgba(245, 240, 232, 0.5);
+}
+.wine-table-row:last-child {
+  border-bottom: none;
+}
+
+/* Filter select/input */
+.wine-filter-select {
+  border-radius: 0.5rem;
+  border: 1px solid var(--wine-beige-dark);
+  background-color: #fff;
+  color: var(--wine-charcoal);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  transition: border-color 0.2s ease;
+}
+.wine-filter-select:focus {
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
+  outline: none;
+}
+
+/* Status icons */
+.visited-icon {
+  color: var(--wine-gold);
+}
+.not-visited-icon {
+  color: var(--wine-gray-light);
+}

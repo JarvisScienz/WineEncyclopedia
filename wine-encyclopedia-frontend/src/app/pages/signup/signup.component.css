@@ -3,15 +3,16 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f4f4f4;
+  background-color: var(--wine-cream);
   padding: 1rem;
 }
 
 form {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--wine-beige-dark);
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -24,9 +25,11 @@ form {
 }
 
 h2 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--wine-burgundy);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  font-weight: 600;
 }
 
 @media (min-width: 768px) {
@@ -43,9 +46,9 @@ h2 {
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--wine-charcoal);
 }
 
 input[type="email"],
@@ -53,8 +56,8 @@ input[type="password"],
 input[type="text"] {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--wine-beige-dark);
+  border-radius: 0.5rem;
   font-size: 1rem;
   min-height: 44px;
 }
@@ -69,8 +72,8 @@ input[type="text"] {
 
 input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
 }
 
 .password-wrapper {
@@ -125,22 +128,25 @@ button {
   width: 100%;
   padding: 0.75rem;
   min-height: 48px;
-  background: #007bff;
+  background: var(--wine-burgundy);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  transition: all 0.3s ease;
 }
 
 button:hover:not(:disabled) {
-  background: #0056b3;
+  background: var(--wine-burgundy-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 47, 55, 0.3);
 }
 
 button:disabled {
-  background: #cccccc;
+  background: var(--wine-gray-light);
   cursor: not-allowed;
 }
 
@@ -154,10 +160,12 @@ small {
 .btn-link {
   margin-top: 1rem;
   display: inline-block;
-  color: #007bff;
+  color: var(--wine-burgundy);
+  font-weight: 600;
   text-decoration: none;
 }
 
 .btn-link:hover {
+  color: var(--wine-burgundy-dark);
   text-decoration: underline;
 }

@@ -1,19 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, HostListener, signal } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { first } from 'rxjs/operators';
+import { TranslationService } from '../../_services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 import { AuthenticationService } from '../../_services';
 
 @Component({ 
 	selector: 'login-cmp',
     //moduleId: module.id,	
+	standalone: true,
+	imports: [
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		TranslatePipe
+	],
 	templateUrl: 'login.component.html',
 	styleUrls: ['./login.component.css']
 	})
 export class LoginComponent implements OnInit {
-	loginForm!: UntypedFormGroup;
+	loginForm!: FormGroup;
 	showPassword: boolean = false;
 	loading = false;
 	submitted = false;
@@ -22,13 +33,17 @@ export class LoginComponent implements OnInit {
 	descriptionLoginError!: string;
 	wrongCredential = false;
 	
+	// Signals for reactive state
+	isScrolled = signal(false);
+	isMobileMenuOpen = signal(false);
 
 	constructor(
-		private formBuilder: UntypedFormBuilder,
+		private formBuilder: FormBuilder,
 		private route: ActivatedRoute,
 		private router: Router,
 		private authenticationService: AuthenticationService,
-		private SpinnerService: NgxSpinnerService
+		private SpinnerService: NgxSpinnerService,
+		public translationService: TranslationService
 	) {
 		// redirect to home if already logged in
 		if (this.authenticationService.currentUserValue) {
@@ -51,6 +66,33 @@ export class LoginComponent implements OnInit {
 
 		// get return url from route parameters or default to '/'
 		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+		this.checkScroll();
+	}
+
+	@HostListener('window:scroll')
+	checkScroll(): void {
+	  this.isScrolled.set(window.scrollY > 50);
+	}
+  
+	/**
+	 * Toggle language between Italian and English
+	 */
+	toggleLanguage(): void {
+	  this.translationService.toggleLanguage();
+	}
+  
+	/**
+	 * Toggle mobile menu visibility
+	 */
+	toggleMobileMenu(): void {
+	  this.isMobileMenuOpen.update(v => !v);
+	}
+  
+	/**
+	 * Close mobile menu
+	 */
+	closeMobileMenu(): void {
+	  this.isMobileMenuOpen.set(false);
 	}
 
 	togglePasswordVisibility() {

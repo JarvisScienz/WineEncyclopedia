@@ -1,18 +1,18 @@
-/* Score Border Colors */
+/* Score Border Colors — Wine quality spectrum */
 .border-common {
-    border: 2px solid #dc3545; /* Rosso */
+    border: 2px solid var(--wine-gray-light); /* Average: neutral gray */
 }
 
 .border-good {
-    border: 2px solid #fd7e14; /* Arancione */
+    border: 2px solid var(--wine-gold-light); /* Good: light gold */
 }
 
 .border-very-good {
-    border: 2px solid #007bff; /* Blu */
+    border: 2px solid var(--wine-gold); /* Very good: gold */
 }
 
 .border-excellent {
-    border: 2px solid #28a745; /* Verde */
+    border: 2px solid var(--wine-burgundy); /* Excellent: burgundy */
 }
 
 /* ============================================
@@ -23,7 +23,8 @@
 label {
     font-weight: 500;
     font-size: 0.9rem;
-    color: #555;
+    color: var(--wine-charcoal);
+    font-family: var(--font-sans);
     margin-bottom: 0.375rem;
 }
 
@@ -80,8 +81,27 @@ label {
 button[type="submit"] {
     min-height: 48px;
     font-size: 1rem;
-    font-weight: 500;
-    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    padding: 0.75rem 2.5rem;
+    background-color: var(--wine-burgundy);
+    border-color: var(--wine-burgundy);
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    background-color: var(--wine-burgundy-dark);
+    border-color: var(--wine-burgundy-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(114, 47, 55, 0.3);
+}
+
+button[type="submit"]:disabled {
+    background-color: var(--wine-gray-light);
+    border-color: var(--wine-gray-light);
+    cursor: not-allowed;
 }
 
 @media (max-width: 767px) {

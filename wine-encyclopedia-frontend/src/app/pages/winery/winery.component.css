@@ -1,0 +1,105 @@
+/* ============================================
+   WINERY DETAIL PAGE STYLES
+   ============================================ */
+
+.page-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  margin-bottom: 1.875rem;
+}
+
+.winery-description {
+  font-size: 1rem;
+  color: var(--wine-gray);
+  line-height: 1.7;
+}
+
+/* Section headings */
+.section-heading {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  margin-bottom: 0.9375rem;
+}
+
+/* Info card */
+.info-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+/* Info list rows */
+.info-row {
+  border-bottom: 1px solid var(--wine-beige-dark) !important;
+  transition: background-color 0.2s ease;
+}
+
+.info-row:last-child {
+  border-bottom: none !important;
+}
+
+.info-row:hover {
+  background-color: rgba(245, 240, 232, 0.3);
+}
+
+.info-label {
+  font-weight: 500;
+  color: var(--wine-charcoal);
+}
+
+.info-value {
+  color: var(--wine-gray);
+}
+
+/* Wines table */
+.wines-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+.wines-table-header {
+  background-color: var(--wine-beige);
+  border-bottom: 1px solid var(--wine-beige-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--wine-charcoal);
+}
+
+.wine-row {
+  border-bottom: 1px solid var(--wine-beige-dark);
+  transition: background-color 0.2s ease;
+}
+
+.wine-row:last-child {
+  border-bottom: none;
+}
+
+.wine-row:hover {
+  background-color: rgba(245, 240, 232, 0.5);
+}
+
+/* Wine link */
+.wine-link {
+  color: var(--wine-charcoal);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.wine-link:hover {
+  color: var(--wine-burgundy);
+  text-decoration: underline;
+}
+
+/* Column text color */
+.col-text {
+  color: var(--wine-gray);
+}

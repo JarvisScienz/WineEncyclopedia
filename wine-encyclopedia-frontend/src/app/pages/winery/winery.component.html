@@ -1,86 +1,79 @@
 <div class="container py-4">
-	<h1 style="font-size: 2.5rem; font-weight: bold; color: #333; margin-bottom: 30px;">{{ wineryDetails.name }}</h1>
-
-	<!--<div class="card mb-4" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.08);">
-		<img src="https://via.placeholder.com/900x400/f0f0f0/cccccc?text=Vineyard+Image" alt="Vineyard Estates" class="card-img-top" style="width: 100%; height: auto; object-fit: cover;">
-	</div>-->
+	<h1 class="page-title">{{ wineryDetails.name }}</h1>
 
 	<div class="mb-4">
-		<!--<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">About {{ wineryDetails.name }}</h2>-->
-		<p style="font-size: 1rem; color: #555; line-height: 1.6;">
+		<p class="winery-description">
 			{{ wineryDetails.description }}
 		</p>
 	</div>
 
 	<div class="mb-4">
-		<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">Contact Information</h2>
-		<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+		<h2 class="section-heading">Contact Information</h2>
+		<div class="card info-card">
 			<div class="list-group list-group-flush">
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<span style="font-weight: 500; color: #333;">Paese</span>
-					<span style="color: #555;">{{ wineryDetails.country }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Paese</span>
+					<span class="info-value">{{ wineryDetails.country }}</span>
 				</div>
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<span style="font-weight: 500; color: #333;">Regione</span>
-					<span style="color: #555;">{{ wineryDetails.region }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Regione</span>
+					<span class="info-value">{{ wineryDetails.region }}</span>
 				</div>
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<span style="font-weight: 500; color: #333;">Città</span>
-					<span style="color: #555;">{{ wineryDetails.city }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Città</span>
+					<span class="info-value">{{ wineryDetails.city }}</span>
 				</div>
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<span style="font-weight: 500; color: #333;">Comune</span>
-					<span style="color: #555;">{{ wineryDetails.village }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Comune</span>
+					<span class="info-value">{{ wineryDetails.village }}</span>
 				</div>
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-					<span style="font-weight: 500; color: #333;">Contrada</span>
-					<span style="color: #555;">{{ wineryDetails.district }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Contrada</span>
+					<span class="info-value">{{ wineryDetails.district }}</span>
 				</div>
-				<div class="list-group-item d-flex justify-content-between align-items-center py-3 px-4" style="border: none;">
-					<span style="font-weight: 500; color: #333;">Website</span>
-					<span style="color: #555;">{{ wineryDetails.url }}</span>
+				<div class="info-row list-group-item d-flex justify-content-between align-items-center py-3 px-4">
+					<span class="info-label">Website</span>
+					<span class="info-value">{{ wineryDetails.url }}</span>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div>
-		<h2 style="font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 15px;">Wines</h2>
-		<div class="card" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.05);">
+		<h2 class="section-heading">Wines</h2>
+		<div class="card wines-card">
 			<div class="card-body p-0">
-				<div class="table-header d-flex py-3 px-4" style="background-color: #f8f5f3; border-bottom: 1px solid #eee; font-weight: bold; color: #555;">
+				<div class="wines-table-header d-flex py-3 px-4">
 					<div style="flex: 2;">Wine</div>
 					<div style="flex: 1;">Vintage</div>
 					<div style="flex: 1;">Varietal</div>
 					<div style="flex: 0.5;">Rating</div>
 				</div>
 				<div class="list-group list-group-flush">
-					<!-- Assuming winesList is an array of wine objects with name, vintage, varietal, and rating properties -->
-					<div *ngFor="let wine of winesList" class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-						<div style="flex: 2; color: #555; font-weight: 500;"><a (click)="viewWineDetails(wine)" style="cursor: pointer;">{{ wine.name }}</a></div>
-						<div style="flex: 1; color: #555;">wine.vintage</div>
-						<div style="flex: 1; color: #555;">wine.varietal</div>
-						<div style="flex: 0.5; color: #555;"> wine.rating</div>
+					<div *ngFor="let wine of winesList" class="wine-row list-group-item d-flex align-items-center py-3 px-4">
+						<div style="flex: 2;"><a (click)="viewWineDetails(wine)" class="wine-link">{{ wine.name }}</a></div>
+						<div class="col-text" style="flex: 1;">wine.vintage</div>
+						<div class="col-text" style="flex: 1;">wine.varietal</div>
+						<div class="col-text" style="flex: 0.5;">wine.rating</div>
 					</div>
-					<!-- Example placeholder items, remove when dynamic data is available -->
 					<div *ngIf="!winesList || winesList.length === 0">
-						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-							<div style="flex: 2; color: #555; font-weight: 500;">Cabernet Sauvignon</div>
-							<div style="flex: 1; color: #555;">2018</div>
-							<div style="flex: 1; color: #555;">Cabernet Sauvignon</div>
-							<div style="flex: 0.5; color: #555;">4.5</div>
+						<div class="wine-row list-group-item d-flex align-items-center py-3 px-4">
+							<div class="wine-link" style="flex: 2;">Cabernet Sauvignon</div>
+							<div class="col-text" style="flex: 1;">2018</div>
+							<div class="col-text" style="flex: 1;">Cabernet Sauvignon</div>
+							<div class="col-text" style="flex: 0.5;">4.5</div>
 						</div>
-						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border-bottom: 1px solid #eee;">
-							<div style="flex: 2; color: #555; font-weight: 500;">Chardonnay</div>
-							<div style="flex: 1; color: #555;">2019</div>
-							<div style="flex: 1; color: #555;">Chardonnay</div>
-							<div style="flex: 0.5; color: #555;">4.2</div>
+						<div class="wine-row list-group-item d-flex align-items-center py-3 px-4">
+							<div class="wine-link" style="flex: 2;">Chardonnay</div>
+							<div class="col-text" style="flex: 1;">2019</div>
+							<div class="col-text" style="flex: 1;">Chardonnay</div>
+							<div class="col-text" style="flex: 0.5;">4.2</div>
 						</div>
-						 <div class="list-group-item d-flex align-items-center py-3 px-4" style="border: none;">
-							<div style="flex: 2; color: #555; font-weight: 500;">Pinot Noir</div>
-							<div style="flex: 1; color: #555;">2020</div>
-							<div style="flex: 1; color: #555;">Pinot Noir</div>
-							<div style="flex: 0.5; color: #555;">4.0</div>
+						<div class="wine-row list-group-item d-flex align-items-center py-3 px-4">
+							<div class="wine-link" style="flex: 2;">Pinot Noir</div>
+							<div class="col-text" style="flex: 1;">2020</div>
+							<div class="col-text" style="flex: 1;">Pinot Noir</div>
+							<div class="col-text" style="flex: 0.5;">4.0</div>
 						</div>
 					</div>
 				</div>
@@ -88,4 +81,3 @@
 		</div>
 	</div>
 </div>
-  

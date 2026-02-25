@@ -1,0 +1,24 @@
+/* ============================================
+   WINE DETAIL PAGE STYLES
+   ============================================ */
+
+.wine-name-heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--wine-charcoal);
+  margin-bottom: 1.5rem;
+}
+
+.wine-image {
+  max-width: 50%;
+  border-radius: 0.75rem;
+  object-fit: contain;
+}
+
+.related-section-heading {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--wine-charcoal);
+  margin: 2rem 0 1rem;
+}

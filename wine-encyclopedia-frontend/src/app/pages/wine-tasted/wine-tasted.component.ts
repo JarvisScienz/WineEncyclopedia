@@ -68,10 +68,15 @@ export class WineTastedComponent implements OnInit {
 
 	getAllWinesTasted() {
 		this.wineTastedService.getWinesTasted(this.userUid).subscribe((wines => {
-			if (wines == null)
+			if (wines == null) {
 				this.wines = [];
-			else
-				this.wines = wines;
+			} else {
+				this.wines = wines.sort((a: any, b: any) => {
+					const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt ?? 0);
+					const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt ?? 0);
+					return dateB.getTime() - dateA.getTime();
+				});
+			}
 			this.extractWineries(this.wines);
 		}));
 	}

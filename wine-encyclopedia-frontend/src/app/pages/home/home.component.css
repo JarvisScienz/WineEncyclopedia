@@ -10,17 +10,21 @@
 .home-search-group {
   border-radius: 30px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  border: 1px solid var(--wine-beige-dark);
 }
 
 .home-search-icon {
   background-color: #fff;
   padding-left: 1.25rem;
+  color: var(--wine-gray);
 }
 
 .home-search-input {
   padding: 0.625rem 0.9375rem;
   font-size: 1.1rem;
+  background-color: #fff;
+  color: var(--wine-charcoal);
 }
 
 @media (max-width: 767px) {
@@ -32,9 +36,10 @@
 
 /* Section Titles */
 .section-title {
+  font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--wine-charcoal);
   margin-bottom: 1.5rem;
 }
 
@@ -54,16 +59,17 @@
 
 /* Wine Cards */
 .wine-card {
-  border-radius: 10px;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-left 0.3s ease;
 }
 
 .wine-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(114, 47, 55, 0.12);
+  border-left: 3px solid var(--wine-burgundy);
 }
 
 .wine-card-link {
@@ -74,7 +80,7 @@
 }
 
 .wine-img {
-  background-color: #f8f5f3;
+  background-color: var(--wine-cream);
   padding: 1.25rem;
   object-fit: contain;
   height: 250px;
@@ -94,9 +100,10 @@
 }
 
 .wine-title {
+  font-family: var(--font-serif);
   font-weight: bold;
   font-size: 1rem;
-  color: #333;
+  color: var(--wine-charcoal);
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
@@ -109,7 +116,7 @@
 
 .wine-text {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--wine-gray);
   margin-bottom: 0;
 }
 
@@ -120,27 +127,28 @@
 }
 
 .tasting-link {
-  color: #007bff;
+  color: var(--wine-burgundy);
   text-decoration: underline;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .tasting-link:hover {
-  color: #0056b3;
+  color: var(--wine-burgundy-dark);
 }
 
 /* Winery Cards */
 .winery-card {
-  border-radius: 10px;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .winery-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(114, 47, 55, 0.12);
 }
 
 .winery-img {
@@ -156,9 +164,10 @@
 }
 
 .winery-title {
+  font-family: var(--font-serif);
   font-weight: bold;
   font-size: 1rem;
-  color: #333;
+  color: var(--wine-charcoal);
   margin-bottom: 0.5rem;
 }
 
@@ -170,7 +179,7 @@
 
 .winery-text {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--wine-gray);
   margin-bottom: 0;
   line-height: 1.5;
 }

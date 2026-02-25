@@ -2,11 +2,12 @@
    NAVBAR CUSTOM STYLES
    ============================================ */
 .navbar-custom {
-  background-color: #f8f5f3;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  background-color: #fff;
+  border-radius: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 0.75rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--wine-beige-dark);
 }
 
 /* ============================================
@@ -15,19 +16,22 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.25rem;
-  color: #333;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--wine-charcoal);
   text-decoration: none;
   gap: 0.5rem;
+  transition: color 0.2s ease;
 }
 
 .navbar-brand:hover {
-  color: #666;
+  color: var(--wine-burgundy);
 }
 
 .navbar-brand svg {
   flex-shrink: 0;
+  color: var(--wine-burgundy);
 }
 
 .brand-text {
@@ -45,18 +49,18 @@
    NAVBAR TOGGLER (Hamburger Menu)
    ============================================ */
 .navbar-toggler {
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1px solid rgba(114, 47, 55, 0.2);
   padding: 0.5rem 0.75rem;
   min-height: 44px;
   min-width: 44px;
 }
 
 .navbar-toggler:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0,0,0,.1);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.15);
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28114,47,55,0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 /* ============================================
@@ -67,20 +71,41 @@
 }
 
 .nav-link {
-  color: #555;
-  padding: 0.5rem 1rem;
+  color: var(--wine-charcoal);
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  transition: all 0.3s ease;
-  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.9375rem;
   min-height: 44px;
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0.75rem;
+  right: 0.75rem;
+  height: 2px;
+  background: var(--wine-burgundy);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+  border-radius: 2px;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: #333;
-  background-color: rgba(0,0,0,0.05);
+  color: var(--wine-burgundy);
+  background-color: transparent;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
 }
 
 /* Stack navigation on mobile */
@@ -92,6 +117,10 @@
 
   .nav-link {
     padding: 0.75rem 1rem;
+  }
+
+  .nav-link::after {
+    display: none;
   }
 }
 
@@ -113,16 +142,19 @@
 
 .search-input {
   border-radius: 20px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid var(--wine-beige-dark);
+  background-color: var(--wine-cream);
+  color: var(--wine-charcoal);
   padding-left: 35px;
   height: 44px;
   font-size: 0.95rem;
+  transition: border-color 0.2s ease;
 }
 
 .search-input:focus {
-  border-color: #999;
-  box-shadow: 0 0 0 0.2rem rgba(0,0,0,.05);
+  border-color: var(--wine-burgundy);
+  box-shadow: 0 0 0 0.2rem rgba(114, 47, 55, 0.12);
+  background-color: #fff;
 }
 
 .search-icon {
@@ -130,7 +162,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #888;
+  color: var(--wine-gray);
   pointer-events: none;
 }
 
@@ -138,7 +170,7 @@
    NOTIFICATION BUTTON
    ============================================ */
 .notification-btn {
-  color: #888;
+  color: var(--wine-gray);
   font-size: 1.25rem;
   padding: 0.5rem;
   min-height: 44px;
@@ -147,10 +179,11 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .notification-btn:hover {
-  color: #555;
+  color: var(--wine-burgundy);
 }
 
 @media (max-width: 991px) {
@@ -168,23 +201,25 @@
   height: 44px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #e0baba;
+  background: linear-gradient(135deg, var(--wine-burgundy), var(--wine-burgundy-light));
   cursor: pointer;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .profile-pic-container:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(114, 47, 55, 0.3);
 }
 
 .profile-initial {
   color: #fff;
   font-weight: bold;
   font-size: 1.2rem;
+  font-family: var(--font-serif);
 }
 
 @media (max-width: 991px) {
@@ -199,7 +234,7 @@
 @media (max-width: 991px) {
   .navbar-collapse {
     padding-top: 1rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid var(--wine-beige-dark);
     margin-top: 1rem;
   }
 }
@@ -230,18 +265,20 @@
    DROPDOWN MENU
    ============================================ */
 .dropdown-menu {
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--wine-beige-dark);
   min-width: 150px;
 }
 
 .dropdown-item {
   padding: 0.5rem 1rem;
   font-size: 0.95rem;
-  transition: background-color 0.2s ease;
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #f8f5f3;
+  background-color: var(--wine-beige);
+  color: var(--wine-burgundy);
 }

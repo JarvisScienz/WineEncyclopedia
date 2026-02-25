@@ -1,42 +1,75 @@
-<div class="login-container">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <h2>Accedi</h2>
-  
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" placeholder="Inserisci la tua email">
-        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          Inserisci un'email valida.
-        </small>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-wrapper">
-            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Inserisci la password">
-            <button type="button" class="eye-btn" (click)="togglePasswordVisibility()">
-              <i class="fas" [ngClass]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-            </button>
-          </div>    
-        <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          La password è obbligatoria.
-        </small>
-      </div>
-  
-      <div class="form-group checkbox">
-        <input type="checkbox" id="rememberMe" formControlName="rememberMe">
-        <label for="rememberMe">Resta connesso</label>
-      </div>
+<!-- Main Landing Page Container -->
+<div class="landing-page">
+  <!-- Navigation Header -->
+  <header class="landing-nav" [class.scrolled]="isScrolled()">
+    <div class="nav-container">
+      <!-- Logo -->
+      <a class="nav-logo" routerLink="/">
+        <span class="logo-icon">
+          <i class="fas fa-wine-glass-alt"></i>
+        </span>
+        <span class="logo-text">Wine Encyclopedia</span>
+      </a>
 
-      <div class="form-group" *ngIf="wrongCredential">
-        <label class="form-check-label">Credenziali errate</label>
-    </div>
-  
-        <button type="submit" [disabled]="loading || loginForm.invalid">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Login
+      <!-- Right Side Actions -->
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <button
+          class="lang-switcher"
+          (click)="toggleLanguage()"
+          [attr.aria-label]="translationService.isItalian() ? 'Switch to English' : 'Passa all\'italiano'"
+        >
+          <span class="lang-flag">{{ translationService.isItalian() ? '🇮🇹' : '🇬🇧' }}</span>
+          <span class="lang-code">{{ translationService.isItalian() ? 'IT' : 'EN' }}</span>
         </button>
-      <a routerLink="../signup" class="btn btn-link">Registrati</a>
-    </form>
-  </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <main class="landing-main">
+    <section class="login-section">
+      <div class="login-form-container">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <h2>{{ 'login.title' | translate }}</h2>
+    
+          <div class="form-group">
+            <label for="email">{{ 'login.email' | translate }}</label>
+            <input id="email" type="email" formControlName="email" [placeholder]="'login.emailPlaceholder' | translate">
+            <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              {{ 'login.errors.email' | translate }}
+            </small>
+          </div>
+    
+          <div class="form-group">
+            <label for="password">{{ 'login.password' | translate }}</label>
+            <div class="password-wrapper">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" [placeholder]="'login.passwordPlaceholder' | translate">
+                <button type="button" class="eye-btn" (click)="togglePasswordVisibility()">
+                  <i class="fas" [ngClass]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                </button>
+              </div>    
+            <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              {{ 'login.errors.password' | translate }}
+            </small>
+          </div>
+    
+          <div class="form-group checkbox">
+            <input type="checkbox" id="rememberMe" formControlName="rememberMe">
+            <label for="rememberMe">{{ 'login.rememberMe' | translate }}</label>
+          </div>
   
+          <div class="form-group" *ngIf="wrongCredential">
+            <label class="form-check-label">{{ 'login.errors.credentials' | translate }}</label>
+        </div>
+    
+          <button type="submit" [disabled]="loading || loginForm.invalid">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              {{ 'login.button' | translate }}
+          </button>
+          <a routerLink="../signup" class="btn-link">{{ 'login.signupLink' | translate }}</a>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>

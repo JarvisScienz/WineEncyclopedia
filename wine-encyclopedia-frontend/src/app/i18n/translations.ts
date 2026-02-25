@@ -263,5 +263,47 @@ export const translations: Translations = {
   'nav.login': {
     it: 'Accedi',
     en: 'Login'
+  },
+
+  //Login
+  'login.title': {
+    it: 'Login',
+    en: 'Login'
+  },
+  'login.email': {
+    it: 'Email',
+    en: 'Email'
+  },
+  'login.password': {
+    it: 'Password',
+    en: 'Password'
+  },
+  'login.emailPlaceholder': {
+    it: 'Email',
+    en: 'Email'
+  },
+  'login.passwordPlaceholder': {
+    it: 'Password',
+    en: 'Password'
+  },
+  'login.rememberMe': {
+    it: 'Ricordami',
+    en: 'Remember me'
+  },
+  'login.button': {
+    it: 'Accedi',
+    en: 'Login'
+  },
+  'login.signupLink': {
+    it: 'Registrati',
+    en: 'Sign up'
+  },
+  'login.errors.email': {
+    it: 'Inserire una email valida',
+    en: 'Enter a valid email'
+  },
+  'login.errors.password': {
+    it: 'Inserire una password',
+    en: 'Enter a password'
   }
 };
