@@ -5,25 +5,21 @@
 		<div class="dropdown mr-3">
 			<select class="form-control">
 				<option value="" disabled selected>Vintage</option>
-				<!-- Add vintage options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown mr-3">
 			<select class="form-control">
 				<option value="" disabled selected>Vitigno</option>
-				<!-- Add varietal options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown mr-3">
 			<select class="form-control">
 				<option value="" disabled selected>Produttore</option>
-				<!-- Add producer options dynamically if available -->
 			</select>
 		</div>
 		<div class="dropdown">
 			<select class="form-control">
 				<option value="" disabled selected>Punteggio</option>
-				<!-- Add rating options dynamically if available -->
 			</select>
 		</div>
 	</div>
@@ -52,9 +48,30 @@
 					<div class="col-text" style="flex: 1;">
 						{{ (wine.createdAt?.toDate ? wine.createdAt.toDate() : wine.createdAt) | date:'dd/MM/yyyy' }}
 					</div>
-					<div style="flex: 0.5;"><button class="btn btn-primary btn-sm" (click)="updateTastedWine(wine)">Apri</button></div>
+					<div style="flex: 0.5;">
+						<button class="btn btn-primary btn-sm" (click)="updateTastedWine(wine)">Apri</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- Loading indicator -->
+	<div *ngIf="isLoadingMore" class="scroll-loading">
+		<div class="scroll-spinner"></div>
+		<span>Caricamento...</span>
+	</div>
+
+	<!-- All loaded message -->
+	<div *ngIf="!hasMore && wines.length > 0" class="scroll-end">
+		Tutti i {{ wines.length }} vini caricati
+	</div>
+
+	<!-- Empty state -->
+	<div *ngIf="!isLoadingMore && wines.length === 0" class="scroll-end">
+		Nessun vino degustato ancora.
+	</div>
+
+	<!-- Intersection sentinel — triggers loadMore() when visible -->
+	<div #scrollAnchor style="height: 1px;"></div>
 </div>

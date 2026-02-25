@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 
@@ -13,14 +13,22 @@ import { WineService } from 'src/app/_services/wine.service';
 	templateUrl: './wine-tasted.component.html',
 	styleUrls: ['./wine-tasted.component.css']
 })
-export class WineTastedComponent implements OnInit {
+export class WineTastedComponent implements OnInit, AfterViewInit, OnDestroy {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
 	wineryList: any = [];
 	filterText: string = "";
 	filterColor: string = "";
 	filterWinerySelect: string = "";
-	userUid: string  = "";
+	userUid: string = "";
+
+	readonly pageSize = 20;
+	isLoadingMore = false;
+	hasMore = true;
+	private lastDocId: string | null = null;
+	private observer!: IntersectionObserver;
+
+	@ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
 
 	constructor(private wineTastedService: WineTastedService,
 		private wineService: WineService,
@@ -30,18 +38,34 @@ export class WineTastedComponent implements OnInit {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		 }
 
-
-
 	ngOnInit() {
 		this.getAllWinesTasted();
-		//this.getWineryList();
+	}
+
+	ngAfterViewInit() {
+		this.observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting && !this.isLoadingMore && this.hasMore) {
+					this.loadMore();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+		this.observer.observe(this.scrollAnchor.nativeElement);
+	}
+
+	ngOnDestroy() {
+		this.observer?.disconnect();
 	}
 
 	refresh() {
-		this.getAllWinesTasted();
+		this.wines = [];
+		this.lastDocId = null;
+		this.hasMore = true;
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
+		this.getAllWinesTasted();
 	}
 
 	filterColorWine() {
@@ -63,41 +87,35 @@ export class WineTastedComponent implements OnInit {
 	}
 
 	extractWineries(jsonArray: any[]) {
-		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
+		const newWineries = [...new Set(jsonArray.map(item => item.winery))];
+		const merged = [...new Set([...this.wineryList, ...newWineries])].sort();
+		this.wineryList = merged;
 	}
 
 	getAllWinesTasted() {
-		this.wineTastedService.getWinesTasted(this.userUid).subscribe((wines => {
-			if (wines == null) {
-				this.wines = [];
-			} else {
-				this.wines = wines.sort((a: any, b: any) => {
-					const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt ?? 0);
-					const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt ?? 0);
-					return dateB.getTime() - dateA.getTime();
-				});
-			}
-			this.extractWineries(this.wines);
+		this.isLoadingMore = true;
+		this.wineTastedService.getWinesTasted(this.userUid, this.pageSize, null).subscribe((wines => {
+			this.wines = wines;
+			this.hasMore = wines.length === this.pageSize;
+			this.lastDocId = wines.length ? wines[wines.length - 1].id : null;
+			this.extractWineries(wines);
+			this.isLoadingMore = false;
 		}));
 	}
 
-	getWineryList() {
-		this.wineryService.getWineriesList().subscribe((wineryList => {
-			if (wineryList == null)
-				this.wineryList = [];
-			else
-				this.wineryList = wineryList;
+	loadMore() {
+		if (this.isLoadingMore || !this.hasMore) return;
+		this.isLoadingMore = true;
+		this.wineTastedService.getWinesTasted(this.userUid, this.pageSize, this.lastDocId).subscribe((wines => {
+			this.wines = [...this.wines, ...wines];
+			this.hasMore = wines.length === this.pageSize;
+			this.lastDocId = wines.length ? wines[wines.length - 1].id : this.lastDocId;
+			this.extractWineries(wines);
+			this.isLoadingMore = false;
 		}));
 	}
 
 	updateTastedWine(wine: WineTastingSheet) {
-		console.log(wine);
-		let navigationExtras: NavigationExtras = {
-			queryParams: wine,
-			fragment: 'anchor',
-			skipLocationChange: true
-		};
-
 		this.router.navigate(['/wine-tasted-details'], { state: { wineData: wine } });
 	}
 
@@ -116,7 +134,6 @@ export class WineTastedComponent implements OnInit {
 				break;
 		}
 		return pathImage;
-
 	}
 
 	viewWineDetails(wine: any) {

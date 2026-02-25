@@ -11,10 +11,9 @@ export class WineTastedService {
   private rootURL = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-  getWinesTasted(uid: string) {
-        return this.http.post<any>(this.rootURL + '/winesTasted', { uid })
+  getWinesTasted(uid: string, pageSize: number = 20, lastDocId: string | null = null) {
+        return this.http.post<any>(this.rootURL + '/winesTasted', { uid, limit: pageSize, lastDocId })
         .pipe(map(wines => {
-            console.log("Wines:", wines);
             if (wines == null)
                 return [];
             else

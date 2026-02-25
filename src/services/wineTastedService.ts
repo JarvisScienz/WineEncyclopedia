@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, getDoc, query, where, updateDoc, doc, addDoc, orderBy, limit, startAfter } from 'firebase/firestore';
 import { incrementWineTastedCount } from './winesService.js';
 
 const db = getFirestore();
@@ -10,10 +10,24 @@ export const getWinesByColorService = async (colorsArray :string[]): Promise<Par
 	return snapshot.docs.map(doc => ( { ...doc.data() }  as Partial<WineTasted>));
 };
 
-export const getWinesTastedService = async (uid: string): Promise<Partial<WineTasted>[]> => {
-	const winesCollection = query(collection(db, "wine-tasted"), where('user', '==', uid));
+export const getWinesTastedService = async (uid: string, pageSize: number = 20, lastDocId: string | null = null): Promise<Partial<WineTasted>[]> => {
+	const constraints: any[] = [
+		where('user', '==', uid),
+		orderBy('createdAt', 'desc'),
+	];
+
+	if (lastDocId !== null) {
+		const lastDocSnap = await getDoc(doc(db, 'wine-tasted', lastDocId));
+		if (lastDocSnap.exists()) {
+			constraints.push(startAfter(lastDocSnap));
+		}
+	}
+
+	constraints.push(limit(pageSize));
+
+	const winesCollection = query(collection(db, "wine-tasted"), ...constraints);
 	const snapshot = await getDocs(winesCollection);
-	return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<WineTasted>));
+	return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Partial<WineTasted>));
 };
 
 export const getWineTastedInYears = async (uid: string): Promise<any> => {

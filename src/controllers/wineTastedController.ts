@@ -39,14 +39,14 @@ class WineTastedController{
       }
 
       async getWinesTasted(req: Request, res: Response) {
-          const { uid } = req.body;
+          const { uid, limit = 20, lastDocId = null } = req.body;
           if (!uid ) {
             return res.status(422).json({
               uid: "UID is required"
             });
           }
           try {
-              const wines = await getWinesTastedService(uid);
+              const wines = await getWinesTastedService(uid, limit, lastDocId);
               res.status(200).json(wines);
             } catch (error: any) {
               console.error('[ERROR] getWinetasted. Unable to retrieve wines tasted. ', error);
