@@ -35,16 +35,15 @@ export class AuthenticationService {
 		return this.currentUserSubject.value;
 	}
 
-	login(email: string, password: string) {
+	login(email: string, password: string, rememberMe: boolean = false) {
 		console.log("Authentication.service.Login function");
+		const cookieDays = rememberMe ? 30 : 1;
 		return this.http.post<any>(this.uriLogin, { email: email, password: password }, { withCredentials: true })
 			.pipe(map(user => {
 				console.log(user);
-				// store user details and basic auth credentials in local storage to keep user logged in between page refreshes
-				//user.authdata = window.btoa(username + ':' + password);
-				this.cookiesService.setCookie("jwt", user.tokenJWT, 2);
-				this.cookiesService.setCookie("user", JSON.stringify(user.userData.user), 2);
-				this.cookiesService.setCookie("userEmail", email, 2);
+				this.cookiesService.setCookie("jwt", user.tokenJWT, cookieDays);
+				this.cookiesService.setCookie("user", JSON.stringify(user.userData.user), cookieDays);
+				this.cookiesService.setCookie("userEmail", email, cookieDays);
 				this.router.navigate(["/profile"]);
 				this.setUserData(user.userData.user.uid, email);
 				user.authdata = user.tokenJWT;
