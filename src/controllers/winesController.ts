@@ -14,10 +14,11 @@ const auth = getAuth(app.app);
 
 class WinesController {
 
-  async getWines(_req: Request, res: Response) {
+  async getWines(req: Request, res: Response) {
+      const { limit = 20, lastDocId = null } = req.body;
       try {
-        const wines = await getWines();
-        res.status(200).json(wines);       
+        const wines = await getWines(limit, lastDocId);
+        res.status(200).json(wines);
       } catch (error) {
         console.error('[ERRORE] getWines: Unable to retrieve wines informations.', error);
         res.status(500).json({ error: "Internal Server Error" });

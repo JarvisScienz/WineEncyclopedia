@@ -19,8 +19,8 @@ export class WineryService {
     );
   }
 
-  getWineries(): Observable<any[]> {
-    return this.http.post<any[]>(`${this.rootURL}/wineries`, {}).pipe(
+  getWineries(pageSize: number = 20, lastDocId: string | null = null): Observable<any[]> {
+    return this.http.post<any[]>(`${this.rootURL}/wineries`, { limit: pageSize, lastDocId }).pipe(
       map(wineries => wineries ?? []),
       catchError(this.handleError)
     );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
@@ -14,7 +14,7 @@ import { UserService } from 'src/app/_services/user.service';
 	templateUrl: './wineries.component.html',
 	styleUrls: ['./wineries.component.css']
 })
-export class WineriesComponent implements OnInit {
+export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: Wine[] = [];
 	wineries: Winery[] = [];
@@ -23,21 +23,42 @@ export class WineriesComponent implements OnInit {
 	filterColor: string = "";
 	filterWinerySelect: string = "";
 	userUid: string  = "";
-	reviews: any;
+	reviews: any = {};
+
+	readonly pageSize = 20;
+	isLoadingMore = false;
+	hasMore = true;
+	private lastDocId: string | null = null;
+	private observer!: IntersectionObserver;
+
+	@ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
 
 	constructor(private wineryService: WineryService,
 		private userService: UserService,
 		private router: Router,
 		private cookiesService: CookiesService) {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
-			
 		 }
-
-
 
 	ngOnInit() {
 		this.getAllWineries();
 		this.getUserInformation();
+	}
+
+	ngAfterViewInit() {
+		this.observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting && !this.isLoadingMore && this.hasMore) {
+					this.loadMore();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+		this.observer.observe(this.scrollAnchor.nativeElement);
+	}
+
+	ngOnDestroy() {
+		this.observer?.disconnect();
 	}
 
 	getUserInformation() {
@@ -46,10 +67,13 @@ export class WineriesComponent implements OnInit {
 		});
 	}
 	refresh() {
-		this.getAllWineries();
+		this.wineries = [];
+		this.lastDocId = null;
+		this.hasMore = true;
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
+		this.getAllWineries();
 	}
 
 	viewWineryDetails(winery: any, review: boolean) {
@@ -61,12 +85,23 @@ export class WineriesComponent implements OnInit {
 	}
 
 	getAllWineries() {
-		this.wineryService.getWineries().subscribe((wineries => {
-			if (wineries == null)
-				this.wines = [];
-			else
-				this.wineries = wineries;
-			this.extractWineries(this.wines);
+		this.isLoadingMore = true;
+		this.wineryService.getWineries(this.pageSize, null).subscribe((wineries => {
+			this.wineries = wineries ?? [];
+			this.hasMore = wineries.length === this.pageSize;
+			this.lastDocId = wineries.length ? wineries[wineries.length - 1].id : null;
+			this.isLoadingMore = false;
+		}));
+	}
+
+	loadMore() {
+		if (this.isLoadingMore || !this.hasMore) return;
+		this.isLoadingMore = true;
+		this.wineryService.getWineries(this.pageSize, this.lastDocId).subscribe((wineries => {
+			this.wineries = [...this.wineries, ...wineries];
+			this.hasMore = wineries.length === this.pageSize;
+			this.lastDocId = wineries.length ? wineries[wineries.length - 1].id : this.lastDocId;
+			this.isLoadingMore = false;
 		}));
 	}
 

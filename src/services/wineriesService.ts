@@ -1,11 +1,22 @@
-import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, updateDoc, doc, addDoc, orderBy, limit, startAfter, getDoc } from 'firebase/firestore';
 
 const db = getFirestore();
 
-export const getWineriesService = async (): Promise<Partial<Wine>[]> => {
-	const wineriesCollection = collection(db, "wineries");
+export const getWineriesService = async (pageSize: number = 20, lastDocId: string | null = null): Promise<Partial<Winery>[]> => {
+	const constraints: any[] = [orderBy('name')];
+
+	if (lastDocId !== null) {
+		const lastDocSnap = await getDoc(doc(db, 'wineries', lastDocId));
+		if (lastDocSnap.exists()) {
+			constraints.push(startAfter(lastDocSnap));
+		}
+	}
+
+	constraints.push(limit(pageSize));
+
+	const wineriesCollection = query(collection(db, "wineries"), ...constraints);
 	const snapshot = await getDocs(wineriesCollection);
-	return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Partial<Winery>));
+	return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Partial<Winery>));
 };
 
 export const getWineriesListService = async (): Promise<Partial<Winery>[]> => {

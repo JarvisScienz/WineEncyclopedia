@@ -83,3 +83,38 @@
 .col-text {
   color: var(--wine-gray);
 }
+
+/* Infinite scroll — loading indicator */
+.scroll-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  color: var(--wine-gray);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.scroll-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--wine-beige-dark);
+  border-top-color: var(--wine-burgundy);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* All loaded / empty state */
+.scroll-end {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--wine-gray-light);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+}

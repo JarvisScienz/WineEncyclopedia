@@ -37,4 +37,23 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Loading indicator -->
+	<div *ngIf="isLoadingMore" class="scroll-loading">
+		<div class="scroll-spinner"></div>
+		<span>Caricamento...</span>
+	</div>
+
+	<!-- All loaded message -->
+	<div *ngIf="!hasMore && wineries.length > 0" class="scroll-end">
+		Tutte le {{ wineries.length }} cantine caricate
+	</div>
+
+	<!-- Empty state -->
+	<div *ngIf="!isLoadingMore && wineries.length === 0" class="scroll-end">
+		Nessuna cantina trovata.
+	</div>
+
+	<!-- Intersection sentinel — triggers loadMore() when visible -->
+	<div #scrollAnchor style="height: 1px;"></div>
 </div>

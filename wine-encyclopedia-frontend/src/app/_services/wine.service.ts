@@ -13,8 +13,8 @@ export class WineService {
 
   constructor(private http: HttpClient) {}
 
-  getWines(): Observable<Wine[]> {
-    return this.http.post<Wine[]>(`${this.rootURL}/wines`, {}).pipe(
+  getWines(pageSize: number = 20, lastDocId: string | null = null): Observable<Wine[]> {
+    return this.http.post<Wine[]>(`${this.rootURL}/wines`, { limit: pageSize, lastDocId }).pipe(
       map(wines => wines ?? []),
       catchError(this.handleError)
     );

@@ -2,11 +2,10 @@ import { Request, Response } from 'express';
 import { getWineriesService, getWineriesListService, addWineriesService } from '../services/wineriesService.js';
   
 class WineriesController {
-async getWineries(_req: Request, res: Response) {
+async getWineries(req: Request, res: Response) {
+    const { limit = 20, lastDocId = null } = req.body;
     try {
-      
-      const wineries = await getWineriesService();
-  
+      const wineries = await getWineriesService(limit, lastDocId);
         res.status(200).json(wineries);
       } catch (error) {
         console.error('[ERROR] getWienries. Unable to retrieve wineries informations.', error);

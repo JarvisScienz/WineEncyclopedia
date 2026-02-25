@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
@@ -13,7 +13,7 @@ import { Grapes } from 'src/app/_models/wine';
 	templateUrl: './wines.component.html',
 	styleUrls: ['./wines.component.css']
 })
-export class WinesComponent implements OnInit {
+export class WinesComponent implements OnInit, AfterViewInit, OnDestroy {
 	wineTastingSheet: WineTastingSheet = new WineTastingSheet();
 	wines: any = [];
 	wineryList: any = [];
@@ -22,6 +22,14 @@ export class WinesComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 
+	readonly pageSize = 20;
+	isLoadingMore = false;
+	hasMore = true;
+	private lastDocId: string | null = null;
+	private observer!: IntersectionObserver;
+
+	@ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
+
 	constructor(private wineryService: WineryService,
 		private wineService: WineService,
 		private router: Router,
@@ -29,18 +37,34 @@ export class WinesComponent implements OnInit {
 			this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		 }
 
-
-
 	ngOnInit() {
 		this.getAllWines();
-		//this.getWineryList();
+	}
+
+	ngAfterViewInit() {
+		this.observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting && !this.isLoadingMore && this.hasMore) {
+					this.loadMore();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+		this.observer.observe(this.scrollAnchor.nativeElement);
+	}
+
+	ngOnDestroy() {
+		this.observer?.disconnect();
 	}
 
 	refresh() {
-		this.getAllWines();
+		this.wines = [];
+		this.lastDocId = null;
+		this.hasMore = true;
 		this.filterText = "";
 		this.filterColor = "";
 		this.filterWinerySelect = "";
+		this.getAllWines();
 	}
 
 	filterColorWine() {
@@ -62,16 +86,31 @@ export class WinesComponent implements OnInit {
 	}
 
 	extractWineries(jsonArray: any[]) {
-		this.wineryList = [...new Set(jsonArray.map(item => item.winery))].sort();
+		const newWineries = [...new Set(jsonArray.map(item => item.wineryName))];
+		const merged = [...new Set([...this.wineryList, ...newWineries])].sort();
+		this.wineryList = merged;
 	}
 
 	getAllWines() {
-		this.wineService.getWines().subscribe((wines => {
-			if (wines == null)
-				this.wines = [];
-			else
-				this.wines = wines;
+		this.isLoadingMore = true;
+		this.wineService.getWines(this.pageSize, null).subscribe((wines => {
+			this.wines = wines ?? [];
+			this.hasMore = wines.length === this.pageSize;
+			this.lastDocId = wines.length ? String(wines[wines.length - 1].id) : null;
 			this.extractWineries(this.wines);
+			this.isLoadingMore = false;
+		}));
+	}
+
+	loadMore() {
+		if (this.isLoadingMore || !this.hasMore) return;
+		this.isLoadingMore = true;
+		this.wineService.getWines(this.pageSize, this.lastDocId).subscribe((wines => {
+			this.wines = [...this.wines, ...wines];
+			this.hasMore = wines.length === this.pageSize;
+			this.lastDocId = wines.length ? String(wines[wines.length - 1].id) : this.lastDocId;
+			this.extractWineries(wines);
+			this.isLoadingMore = false;
 		}));
 	}
 
