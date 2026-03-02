@@ -89,7 +89,7 @@ The backend on http://localhost:5000.
 
 ```bash
 cd WineEncyclopedia/wine-encyclopedia-frontend
-ng build --configuration --production
+ng build --configuration production
 cd ..
 firebase deploy --project project_id --only hosting
 ```
