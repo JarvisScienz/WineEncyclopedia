@@ -8,7 +8,7 @@ trap 'echo "ERROR at line $LINENO"; exit 1' ERR
 # ==============================
 
 BASE_PATH="${BASE_PATH:-/home/user/wine-encyclopedia}"
-BACKEND_PATH="${BACKEND_PATH:-$BASE_PATH/}"
+BACKEND_PATH="${BACKEND_PATH:-$BASE_PATH}"
 FRONTEND_PATH="${FRONTEND_PATH:-$BASE_PATH/wine-encyclopedia-frontend}"
 
 ENV_FILE_PATH="${ENV_FILE_PATH:-$BACKEND_PATH/.env}"
@@ -58,13 +58,21 @@ deploy_backend() {
 
   sudo podman run -d \
     --name ${BACKEND_CONTAINER}-new \
-    --network $NETWORK \
     --env-file $ENV_FILE_PATH \
     -p $BACKEND_PORT:$BACKEND_PORT \
     $BACKEND_IMAGE:$VERSION
 
   echo "Health check backend..."
   sleep 5
+
+  echo "--- Container status ---"
+  sudo podman ps -a --filter name=${BACKEND_CONTAINER}-new
+
+  echo "--- Container logs ---"
+  sudo podman logs ${BACKEND_CONTAINER}-new || true
+
+  echo "--- Curl response ---"
+  curl -v http://localhost:$BACKEND_PORT/health 2>&1 || true
 
   if curl -f http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
     echo "Backend health check passed"
