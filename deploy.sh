@@ -88,7 +88,17 @@ deploy_backend() {
     fi
 
     sudo podman rename ${BACKEND_CONTAINER}-new $BACKEND_CONTAINER
-    sudo systemctl restart container-${BACKEND_CONTAINER}.service
+
+    SERVICE="container-${BACKEND_CONTAINER}.service"
+    if sudo systemctl list-unit-files "$SERVICE" | grep -q "$SERVICE"; then
+      sudo systemctl restart "$SERVICE"
+    else
+      echo "Registering systemd service for the first time..."
+      sudo podman generate systemd --name $BACKEND_CONTAINER > /etc/systemd/system/$SERVICE
+      sudo systemctl daemon-reload
+      sudo systemctl enable "$SERVICE"
+      sudo systemctl start "$SERVICE"
+    fi
 
     echo "Backend updated to $VERSION"
   else
