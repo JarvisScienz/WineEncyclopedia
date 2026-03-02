@@ -9,15 +9,12 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const firebaseAccountCredentials = require('../../wineencyclopedia-245f5-firebase-adminsdk-5bhjd-b1ac58c49c.json');
-
-const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  } as admin.ServiceAccount)
 });
 
 const getUserRecord = (uid: string) => admin.auth().getUser(uid)
