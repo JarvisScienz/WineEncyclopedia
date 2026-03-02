@@ -215,6 +215,11 @@
   box-shadow: 0 4px 12px rgba(114, 47, 55, 0.3);
 }
 
+/* Remove Bootstrap dropdown caret injected by ngbDropdownToggle */
+.profile-pic-container::after {
+  display: none;
+}
+
 .profile-initial {
   color: #fff;
   font-weight: bold;

@@ -1,49 +1,117 @@
-<div class="profile-container">
-	<!-- Informazioni Profilo -->
-	<div class="profile-info">
-	  <h2>Profilo Utente</h2>
-	  <div class="profile-field">
-		<label for="name">Nome:</label>
-		<input id="name" [(ngModel)]="user.name" type="text" />
-	  </div>
-	  <div class="profile-field">
-		<label for="email">Email:</label>
-		<input id="email" [(ngModel)]="user.email" type="email" />
-	  </div>
-	  <div class="profile-field">
-		<label>Data di iscrizione:</label>
-		<span>{{ user.registrationDate | date:'dd/MM/yyyy' }}</span>
-	  </div>
-	  <div class="profile-field">
-		<label>Livello:</label>
-		<span>{{ levelInfo.name }}</span>
-	  </div>
-	  <div class="progress-bar">
-		<div
-		  class="progress-bar-fill"
-		  [style.width.%]="progressPercentage"
-		></div>
-	  </div>
-  
-	  <!-- Messaggio di progresso -->
-	  <div *ngIf="nextLevel; else maxLevel">
-		<p>
-		  Ti mancano <strong>{{ winesNeededForNextLevel }}</strong> vini per raggiungere il
-		  livello <strong>{{ nextLevel.name }}</strong>.
-		</p>
-	  </div>
-	  <ng-template #maxLevel>
-		<p>Hai raggiunto il massimo livello! Sei un vero esperto di vini. 🎉</p>
-	  </ng-template>
-	</div>
-  
-	<!-- Statistiche -->
-	<div class="stats-section">
-	  <h2>Statistiche Degustazioni</h2>
-	  <div class="stats-card">
-		<p>Vini degustati: <strong>{{ totalTasted }}</strong></p>
-	  </div>
-	  <canvas id="tastingChart"></canvas>
-	</div>
+<div class="profile-page">
+
+  <!-- Left column: info + password -->
+  <div class="profile-left">
+
+    <!-- User Info Card -->
+    <div class="profile-card">
+      <h2>Profilo Utente</h2>
+
+      <div class="profile-field">
+        <label for="name">Nome</label>
+        <input id="name" [(ngModel)]="user.name" type="text" placeholder="Il tuo nome" />
+      </div>
+      <div class="profile-field">
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="user.email" type="email" placeholder="La tua email" />
+      </div>
+      <div class="profile-field">
+        <label>Data di iscrizione</label>
+        <span class="profile-value">{{ user.registrationDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="profile-field">
+        <label>Livello</label>
+        <span class="profile-value level-badge">{{ levelInfo?.name }}</span>
+      </div>
+
+      <ng-container *ngIf="levelCalculated">
+        <div class="progress-bar">
+          <div class="progress-bar-fill" [style.width.%]="progressPercentage"></div>
+        </div>
+        <div *ngIf="nextLevel; else maxLevel" class="level-msg">
+          Ti mancano <strong>{{ winesNeededForNextLevel }}</strong> vini per raggiungere il livello
+          <strong>{{ nextLevel.name }}</strong>.
+        </div>
+        <ng-template #maxLevel>
+          <div class="level-msg">Hai raggiunto il massimo livello! Sei un vero esperto di vini. 🎉</div>
+        </ng-template>
+      </ng-container>
+
+      <div class="feedback-msg success" *ngIf="profileSaveSuccess">
+        <i class="fas fa-check-circle"></i> Informazioni salvate con successo.
+      </div>
+      <div class="feedback-msg error" *ngIf="profileSaveError">
+        <i class="fas fa-exclamation-circle"></i> Errore durante il salvataggio. Riprova.
+      </div>
+
+      <button class="btn-save" (click)="saveUserInfo()" [disabled]="isSavingProfile">
+        <span *ngIf="isSavingProfile" class="spinner-border spinner-border-sm mr-1"></span>
+        Salva informazioni
+      </button>
+    </div>
+
+    <!-- Change Password Card -->
+    <div class="profile-card">
+      <h2>Cambia Password</h2>
+
+      <div class="profile-field">
+        <label for="oldPassword">Vecchia password</label>
+        <div class="password-wrapper">
+          <input id="oldPassword" [type]="showOldPassword ? 'text' : 'password'"
+            [(ngModel)]="oldPassword" placeholder="Inserisci la vecchia password" />
+          <button type="button" class="eye-btn" (click)="showOldPassword = !showOldPassword">
+            <i class="fas" [ngClass]="showOldPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-field">
+        <label for="newPassword">Nuova password</label>
+        <div class="password-wrapper">
+          <input id="newPassword" [type]="showNewPassword ? 'text' : 'password'"
+            [(ngModel)]="newPassword" placeholder="Inserisci la nuova password" />
+          <button type="button" class="eye-btn" (click)="showNewPassword = !showNewPassword">
+            <i class="fas" [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <div class="strength-indicator" *ngIf="newPassword.length > 0">
+          <div class="strength-bars">
+            <div class="strength-bar filled" [ngClass]="newPasswordStrength"></div>
+            <div class="strength-bar" [class.filled]="newPasswordStrength === 'medium' || newPasswordStrength === 'strong'" [ngClass]="newPasswordStrength"></div>
+            <div class="strength-bar" [class.filled]="newPasswordStrength === 'strong'" [ngClass]="newPasswordStrength"></div>
+          </div>
+          <span class="strength-text" [ngClass]="newPasswordStrength">
+            {{ newPasswordStrength === 'weak' ? 'Debole' : newPasswordStrength === 'medium' ? 'Media' : 'Forte' }}
+          </span>
+        </div>
+        <small *ngIf="newPassword.length > 0 && !newPasswordValid">
+          Almeno 8 caratteri, un numero e un simbolo.
+        </small>
+      </div>
+
+      <div class="feedback-msg success" *ngIf="passwordChangeSuccess">
+        <i class="fas fa-check-circle"></i> Password aggiornata con successo.
+      </div>
+      <div class="feedback-msg error" *ngIf="passwordChangeError">
+        <i class="fas fa-exclamation-circle"></i> {{ passwordChangeErrorMsg }}
+      </div>
+
+      <button class="btn-save" (click)="updatePassword()"
+        [disabled]="isChangingPassword || !oldPassword || !newPasswordValid">
+        <span *ngIf="isChangingPassword" class="spinner-border spinner-border-sm mr-1"></span>
+        Aggiorna password
+      </button>
+    </div>
+
   </div>
-  
+
+  <!-- Right column: stats -->
+  <div class="stats-section">
+    <h2>Statistiche Degustazioni</h2>
+    <div class="stats-card">
+      <p>Vini degustati: <strong>{{ totalTasted }}</strong></p>
+    </div>
+    <canvas id="tastingChart"></canvas>
+  </div>
+
+</div>

@@ -1,37 +1,59 @@
 <div class="login-container">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <h2>Registrati</h2>
-  
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" placeholder="Inserisci la tua email">
-        <small *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-          Inserisci un'email valida.
-        </small>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-wrapper">
-            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Inserisci la password">
-            <button type="button" class="eye-btn" (click)="togglePasswordVisibility()">
-              <i class="fas" [ngClass]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-            </button>
-          </div>    
-        <small *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-          La password è obbligatoria.
-        </small>
-      </div>
+  <button class="lang-switcher" (click)="toggleLanguage()"
+    [attr.aria-label]="translationService.isItalian() ? 'Switch to English' : 'Passa all\'italiano'">
+    <span>{{ translationService.isItalian() ? '🇮🇹' : '🇬🇧' }}</span>
+    <span class="lang-code">{{ translationService.isItalian() ? 'IT' : 'EN' }}</span>
+  </button>
 
-      <div class="form-group" *ngIf="loginError">
-        <label class="form-check-label">Errore nella registrazione. Riprova!</label>
-	</div>
-  
-        <button type="submit" [disabled]="loading || registrationForm.invalid">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Registrati
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <h2>{{ 'signup.title' | translate }}</h2>
+
+    <div class="form-group">
+      <label for="email">{{ 'signup.email' | translate }}</label>
+      <input id="email" type="email" formControlName="email" [placeholder]="'signup.emailPlaceholder' | translate">
+      <small *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+        {{ 'signup.errors.email' | translate }}
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="password">{{ 'signup.password' | translate }}</label>
+      <div class="password-wrapper">
+        <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+          [placeholder]="'signup.passwordPlaceholder' | translate">
+        <button type="button" class="eye-btn" (click)="togglePasswordVisibility()">
+          <i class="fas" [ngClass]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
-      <a routerLink="../login" class="btn btn-link">Login</a>
-    </form>
-  </div>
-  
+      </div>
+      <div class="strength-indicator" *ngIf="f.password.value?.length > 0">
+        <div class="strength-bars">
+          <div class="strength-bar filled" [ngClass]="passwordStrength"></div>
+          <div class="strength-bar" [class.filled]="passwordStrength === 'medium' || passwordStrength === 'strong'" [ngClass]="passwordStrength"></div>
+          <div class="strength-bar" [class.filled]="passwordStrength === 'strong'" [ngClass]="passwordStrength"></div>
+        </div>
+        <span class="strength-text" [ngClass]="passwordStrength">
+          {{ ('signup.strength.' + passwordStrength) | translate }}
+        </span>
+      </div>
+      <small *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+        {{ 'signup.errors.password' | translate }}
+      </small>
+    </div>
+
+    <div class="form-group error-group" *ngIf="emailAlreadyRegistered">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ 'signup.errors.emailAlreadyRegistered' | translate }}</span>
+    </div>
+
+    <div class="form-group error-group" *ngIf="loginError">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ 'signup.errors.generic' | translate }}</span>
+    </div>
+
+    <button type="submit" [disabled]="loading || registrationForm.invalid">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      {{ 'signup.button' | translate }}
+    </button>
+    <a routerLink="/login" class="btn-link">{{ 'signup.loginLink' | translate }}</a>
+  </form>
+</div>

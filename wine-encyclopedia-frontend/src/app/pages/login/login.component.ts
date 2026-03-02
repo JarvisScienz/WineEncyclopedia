@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit, HostListener, signal } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { first } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { AuthenticationService } from '../../_services';
 	standalone: true,
 	imports: [
 		CommonModule,
+		RouterModule,
 		FormsModule,
 		ReactiveFormsModule,
 		TranslatePipe

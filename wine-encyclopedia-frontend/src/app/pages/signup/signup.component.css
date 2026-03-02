@@ -5,6 +5,37 @@
   min-height: 100vh;
   background-color: var(--wine-cream);
   padding: 1rem;
+  position: relative;
+}
+
+.lang-switcher {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--wine-burgundy);
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--wine-burgundy);
+  transition: all 0.2s ease;
+  width: auto;
+}
+
+.lang-switcher:hover {
+  background: var(--wine-burgundy);
+  color: white;
+  transform: none;
+  box-shadow: none;
+}
+
+.lang-code {
+  font-weight: 600;
 }
 
 form {
@@ -90,6 +121,9 @@ input:focus {
 .eye-btn {
   position: absolute;
   right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
   background: none;
   border: none;
   cursor: pointer;
@@ -157,12 +191,68 @@ small {
   margin-top: 0.25rem;
 }
 
+/* Password Strength Indicator */
+.strength-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--wine-beige-dark);
+  transition: background-color 0.3s ease;
+}
+
+.strength-bar.filled.weak   { background-color: #dc3545; }
+.strength-bar.filled.medium { background-color: #ffc107; }
+.strength-bar.filled.strong { background-color: #28a745; }
+
+.strength-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 2.75rem;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+.strength-text.weak   { color: #dc3545; }
+.strength-text.medium { color: #ffc107; }
+.strength-text.strong { color: #28a745; }
+
+.error-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  padding: 0.625rem 0.875rem;
+  color: #dc3545;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.error-group i {
+  flex-shrink: 0;
+}
+
 .btn-link {
   margin-top: 1rem;
   display: inline-block;
   color: var(--wine-burgundy);
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .btn-link:hover {

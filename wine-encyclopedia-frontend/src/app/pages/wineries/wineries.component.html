@@ -1,37 +1,107 @@
 <div class="container py-4">
 	<h1 class="page-title">Explore Wineries</h1>
 
-	<div class="filters-row">
-		<div class="dropdown mr-3">
-			<input type="search" [(ngModel)]="filterText" class="form-control" placeholder="Filter by Name...">
-		</div>
-		<div class="dropdown">
-			<select class="form-control" id="winery" name="winery" [(ngModel)]="filterWinerySelect">
-				<option value="" disabled selected>Producer</option>
-				<option *ngFor="let winery of wineryList" value="{{winery}}">{{winery}}</option>
-			</select>
-		</div>
-	</div>
-
 	<div class="card wineries-card">
 		<div class="card-body p-0">
-			<div class="winery-table-header d-flex py-3 px-4">
-				<div style="flex: 0.5;">Id</div>
-				<div style="flex: 2;">Nome</div>
-				<div style="flex: 2;">Luogo</div>
-				<div style="flex: 1;">Denominazione</div>
-				<div style="flex: 0.5; text-align: center;">Visitata?</div>
-			</div>
-			<div class="list-group list-group-flush">
-				<div *ngFor="let winery of wineries | winesFilter: filterText; let i = index" class="winery-row list-group-item d-flex align-items-center py-3 px-4">
-					<div class="col-text" style="flex: 0.5;">{{winery.id}}</div>
-					<div style="flex: 2;">
-						<a (click)="viewWineryDetails(winery, false)" class="winery-link">{{winery.name}}</a>
+
+			<!-- Sticky header wrapper -->
+			<div class="sticky-header">
+
+				<!-- Search & Filter Toolbar -->
+				<div class="search-filter-toolbar">
+					<div class="search-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-search search-icon-inner" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+						<input type="text" class="form-control search-input-inner"
+							   placeholder="Cerca cantina..."
+							   [(ngModel)]="filterText">
 					</div>
-					<div class="col-text" style="flex: 2;">{{winery.country}} - {{winery.region}} - {{winery.city}} - {{winery.village}} - {{winery.district}}</div>
-					<div class="col-text" style="flex: 1;">{{winery.denomination}}</div>
-					<div style="flex: 0.5; text-align: center;">
-						<i [ngClass]="isWineryVisited(winery.id) ? ['fas', 'fa-check', 'visited-icon'] : ['fas', 'fa-xmark', 'not-visited-icon']" aria-hidden="true"></i>
+					<button class="btn btn-filter" (click)="toggleFilters()" [class.active]="showFilters">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-funnel" viewBox="0 0 16 16">
+							<path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.667V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+						</svg>
+						<span class="d-none d-sm-inline ms-1">Filtri</span>
+						<span class="filter-badge" *ngIf="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
+					</button>
+				</div>
+
+				<!-- Collapsible Filter Panel -->
+				<div class="filter-panel" [class.open]="showFilters">
+					<div class="row g-2 p-3 pb-2">
+						<div class="col-12 col-sm-6 col-lg-4">
+							<label class="filter-label">
+								Paese
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterCountry">
+								<option value="">Tutti i paesi</option>
+								<option *ngFor="let c of countryList" [value]="c">{{ c }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-4">
+							<label class="filter-label">
+								Denominazione
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterDenomination">
+								<option value="">Tutte le denominazioni</option>
+								<option *ngFor="let d of denominationList" [value]="d">{{ d }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-4 d-flex align-items-end">
+							<button class="btn btn-outline-secondary w-100" (click)="refresh()">
+								Azzera filtri
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Desktop Table Header (hidden on mobile) -->
+				<div class="winery-table-header d-flex py-3 px-4 mobile-hide">
+					<div style="flex: 2;">Nome</div>
+					<div style="flex: 2;">Luogo</div>
+					<div style="flex: 1;">Denominazione</div>
+					<div style="flex: 0.5; text-align: center;">Visitata?</div>
+				</div>
+			</div>
+
+			<!-- Winery List -->
+			<div class="list-group list-group-flush">
+				<div *ngFor="let winery of displayedWineries" class="winery-row list-group-item">
+
+					<!-- Mobile: Card Layout -->
+					<div class="mobile-only winery-card-mobile py-3 px-3">
+						<div class="d-flex align-items-start justify-content-between">
+							<div class="flex-grow-1">
+								<div class="winery-name-mobile mb-1">
+									<a (click)="viewWineryDetails(winery, false)" class="winery-link">{{ winery.name }}</a>
+								</div>
+								<div class="winery-details-mobile">
+									<small class="d-block text-muted">
+										{{ winery.country }}<span *ngIf="winery.region"> — {{ winery.region }}</span><span *ngIf="winery.city"> — {{ winery.city }}</span>
+									</small>
+									<small *ngIf="winery.denomination" class="d-block text-muted">{{ winery.denomination }}</small>
+								</div>
+							</div>
+							<div class="ms-3 flex-shrink-0">
+								<i [ngClass]="isWineryVisited(winery.id) ? ['fas', 'fa-check', 'visited-icon'] : ['fas', 'fa-xmark', 'not-visited-icon']" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+
+					<!-- Desktop: Table Layout -->
+					<div class="mobile-hide d-flex align-items-center py-3 px-4">
+						<div style="flex: 2;">
+							<a (click)="viewWineryDetails(winery, false)" class="winery-link">{{ winery.name }}</a>
+						</div>
+						<div class="col-text" style="flex: 2;">{{ winery.country }} - {{ winery.region }} - {{ winery.city }} - {{ winery.village }} - {{ winery.district }}</div>
+						<div class="col-text" style="flex: 1;">{{ winery.denomination }}</div>
+						<div style="flex: 0.5; text-align: center;">
+							<i [ngClass]="isWineryVisited(winery.id) ? ['fas', 'fa-check', 'visited-icon'] : ['fas', 'fa-xmark', 'not-visited-icon']" aria-hidden="true"></i>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -39,21 +109,26 @@
 	</div>
 
 	<!-- Loading indicator -->
-	<div *ngIf="isLoadingMore" class="scroll-loading">
+	<div *ngIf="isLoadingMore || (isFilterModeActive && isPreloading)" class="scroll-loading">
 		<div class="scroll-spinner"></div>
-		<span>Caricamento...</span>
+		<span>{{ isFilterModeActive && isPreloading ? 'Caricamento dati in corso...' : 'Caricamento...' }}</span>
 	</div>
 
-	<!-- All loaded message -->
-	<div *ngIf="!hasMore && wineries.length > 0" class="scroll-end">
+	<!-- Browse mode: all pages loaded -->
+	<div *ngIf="!isFilterModeActive && !isLoadingMore && !hasMore && wineries.length > 0" class="scroll-end">
 		Tutte le {{ wineries.length }} cantine caricate
 	</div>
 
+	<!-- Filter mode: result count -->
+	<div *ngIf="isFilterModeActive && allWineriesLoaded" class="scroll-end">
+		{{ displayedWineries.length }} {{ displayedWineries.length === 1 ? 'risultato trovato' : 'risultati trovati' }}
+	</div>
+
 	<!-- Empty state -->
-	<div *ngIf="!isLoadingMore && wineries.length === 0" class="scroll-end">
+	<div *ngIf="!isLoadingMore && !isPreloading && displayedWineries.length === 0" class="scroll-end">
 		Nessuna cantina trovata.
 	</div>
 
-	<!-- Intersection sentinel — triggers loadMore() when visible -->
+	<!-- Intersection sentinel -->
 	<div #scrollAnchor style="height: 1px;"></div>
 </div>

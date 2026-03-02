@@ -1,49 +1,97 @@
 <div class="container py-responsive">
 	<h1 class="page-title mb-4">Explore Wines</h1>
 
-	<!-- Filters - Responsive Grid -->
-	<div class="row g-2 g-md-3 mb-4">
-		<div class="col-12 col-sm-6 col-lg-3">
-			<select class="form-control filter-select">
-				<option value="" disabled selected>Region</option>
-				<!-- Add region options dynamically if available -->
-			</select>
-		</div>
-		<div class="col-12 col-sm-6 col-lg-3">
-			<select class="form-control filter-select">
-				<option value="" disabled selected>Varietal</option>
-				<!-- Add varietal options dynamically if available -->
-			</select>
-		</div>
-		<div class="col-12 col-sm-6 col-lg-3">
-			<select class="form-control filter-select">
-				<option value="" disabled selected>Producer</option>
-				<!-- Add producer options dynamically if available -->
-			</select>
-		</div>
-		<div class="col-12 col-sm-6 col-lg-3">
-			<select class="form-control filter-select">
-				<option value="" disabled selected>Rating</option>
-				<!-- Add rating options dynamically if available -->
-			</select>
-		</div>
-	</div>
-
 	<!-- Wines List Card -->
 	<div class="card wines-card">
 		<div class="card-body p-0">
-			<!-- Desktop Table Header -->
-			<div class="table-header mobile-hide">
-				<div class="col-wine">Wine</div>
-				<div class="col-denomination">Denominazione</div>
-				<div class="col-varietal">Varietal</div>
-				<div class="col-producer">Producer</div>
-				<div class="col-rating">Rating</div>
+
+			<!-- Sticky header wrapper -->
+			<div class="sticky-header">
+
+				<!-- Search & Filter Toolbar -->
+				<div class="search-filter-toolbar">
+					<div class="search-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-search search-icon-inner" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+						<input type="text" class="form-control search-input-inner"
+							   placeholder="Cerca vino, cantina, denominazione..."
+							   [(ngModel)]="filterText">
+					</div>
+					<button class="btn btn-filter" (click)="toggleFilters()" [class.active]="showFilters">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-funnel" viewBox="0 0 16 16">
+							<path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.667V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+						</svg>
+						<span class="d-none d-sm-inline ms-1">Filtri</span>
+						<span class="filter-badge" *ngIf="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
+					</button>
+				</div>
+
+				<!-- Collapsible Filter Panel -->
+				<div class="filter-panel" [class.open]="showFilters">
+					<div class="row g-2 p-3 pb-2">
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">Colore</label>
+							<select class="form-control filter-select" [(ngModel)]="filterColor">
+								<option value="">Tutti i colori</option>
+								<option value="Rosso">Rosso</option>
+								<option value="Bianco">Bianco</option>
+								<option value="Rosato">Rosato</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Cantina
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterWinerySelect">
+								<option value="">Tutte le cantine</option>
+								<option *ngFor="let winery of wineryList" [value]="winery">{{ winery }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Denominazione
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterDenomination">
+								<option value="">Tutte le denominazioni</option>
+								<option *ngFor="let den of denominationList" [value]="den">{{ den }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Vitigno
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterVarietal">
+								<option value="">Tutti i vitigni</option>
+								<option *ngFor="let v of varietalList" [value]="v">{{ v }}</option>
+							</select>
+						</div>
+						<div class="col-12 d-flex justify-content-end pt-1">
+							<button class="btn btn-outline-secondary" (click)="refresh()">
+								Azzera filtri
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Desktop Table Header -->
+				<div class="table-header mobile-hide">
+					<div class="col-wine">Wine</div>
+					<div class="col-denomination">Denominazione</div>
+					<div class="col-varietal">Varietal</div>
+					<div class="col-producer">Producer</div>
+					<div class="col-rating">Rating</div>
+				</div>
 			</div>
 
 			<!-- Wine List Items -->
 			<div class="list-group list-group-flush">
-				<div *ngFor="let wine of wines; let i = index" class="list-group-item wine-item">
+				<div *ngFor="let wine of displayedWines" class="list-group-item wine-item">
 					<!-- Mobile: Card Layout -->
 					<div class="mobile-only wine-card-mobile">
 						<div class="d-flex align-items-start mb-2">
@@ -78,19 +126,24 @@
 		</div>
 	</div>
 
-	<!-- Loading indicator -->
-	<div *ngIf="isLoadingMore" class="scroll-loading">
+	<!-- Loading indicator: infinite scroll (browse) or background preload (filter mode) -->
+	<div *ngIf="isLoadingMore || (isFilterModeActive && isPreloading)" class="scroll-loading">
 		<div class="scroll-spinner"></div>
-		<span>Caricamento...</span>
+		<span>{{ isFilterModeActive && isPreloading ? 'Caricamento dati in corso...' : 'Caricamento...' }}</span>
 	</div>
 
-	<!-- All loaded message -->
-	<div *ngIf="!hasMore && wines.length > 0" class="scroll-end">
+	<!-- Browse mode: all pages loaded -->
+	<div *ngIf="!isFilterModeActive && !isLoadingMore && !hasMore && wines.length > 0" class="scroll-end">
 		Tutti i {{ wines.length }} vini caricati
 	</div>
 
+	<!-- Filter mode: show result count once preload is complete -->
+	<div *ngIf="isFilterModeActive && allWinesLoaded" class="scroll-end">
+		{{ displayedWines.length }} {{ displayedWines.length === 1 ? 'risultato trovato' : 'risultati trovati' }}
+	</div>
+
 	<!-- Empty state -->
-	<div *ngIf="!isLoadingMore && wines.length === 0" class="scroll-end">
+	<div *ngIf="!isLoadingMore && !isPreloading && displayedWines.length === 0" class="scroll-end">
 		Nessun vino trovato.
 	</div>
 

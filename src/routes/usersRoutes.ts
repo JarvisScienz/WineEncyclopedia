@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.post('/api/v1/userInformation', usersController.getUserInformation);
 
+router.post('/api/v1/updateUserInformation', usersController.updateUserInformation);
+
+router.post('/api/v1/changePassword', usersController.changePassword);
+
 router.post('/api/v1/saveReview', usersController.saveReview);
 
 

@@ -1,6 +1,9 @@
-import { getFirestore, collection, getDoc, query, where, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDoc, query, where, updateDoc, setDoc, doc, addDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import firebaseApp from '../config/firebase.js';
 
 const db = getFirestore();
+const auth = getAuth(firebaseApp.app);
 
 export const getUserInformationService = async (uid: string): Promise<Partial<User> | null> => {
 	const userRef = doc(db, "users", uid);
@@ -23,4 +26,22 @@ export const saveReviewService = async (uid: string, wineryID: string, review: s
 	// Aggiorna il documento
 	await updateDoc(userRef, { reviews: updatedReviews });	
 }
-export default { getUserInformationService, saveReviewService };
+export const updateUserInformationService = async (uid: string, name: string, email: string): Promise<void> => {
+	const userRef = doc(db, "users", uid);
+	await setDoc(userRef, { name, email }, { merge: true });
+};
+
+export const changePasswordService = async (uid: string, oldPassword: string, newPassword: string): Promise<void> => {
+	// Get email from Firebase Auth (works even if Firestore doc doesn't exist yet)
+	const userRecord = await firebaseApp.admin.auth().getUser(uid);
+	const email = userRecord.email;
+	if (!email) throw new Error("User email not found.");
+
+	// Verify old password by attempting sign-in
+	await signInWithEmailAndPassword(auth, email, oldPassword);
+
+	// Update password via Admin SDK
+	await firebaseApp.admin.auth().updateUser(uid, { password: newPassword });
+};
+
+export default { getUserInformationService, saveReviewService, updateUserInformationService, changePasswordService };

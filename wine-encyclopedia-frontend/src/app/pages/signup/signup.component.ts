@@ -1,13 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../../_services';
+import { TranslationService } from '../../_services/translation.service';
 
-@Component({ 
+function passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+	const value: string = control.value || '';
+	const hasMinLength = value.length >= 8;
+	const hasNumber = /\d/.test(value);
+	const hasSymbol = /[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>\/?~`]/.test(value);
+	if (hasMinLength && hasNumber && hasSymbol) return null;
+	return { passwordStrength: { hasMinLength, hasNumber, hasSymbol } };
+}
+
+@Component({
 	selector: 'signup-cmp',
-    //moduleId: module.id,
 	templateUrl: 'signup.component.html',
 	styleUrls: ['./signup.component.css']
 	})
@@ -17,16 +26,16 @@ export class SignupComponent implements OnInit {
 	submitted = false;
 	returnUrl!: string;
 	loginError = false;
+	emailAlreadyRegistered = false;
 	showPassword: boolean = false;
-	
 
 	constructor(
 		private formBuilder: UntypedFormBuilder,
 		private route: ActivatedRoute,
 		private router: Router,
 		private authenticationService: AuthenticationService,
+		public translationService: TranslationService,
 	) {
-		// redirect to home if already logged in
 		if (this.authenticationService.currentUserValue) {
 			this.router.navigate(['/']);
 		}
@@ -34,54 +43,65 @@ export class SignupComponent implements OnInit {
 
 	ngOnInit() {
 		this.registrationForm = this.formBuilder.group({
-			username: ['', Validators.required],
-			password: ['', Validators.required]
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', [Validators.required, passwordStrengthValidator]]
 		});
-		
-		/*this.registrationForm = new FormGroup({          
-              'username':new FormControl(null), //note, can have up to 3 Constructor Params: default value, validators, AsyncValidators
-               'password':new FormControl(null,Validators.email)
-
-          })*/
-
-		// get return url from route parameters or default to '/'
 		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+	}
+
+	get passwordStrength(): 'weak' | 'medium' | 'strong' {
+		const value: string = this.f.password.value || '';
+		const score =
+			(value.length >= 8 ? 1 : 0) +
+			(/\d/.test(value) ? 1 : 0) +
+			(/[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>\/?~`]/.test(value) ? 1 : 0);
+		if (score <= 1) return 'weak';
+		if (score === 2) return 'medium';
+		return 'strong';
 	}
 
 	togglePasswordVisibility() {
 		this.showPassword = !this.showPassword;
-	  }
+	}
+
+	toggleLanguage(): void {
+		this.translationService.toggleLanguage();
+	}
 
 	// convenience getter for easy access to form fields
 	get f() { return this.registrationForm.controls; }
 
 	onSubmit() {
 		this.submitted = true;
-		console.log("Signup onSubmit");
-		// stop here if form is invalid
+		this.loginError = false;
+		this.emailAlreadyRegistered = false;
+
 		if (this.registrationForm.invalid) {
 			return;
 		}
 
 		this.loading = true;
-		 try {
-			this.authenticationService.signup(this.f.username.value, this.f.password.value)
+		try {
+			this.authenticationService.signup(this.f.email.value, this.f.password.value)
 				.pipe(first())
-				.subscribe({				
+				.subscribe({
 					next: () => {
-						console.log("authenticationService.login");
 						this.router.navigate(["/wine-tasted"]);
-						//console.log(data);
 					},
-					error: error => {
-						console.log(error);
+					error: (error: string) => {
 						this.loading = false;
-						this.loginError = true;
+						const msg = (error || '').toLowerCase();
+						if (msg.includes('already') || msg.includes('exists') ||
+							msg.includes('in use') || msg.includes('conflict') ||
+							msg.includes('registrata') || msg.includes('409')) {
+							this.emailAlreadyRegistered = true;
+						} else {
+							this.loginError = true;
+						}
 					}
 				});
-		}catch (error) {
-		    console.error('Errore durante la creazione dell\'utente:', error);
-		    // Gestisci l'errore nella tua applicazione Angular...
-	  }
+		} catch (error) {
+			console.error('Errore durante la creazione dell\'utente:', error);
+		}
 	}
 }

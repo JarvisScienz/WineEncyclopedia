@@ -305,5 +305,67 @@ export const translations: Translations = {
   'login.errors.password': {
     it: 'Inserire una password',
     en: 'Enter a password'
+  },
+  'login.errors.credentials': {
+    it: 'Credenziali errate. Riprova!',
+    en: 'Wrong credentials. Please try again!'
+  },
+
+  // Signup
+  'signup.title': {
+    it: 'Registrati',
+    en: 'Sign Up'
+  },
+  'signup.email': {
+    it: 'Email',
+    en: 'Email'
+  },
+  'signup.emailPlaceholder': {
+    it: 'Inserisci la tua email',
+    en: 'Enter your email'
+  },
+  'signup.password': {
+    it: 'Password',
+    en: 'Password'
+  },
+  'signup.passwordPlaceholder': {
+    it: 'Inserisci la password',
+    en: 'Enter your password'
+  },
+  'signup.button': {
+    it: 'Registrati',
+    en: 'Sign Up'
+  },
+  'signup.loginLink': {
+    it: 'Hai già un account? Accedi',
+    en: 'Already have an account? Login'
+  },
+  'signup.errors.email': {
+    it: "Inserisci un'email valida.",
+    en: 'Enter a valid email.'
+  },
+  'signup.errors.password': {
+    it: 'Almeno 8 caratteri, un numero e un simbolo.',
+    en: 'At least 8 characters, one number, and one symbol.'
+  },
+  'signup.errors.emailAlreadyRegistered': {
+    it: "L'email è già registrata nel sistema.",
+    en: 'This email is already registered.'
+  },
+  'signup.errors.generic': {
+    it: 'Errore nella registrazione. Riprova!',
+    en: 'Registration error. Please try again!'
+  },
+  'signup.strength.weak': {
+    it: 'Debole',
+    en: 'Weak'
+  },
+  'signup.strength.medium': {
+    it: 'Media',
+    en: 'Medium'
+  },
+  'signup.strength.strong': {
+    it: 'Forte',
+    en: 'Strong'
   }
 };

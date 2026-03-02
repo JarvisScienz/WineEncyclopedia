@@ -507,6 +507,7 @@ small {
   color: var(--wine-burgundy);
   text-decoration: none;
   font-weight: 600;
+  cursor: pointer;
   transition: color var(--transition-fast);
 }
 

@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthLayoutRoutes } from './auth-layout.routing';
 import { SignupComponent } from "../../pages/signup/signup.component";
 import { LoginComponent } from "../../pages/login/login.component";
+import { TranslatePipe } from "../../pipes/translate.pipe";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { LoginComponent } from "../../pages/login/login.component";
     FormsModule,
 	ReactiveFormsModule,
     NgbModule,
-	LoginComponent
+	LoginComponent,
+	TranslatePipe
   ],
   declarations: [
 	  SignupComponent

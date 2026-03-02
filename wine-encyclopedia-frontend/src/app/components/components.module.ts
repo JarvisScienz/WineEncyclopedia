@@ -9,14 +9,15 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";*/
 
 import { HeaderComponent } from "./header/header.component";
+import { ScrollToTopComponent } from "./scroll-to-top/scroll-to-top.component";
 import { ErrorInterceptor } from '../_helpers/error.interceptor';
 import { JwtInterceptor } from '../_helpers/jwt.interceptor';
 
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule],
-  declarations: [HeaderComponent],
-  exports: [HeaderComponent],
+  declarations: [HeaderComponent, ScrollToTopComponent],
+  exports: [HeaderComponent, ScrollToTopComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA], 
   providers: [
           { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

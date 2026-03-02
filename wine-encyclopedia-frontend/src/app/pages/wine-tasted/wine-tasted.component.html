@@ -1,55 +1,137 @@
 <div class="container py-4">
 	<h1 class="page-title">Vini degustati</h1>
 
-	<div class="filters-row">
-		<div class="dropdown mr-3">
-			<select class="form-control">
-				<option value="" disabled selected>Vintage</option>
-			</select>
-		</div>
-		<div class="dropdown mr-3">
-			<select class="form-control">
-				<option value="" disabled selected>Vitigno</option>
-			</select>
-		</div>
-		<div class="dropdown mr-3">
-			<select class="form-control">
-				<option value="" disabled selected>Produttore</option>
-			</select>
-		</div>
-		<div class="dropdown">
-			<select class="form-control">
-				<option value="" disabled selected>Punteggio</option>
-			</select>
-		</div>
-	</div>
-
 	<div class="card tasted-card">
 		<div class="card-body p-0">
-			<div class="tasted-table-header d-flex py-3 px-4">
-				<div style="flex: 2;">Vino</div>
-				<div style="flex: 1;">Annata</div>
-				<div style="flex: 1.5;">Vitigno</div>
-				<div style="flex: 1;">Produttore</div>
-				<div style="flex: 0.5;">Score</div>
-				<div style="flex: 1;">Data degustazione</div>
-				<div style="flex: 0.5;">Scheda</div>
+
+			<!-- Sticky header wrapper -->
+			<div class="sticky-header">
+
+				<!-- Search & Filter Toolbar -->
+				<div class="search-filter-toolbar">
+					<div class="search-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-search search-icon-inner" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+						<input type="text" class="form-control search-input-inner"
+							   placeholder="Cerca vino, produttore, vitigno..."
+							   [(ngModel)]="filterText">
+					</div>
+					<button class="btn btn-filter" (click)="toggleFilters()" [class.active]="showFilters">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							 class="bi bi-funnel" viewBox="0 0 16 16">
+							<path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.667V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+						</svg>
+						<span class="d-none d-sm-inline ms-1">Filtri</span>
+						<span class="filter-badge" *ngIf="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
+					</button>
+				</div>
+
+				<!-- Collapsible Filter Panel -->
+				<div class="filter-panel" [class.open]="showFilters">
+					<div class="row g-2 p-3 pb-2">
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">Colore</label>
+							<select class="form-control filter-select" [(ngModel)]="filterColor">
+								<option value="">Tutti i colori</option>
+								<option value="red">Rosso</option>
+								<option value="yellow">Bianco</option>
+								<option value="rose">Rosato</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Produttore
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterWinery">
+								<option value="">Tutti i produttori</option>
+								<option *ngFor="let w of wineryList" [value]="w">{{ w }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Vitigno
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterVarietal">
+								<option value="">Tutti i vitigni</option>
+								<option *ngFor="let v of varietalList" [value]="v">{{ v }}</option>
+							</select>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<label class="filter-label">
+								Annata
+								<span class="filter-loading-dot" *ngIf="isPreloading" title="Caricamento in corso..."></span>
+							</label>
+							<select class="form-control filter-select" [(ngModel)]="filterVintage">
+								<option value="">Tutte le annate</option>
+								<option *ngFor="let y of vintageList" [value]="y">{{ y }}</option>
+							</select>
+						</div>
+						<div class="col-12 d-flex justify-content-end pt-1">
+							<button class="btn btn-outline-secondary" (click)="refresh()">
+								Azzera filtri
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Desktop Table Header (hidden on mobile) -->
+				<div class="tasted-table-header d-flex py-3 px-4 mobile-hide">
+					<div style="flex: 2;">Vino</div>
+					<div style="flex: 1;">Annata</div>
+					<div style="flex: 1.5;">Vitigno</div>
+					<div style="flex: 1;">Produttore</div>
+					<div style="flex: 0.5;">Score</div>
+					<div style="flex: 1;">Data degustazione</div>
+					<div style="flex: 0.5;">Scheda</div>
+				</div>
 			</div>
+
+			<!-- Wine List -->
 			<div class="list-group list-group-flush">
-				<div *ngFor="let wine of wines" class="tasted-row list-group-item d-flex align-items-center py-3 px-4">
-					<div class="wine-name-col" style="flex: 2; display: flex; align-items: center;">
-						<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon">
-						<a (click)="viewWineDetails(wine)">{{ wine.name }}</a>
+				<div *ngFor="let wine of displayedWines" class="tasted-row list-group-item">
+
+					<!-- Mobile: Card Layout -->
+					<div class="mobile-only tasted-card-mobile py-3 px-3">
+						<div class="d-flex align-items-start">
+							<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon-mobile me-3">
+							<div class="flex-grow-1">
+								<div class="tasted-name-mobile mb-1">
+									<a (click)="viewWineDetails(wine)" class="tasted-link">{{ wine.name }}</a>
+								</div>
+								<div class="tasted-details-mobile">
+									<small class="d-block text-muted">{{ wine.winery }}</small>
+									<small *ngIf="wine.grapeVariety" class="d-block text-muted">{{ wine.grapeVariety }}</small>
+									<small *ngIf="wine.vintage" class="d-block text-muted">Annata: {{ wine.vintage }}</small>
+									<small *ngIf="wine.score" class="d-block text-muted">Score: {{ wine.score }}</small>
+									<small class="d-block text-muted">
+										{{ (wine.createdAt?.toDate ? wine.createdAt.toDate() : wine.createdAt) | date:'dd/MM/yyyy' }}
+									</small>
+								</div>
+							</div>
+							<button class="btn btn-primary btn-sm ms-2 flex-shrink-0" (click)="updateTastedWine(wine)">Apri</button>
+						</div>
 					</div>
-					<div class="col-text" style="flex: 1;">{{ wine.vintage }}</div>
-					<div class="col-text" style="flex: 1.5;">{{ wine.grapeVariety }}</div>
-					<div class="col-text" style="flex: 1;">{{ wine.winery }}</div>
-					<div class="col-text" style="flex: 0.5;">{{ wine.score }}</div>
-					<div class="col-text" style="flex: 1;">
-						{{ (wine.createdAt?.toDate ? wine.createdAt.toDate() : wine.createdAt) | date:'dd/MM/yyyy' }}
-					</div>
-					<div style="flex: 0.5;">
-						<button class="btn btn-primary btn-sm" (click)="updateTastedWine(wine)">Apri</button>
+
+					<!-- Desktop: Table Layout -->
+					<div class="mobile-hide d-flex align-items-center py-3 px-4">
+						<div class="wine-name-col" style="flex: 2; display: flex; align-items: center;">
+							<img [src]="getWineIcon(wine)" alt="Wine Icon" class="wine-icon">
+							<a (click)="viewWineDetails(wine)">{{ wine.name }}</a>
+						</div>
+						<div class="col-text" style="flex: 1;">{{ wine.vintage }}</div>
+						<div class="col-text" style="flex: 1.5;">{{ wine.grapeVariety }}</div>
+						<div class="col-text" style="flex: 1;">{{ wine.winery }}</div>
+						<div class="col-text" style="flex: 0.5;">{{ wine.score }}</div>
+						<div class="col-text" style="flex: 1;">
+							{{ (wine.createdAt?.toDate ? wine.createdAt.toDate() : wine.createdAt) | date:'dd/MM/yyyy' }}
+						</div>
+						<div style="flex: 0.5;">
+							<button class="btn btn-primary btn-sm" (click)="updateTastedWine(wine)">Apri</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -57,21 +139,26 @@
 	</div>
 
 	<!-- Loading indicator -->
-	<div *ngIf="isLoadingMore" class="scroll-loading">
+	<div *ngIf="isLoadingMore || (isFilterModeActive && isPreloading)" class="scroll-loading">
 		<div class="scroll-spinner"></div>
-		<span>Caricamento...</span>
+		<span>{{ isFilterModeActive && isPreloading ? 'Caricamento dati in corso...' : 'Caricamento...' }}</span>
 	</div>
 
-	<!-- All loaded message -->
-	<div *ngIf="!hasMore && wines.length > 0" class="scroll-end">
+	<!-- Browse mode: all pages loaded -->
+	<div *ngIf="!isFilterModeActive && !isLoadingMore && !hasMore && wines.length > 0" class="scroll-end">
 		Tutti i {{ wines.length }} vini caricati
 	</div>
 
-	<!-- Empty state -->
-	<div *ngIf="!isLoadingMore && wines.length === 0" class="scroll-end">
-		Nessun vino degustato ancora.
+	<!-- Filter mode: result count -->
+	<div *ngIf="isFilterModeActive && allWinesLoaded" class="scroll-end">
+		{{ displayedWines.length }} {{ displayedWines.length === 1 ? 'risultato trovato' : 'risultati trovati' }}
 	</div>
 
-	<!-- Intersection sentinel — triggers loadMore() when visible -->
+	<!-- Empty state -->
+	<div *ngIf="!isLoadingMore && !isPreloading && displayedWines.length === 0" class="scroll-end">
+		Nessun vino degustato trovato.
+	</div>
+
+	<!-- Intersection sentinel -->
 	<div #scrollAnchor style="height: 1px;"></div>
 </div>
