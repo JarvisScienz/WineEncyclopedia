@@ -7,7 +7,7 @@ trap 'echo "ERROR at line $LINENO"; exit 1' ERR
 # CONFIGURATION
 # ==============================
 
-BASE_PATH="${BASE_PATH:-/home/user/wine-encyclopedia}"
+BASE_PATH="${BASE_PATH:-/home/rocky/WineEncyclopedia}"
 BACKEND_PATH="${BACKEND_PATH:-$BASE_PATH}"
 FRONTEND_PATH="${FRONTEND_PATH:-$BASE_PATH/wine-encyclopedia-frontend}"
 

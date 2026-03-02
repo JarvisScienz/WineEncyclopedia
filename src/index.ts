@@ -1,6 +1,4 @@
 import express, { NextFunction, Response } from "express";
-import livereload from 'livereload';
-import connectLiveReload from 'connect-livereload';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -22,13 +20,6 @@ import scriptsRoutes from './routes/scriptRoutes.js';
 import usersRoutes from "./routes/usersRoutes.js";
 
 const secretKey = process.env.SECRET_KEY;
-
-const liveReloadServer = livereload.createServer();
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -54,8 +45,21 @@ const corsOptions = {
 
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(connectLiveReload());
 app.use(bodyParser.json());
+
+if (process.env.NODE_ENV === 'development') {
+  const livereload = (await import('livereload')).default;
+  const connectLiveReload = (await import('connect-livereload')).default;
+
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+
+  app.use(connectLiveReload());
+}
 app.use(limiter);
 //app.use(express.static(process.cwd()+"/wine-encyclopedia-frontend/dist/wine-encyclopedia-frontend/"));
 
