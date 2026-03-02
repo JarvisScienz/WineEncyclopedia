@@ -17,8 +17,8 @@ NETWORK="${NETWORK:-wine-encyclopedia-network}"
 BACKEND_CONTAINER="${BACKEND_CONTAINER:-wine-encyclopedia-backend}"
 FRONTEND_CONTAINER="${FRONTEND_CONTAINER:-wine-encyclopedia-frontend}"
 
-BACKEND_PORT="${BACKEND_PORT:-3000}"
-FRONTEND_PORT="${FRONTEND_PORT:-80}"
+BACKEND_PORT="${BACKEND_PORT:-6000}"
+FRONTEND_PORT="${FRONTEND_PORT:-6001}"
 
 BACKEND_IMAGE="${BACKEND_IMAGE:-wine-encyclopedia-node}"
 FRONTEND_IMAGE="${FRONTEND_IMAGE:-wine-encyclopedia-frontend}"
