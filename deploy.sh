@@ -82,9 +82,6 @@ deploy_backend() {
   echo "--- Container logs ---"
   sudo podman logs $BACKEND_CONTAINER || true
 
-  echo "--- Curl response ---"
-  curl -v http://localhost:$BACKEND_PORT/health 2>&1 || true
-
   if curl -f http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
     echo "Backend health check passed"
 
