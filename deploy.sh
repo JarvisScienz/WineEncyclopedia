@@ -54,10 +54,21 @@ build_backend() {
 deploy_backend() {
   VERSION=$(cat /tmp/backend_version)
 
-  echo "Deploying backend $VERSION (zero downtime)"
+  echo "Deploying backend $VERSION"
+
+  # Stop and remove old container first to free the port
+  if sudo podman container exists $BACKEND_CONTAINER; then
+    echo "Stopping existing backend container"
+    sudo systemctl stop container-${BACKEND_CONTAINER}.service || true
+
+    echo "Removing old backend container"
+    sudo podman rm $BACKEND_CONTAINER || true
+  else
+    echo "No existing backend container found"
+  fi
 
   sudo podman run -d \
-    --name ${BACKEND_CONTAINER}-new \
+    --name $BACKEND_CONTAINER \
     --env-file $ENV_FILE_PATH \
     -p $BACKEND_PORT:$BACKEND_PORT \
     $BACKEND_IMAGE:$VERSION
@@ -66,28 +77,16 @@ deploy_backend() {
   sleep 5
 
   echo "--- Container status ---"
-  sudo podman ps -a --filter name=${BACKEND_CONTAINER}-new
+  sudo podman ps -a --filter name=$BACKEND_CONTAINER
 
   echo "--- Container logs ---"
-  sudo podman logs ${BACKEND_CONTAINER}-new || true
+  sudo podman logs $BACKEND_CONTAINER || true
 
   echo "--- Curl response ---"
   curl -v http://localhost:$BACKEND_PORT/health 2>&1 || true
 
   if curl -f http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
     echo "Backend health check passed"
-
-    if sudo podman container exists $BACKEND_CONTAINER; then
-      echo "Stopping existing backend container"
-      sudo systemctl stop container-${BACKEND_CONTAINER}.service || true
-
-      echo "Removing old backend container"
-      sudo podman rm $BACKEND_CONTAINER || true
-    else
-      echo "No existing backend container found"
-    fi
-
-    sudo podman rename ${BACKEND_CONTAINER}-new $BACKEND_CONTAINER
 
     SERVICE="container-${BACKEND_CONTAINER}.service"
     if sudo systemctl list-unit-files "$SERVICE" | grep -q "$SERVICE"; then
@@ -102,8 +101,8 @@ deploy_backend() {
 
     echo "Backend updated to $VERSION"
   else
-    echo "ERROR: Backend health check failed - rolling back"
-    sudo podman rm -f ${BACKEND_CONTAINER}-new
+    echo "ERROR: Backend health check failed"
+    sudo podman rm -f $BACKEND_CONTAINER
     exit 1
   fi
 }
