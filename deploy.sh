@@ -62,7 +62,7 @@ deploy_backend() {
     sudo systemctl stop container-${BACKEND_CONTAINER}.service || true
 
     echo "Removing old backend container"
-    sudo podman rm $BACKEND_CONTAINER || true
+    sudo podman rm -f $BACKEND_CONTAINER || true
   else
     echo "No existing backend container found"
   fi
@@ -90,7 +90,7 @@ deploy_backend() {
       sudo systemctl restart "$SERVICE"
     else
       echo "Registering systemd service for the first time..."
-      sudo podman generate systemd --name $BACKEND_CONTAINER > /etc/systemd/system/$SERVICE
+      sudo podman generate systemd --name $BACKEND_CONTAINER | sudo tee /etc/systemd/system/$SERVICE > /dev/null
       sudo systemctl daemon-reload
       sudo systemctl enable "$SERVICE"
       sudo systemctl start "$SERVICE"
