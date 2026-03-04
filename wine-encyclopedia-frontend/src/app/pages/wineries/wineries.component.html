@@ -51,6 +51,14 @@
 								<option *ngFor="let d of denominationList" [value]="d">{{ d }}</option>
 							</select>
 						</div>
+						<div class="col-12 col-sm-6 col-lg-4">
+							<label class="filter-label">Visitata</label>
+							<select class="form-control filter-select" [(ngModel)]="filterVisited">
+								<option value="">Tutte</option>
+								<option value="visited">Visitate</option>
+								<option value="not-visited">Non visitate</option>
+							</select>
+						</div>
 						<div class="col-12 col-sm-6 col-lg-4 d-flex align-items-end">
 							<button class="btn btn-outline-secondary w-100" (click)="refresh()">
 								Azzera filtri

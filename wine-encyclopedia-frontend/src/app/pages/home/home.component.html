@@ -19,7 +19,8 @@
         <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let wine of lastThreeWines">
             <div class="card wine-card h-100">
                 <a (click)="viewWineDetails(wine)" class="wine-card-link">
-                    <img [src]="wine.url || 'https://via.placeholder.com/300x400/f8f5f3/000000?text=Wine+Bottle'"
+                    <img [src]="wine.url || 'assets/images/generic-red-bottle.png'"
+                         (error)="$any($event.target).src='assets/images/generic-red-bottle.png'"
                          class="card-img-top wine-img" alt="Wine Bottle">
                     <div class="card-body">
                         <h5 class="card-title wine-title">{{ wine.name }} - {{wine.winery}}{{ wine.vintage ? ', ' + wine.vintage : '' }}</h5>
@@ -37,7 +38,8 @@
     <div class="row">
         <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let winery of lastThreeWineries">
             <div class="card winery-card h-100">
-                <img [src]="winery.img || 'https://via.placeholder.com/400x300/cbe1f7/ffffff?text=Winery'"
+                <img [src]="winery.img || 'assets/images/Wine-encyclopedia-icona.jpeg'"
+                     (error)="$any($event.target).src='assets/images/Wine-encyclopedia-icona.jpeg'"
                      class="card-img-top winery-img" alt="Winery View">
                 <div class="card-body">
                     <h5 class="card-title winery-title">{{ winery.name }}</h5>

@@ -31,6 +31,7 @@ export class WineryComponent implements OnInit {
 	filterWinerySelect: string = "";
 	userUid: string  = "";
 	reviewComment: string = "";
+	isVisited: boolean = false;
 
 	constructor(private wineryService: WineryService,
 		private userService: UserService,
@@ -42,15 +43,12 @@ export class WineryComponent implements OnInit {
 			this.notificationService = new NotificationsComponent(this.toastr);
 		 }
 
-
-
 	ngOnInit() {
 		this.wineryDetails = history.state.wineryData;
 		this.wineService.getWinesByWinery(this.wineryDetails.name).subscribe((wines: any[]) => {
 			this.winesList = wines;
 		});
-		this.review = history.state.review;
-		(this.review) ? this.loadReview() : '';
+		this.loadReview();
 	}
 
 	refresh() {
@@ -62,12 +60,14 @@ export class WineryComponent implements OnInit {
 
 	loadReview() {
 		this.userService.getUserInformation(this.userUid).subscribe((response) => {
-			this.reviewComment = response.reviews[this.wineryDetails.id] || "";
+			const saved = response.reviews?.[this.wineryDetails.id];
+			this.isVisited = saved != null;
+			this.reviewComment = saved || "";
 		});
 	}
 
 	filterWinery() {
-		
+
 	}
 
 	extractWineries(jsonArray: any[]) {
@@ -127,9 +127,17 @@ export class WineryComponent implements OnInit {
 	}
 
 	saveReview(wineryID: string, review: string) {
-		this.userService.saveReviewService(this.userUid, wineryID, review).subscribe((response) => {
-			console.log(response);
-			this.notificationService.successNotification("Recensione salvata!");
+		this.userService.saveReviewService(this.userUid, wineryID, review).subscribe(() => {
+			this.isVisited = true;
+			this.notificationService.successNotification("Visita salvata!");
+		});
+	}
+
+	removeVisit(wineryID: string) {
+		this.userService.removeReviewService(this.userUid, wineryID).subscribe(() => {
+			this.isVisited = false;
+			this.reviewComment = "";
+			this.notificationService.successNotification("Visita rimossa.");
 		});
 	}
 }

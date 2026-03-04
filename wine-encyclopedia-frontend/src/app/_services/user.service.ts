@@ -38,6 +38,10 @@ export class UserService {
     return this.http.post<any>(`${this.rootURL}/v1/saveReview`, { uid:uid, wineryID:wineryID, review:review });
   }
 
+  removeReviewService(uid: string, wineryID: string): Observable<any> {
+    return this.http.post<any>(`${this.rootURL}/v1/removeReview`, { uid, wineryID });
+  }
+
   private handleError(error: any) {
     console.error("API Error:", error);
     return throwError(() => new Error("Error during API request."));

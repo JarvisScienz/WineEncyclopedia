@@ -39,6 +39,36 @@
 		</div>
 	</div>
 
+	<div class="mb-4">
+		<h2 class="section-heading">La tua visita</h2>
+		<div class="card info-card">
+			<div class="card-body px-4 py-3">
+				<div class="visit-status mb-3">
+					<i class="fas fa-check-circle visit-status-icon" *ngIf="isVisited"></i>
+					<i class="fas fa-circle-xmark visit-status-icon not-visited" *ngIf="!isVisited"></i>
+					<span class="visit-status-label">
+						{{ isVisited ? 'Hai visitato questa cantina' : 'Non hai ancora visitato questa cantina' }}
+					</span>
+				</div>
+				<textarea
+					class="form-control visit-textarea"
+					rows="3"
+					placeholder="Aggiungi una nota sulla tua visita... (opzionale)"
+					[(ngModel)]="reviewComment">
+				</textarea>
+				<div class="d-flex justify-content-end gap-2 mt-3">
+					<button class="btn btn-remove-visit" *ngIf="isVisited" (click)="removeVisit(wineryDetails.id)">
+						<i class="fas fa-trash-alt me-2"></i>Rimuovi visita
+					</button>
+					<button class="btn btn-visit" (click)="saveReview(wineryDetails.id, reviewComment)">
+						<i class="fas fa-map-marker-alt me-2"></i>
+						{{ isVisited ? 'Aggiorna visita' : 'Segna come visitata' }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div>
 		<h2 class="section-heading">Wines</h2>
 		<div class="card wines-card">

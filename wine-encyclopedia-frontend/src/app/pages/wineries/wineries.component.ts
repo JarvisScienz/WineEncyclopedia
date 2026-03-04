@@ -28,6 +28,7 @@ export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 	filterText: string = "";
 	filterCountry: string = "";
 	filterDenomination: string = "";
+	filterVisited: string = "";
 
 	userUid: string = "";
 	reviews: any = {};
@@ -73,7 +74,7 @@ export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	get isFilterModeActive(): boolean {
-		return !!(this.filterText.trim() || this.filterCountry || this.filterDenomination);
+		return !!(this.filterText.trim() || this.filterCountry || this.filterDenomination || this.filterVisited);
 	}
 
 	get displayedWineries(): Winery[] {
@@ -89,6 +90,11 @@ export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 			const q = this.filterText.trim().toLowerCase();
 			result = result.filter(w => w.name && w.name.toLowerCase().includes(q));
 		}
+		if (this.filterVisited === 'visited') {
+			result = result.filter(w => this.isWineryVisited(w.id));
+		} else if (this.filterVisited === 'not-visited') {
+			result = result.filter(w => !this.isWineryVisited(w.id));
+		}
 
 		return result;
 	}
@@ -97,6 +103,7 @@ export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 		let count = 0;
 		if (this.filterCountry) count++;
 		if (this.filterDenomination) count++;
+		if (this.filterVisited) count++;
 		return count;
 	}
 
@@ -152,6 +159,7 @@ export class WineriesComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.filterText = "";
 		this.filterCountry = "";
 		this.filterDenomination = "";
+		this.filterVisited = "";
 		this.allWineriesLoaded = false;
 		this.isPreloading = false;
 		this.showFilters = false;
