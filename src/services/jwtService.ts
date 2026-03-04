@@ -5,13 +5,8 @@ dotenv.config();
 const secretKey = process.env.SECRET_KEY as string;
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
-    //const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!req.cookies) {
-        return res.status(401).json({ message: 'Cookies non disponibili. Accesso non autorizzato.' });
-    }
-    const token = req.cookies.token;
-    
+    const token = req.headers.authorization?.split(' ')[1] || req.cookies?.token;
+
     if (!token) {
         return res.status(401).json({ message: 'Token mancante. Accesso non autorizzato.' });
     }

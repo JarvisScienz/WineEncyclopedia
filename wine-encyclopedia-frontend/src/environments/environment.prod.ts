@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://wineencyclopedia.onrender.com/api'
+  apiUrl: 'https://wine-encyclopedia.duckdns.org/api'
 };
