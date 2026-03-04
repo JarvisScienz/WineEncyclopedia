@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDoc, query, where, updateDoc, setDoc, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDoc, query, where, updateDoc, setDoc, doc, addDoc, deleteField } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import firebaseApp from '../config/firebase.js';
 
@@ -26,6 +26,11 @@ export const saveReviewService = async (uid: string, wineryID: string, review: s
 	// Aggiorna il documento
 	await updateDoc(userRef, { reviews: updatedReviews });	
 }
+export const removeReviewService = async (uid: string, wineryID: string): Promise<void> => {
+	const userRef = doc(db, "users", uid);
+	await updateDoc(userRef, { [`reviews.${wineryID}`]: deleteField() });
+};
+
 export const updateUserInformationService = async (uid: string, name: string, email: string): Promise<void> => {
 	const userRef = doc(db, "users", uid);
 	await setDoc(userRef, { name, email }, { merge: true });

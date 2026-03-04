@@ -12,6 +12,7 @@ router.post('/api/v1/updateUserInformation', usersController.updateUserInformati
 router.post('/api/v1/changePassword', usersController.changePassword);
 
 router.post('/api/v1/saveReview', usersController.saveReview);
+router.post('/api/v1/removeReview', usersController.removeReview);
 
 
 export default router;

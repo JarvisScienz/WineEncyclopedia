@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserInformationService, saveReviewService, updateUserInformationService, changePasswordService } from '../services/usersService.js';
+import { getUserInformationService, saveReviewService, removeReviewService, updateUserInformationService, changePasswordService } from '../services/usersService.js';
   
 class UsersController {
 async getUserInformation(req: Request, res: Response) {
@@ -51,6 +51,16 @@ async getUserInformation(req: Request, res: Response) {
       res.status(200).json({ message: "Review saved successfully." });
     } catch (error) {
       console.error('[ERROR] saveReview. Unable to save review.', error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  async removeReview(req: Request, res: Response) {
+    try {
+      const { uid, wineryID } = req.body;
+      await removeReviewService(uid, wineryID);
+      res.status(200).json({ message: "Review removed successfully." });
+    } catch (error) {
+      console.error('[ERROR] removeReview. Unable to remove review.', error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
