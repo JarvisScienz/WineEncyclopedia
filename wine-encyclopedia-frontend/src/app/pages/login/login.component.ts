@@ -33,6 +33,10 @@ export class LoginComponent implements OnInit {
 	loginError = false;
 	descriptionLoginError!: string;
 	wrongCredential = false;
+	emailNotVerified = false;
+	resendLoading = false;
+	resendSuccess = false;
+	resendError = false;
 	
 	// Signals for reactive state
 	isScrolled = signal(false);
@@ -106,6 +110,11 @@ export class LoginComponent implements OnInit {
 	onSubmit() {
 		this.SpinnerService.show();
 		this.submitted = true;
+		this.emailNotVerified = false;
+		this.wrongCredential = false;
+		this.loginError = false;
+		this.resendSuccess = false;
+		this.resendError = false;
 
 		// stop here if form is invalid
 		if (this.loginForm.invalid) {
@@ -122,16 +131,36 @@ export class LoginComponent implements OnInit {
 					this.router.navigate(["/wine-tasted"]);
 				},
 				error => {
-					if (error == "Forbidden"){
+					if (error === 'email_not_verified') {
+						this.emailNotVerified = true;
+					} else if (error === 'Forbidden') {
 						this.descriptionLoginError = "Errore login. Utente non abilitato!";
-					}else{
-						this.descriptionLoginError = "Errore login. Riprova!";	
+						this.wrongCredential = true;
+					} else {
+						this.descriptionLoginError = "Errore login. Riprova!";
+						this.wrongCredential = true;
 					}
-					this.wrongCredential = true;
 					this.SpinnerService.hide();
 					this.loading = false;
-					this.loginError = true;
-					
+					this.loginError = !this.emailNotVerified;
 				});
+	}
+
+	resendVerification() {
+		this.resendLoading = true;
+		this.resendSuccess = false;
+		this.resendError = false;
+		this.authenticationService.resendVerificationEmail(this.f.email.value, this.f.password.value)
+			.pipe(first())
+			.subscribe({
+				next: () => {
+					this.resendLoading = false;
+					this.resendSuccess = true;
+				},
+				error: () => {
+					this.resendLoading = false;
+					this.resendError = true;
+				}
+			});
 	}
 }

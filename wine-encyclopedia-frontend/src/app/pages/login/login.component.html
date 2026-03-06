@@ -61,7 +61,19 @@
   
           <div class="form-group" *ngIf="wrongCredential">
             <label class="form-check-label">{{ 'login.errors.credentials' | translate }}</label>
-        </div>
+          </div>
+
+          <div class="form-group" *ngIf="emailNotVerified">
+            <div class="alert-email-verification">
+              <i class="fas fa-envelope"></i>
+              <p>Email non verificata. Controlla la tua casella di posta e clicca sul link di conferma.</p>
+              <button type="button" (click)="resendVerification()" [disabled]="resendLoading || resendSuccess" class="btn-resend">
+                <span *ngIf="resendLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                {{ resendSuccess ? 'Email inviata!' : 'Reinvia email di verifica' }}
+              </button>
+              <p *ngIf="resendError" class="resend-error">Errore nell'invio. Controlla le credenziali e riprova.</p>
+            </div>
+          </div>
     
           <button type="submit" [disabled]="loading || loginForm.invalid">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

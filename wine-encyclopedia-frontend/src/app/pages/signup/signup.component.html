@@ -5,7 +5,15 @@
     <span class="lang-code">{{ translationService.isItalian() ? 'IT' : 'EN' }}</span>
   </button>
 
-  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="registrationSuccess" class="registration-success">
+    <i class="fas fa-envelope-open-text"></i>
+    <h2>Registrazione completata!</h2>
+    <p>Ti abbiamo inviato una email di verifica. Clicca sul link nell'email per attivare il tuo account.</p>
+    <p>Controlla anche la cartella spam se non trovi l'email.</p>
+    <a routerLink="/login" class="btn-link">Vai al login</a>
+  </div>
+
+  <form *ngIf="!registrationSuccess" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
     <h2>{{ 'signup.title' | translate }}</h2>
 
     <div class="form-group">

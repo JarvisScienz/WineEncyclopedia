@@ -51,6 +51,11 @@ export class WineTastingSheet {
 	public typicity: string;
 	public foodPairing: string;
 
+	// Schema and AIS-specific fields
+	public schemaType: string;
+	public effervescenceSpeed: string;
+	public gustatoryEffervescence: string;
+
 	//General data
 	public createdAt?: Date;
 
@@ -96,5 +101,8 @@ export class WineTastingSheet {
 		this.effervescenceBubbleGrain = '';
 		this.effervescenceBubbleNumber = '';
 		this.effervescenceBubblePersistence = '';
+		this.schemaType = '';
+		this.effervescenceSpeed = '';
+		this.gustatoryEffervescence = '';
 	}
 }

@@ -515,3 +515,44 @@ small {
   text-decoration: underline;
   color: var(--wine-burgundy-dark);
 }
+
+.alert-email-verification {
+  background: #fff8e1;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  color: #92400e;
+}
+
+.alert-email-verification i {
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+}
+
+.alert-email-verification p {
+  margin: 0.5rem 0;
+}
+
+.btn-resend {
+  margin-top: 0.75rem;
+  background: var(--wine-burgundy, #6b2d3e);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-resend:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resend-error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}

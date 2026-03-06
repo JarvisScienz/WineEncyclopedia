@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit {
   progressPercentage: number = 0;
   winesNeededForNextLevel: number = 0;
 
+  tastingSchema: string = 'FIS';
+
   // Profile save state
   isSavingProfile = false;
   profileSaveSuccess = false;
@@ -93,9 +95,10 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserInformation(){
-    this.userService.getUserInformation(this.userUid).subscribe(((user: null) => {
+    this.userService.getUserInformation(this.userUid).subscribe(((user: any) => {
       if (user != null){
         this.user = user;
+        this.tastingSchema = user.tastingSchema || 'FIS';
         this.levelInfo = getLevel(this.totalTasted);
         this.calculateLevelProgress();
       }
@@ -134,7 +137,7 @@ export class ProfileComponent implements OnInit {
     this.profileSaveError = false;
     this.isSavingProfile = true;
 
-    this.userService.updateUserInformation(this.userUid, this.user.name ?? '', this.user.email ?? '').subscribe({
+    this.userService.updateUserInformation(this.userUid, this.user.name ?? '', this.user.email ?? '', this.tastingSchema).subscribe({
       next: () => {
         this.isSavingProfile = false;
         this.profileSaveSuccess = true;

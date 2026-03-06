@@ -10,4 +10,5 @@
     name?: string;
     registrationDate?: string;
     level?: string;
+    tastingSchema?: string;
 }

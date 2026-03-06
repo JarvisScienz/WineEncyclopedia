@@ -19,8 +19,8 @@ export class UserService {
     );
   }
 
-  updateUserInformation(uid: string, name: string, email: string): Observable<any> {
-    return this.http.post<any>(`${this.rootURL}/v1/updateUserInformation`, { uid, name, email }).pipe(
+  updateUserInformation(uid: string, name: string, email: string, tastingSchema?: string): Observable<any> {
+    return this.http.post<any>(`${this.rootURL}/v1/updateUserInformation`, { uid, name, email, tastingSchema }).pipe(
       catchError(this.handleError)
     );
   }

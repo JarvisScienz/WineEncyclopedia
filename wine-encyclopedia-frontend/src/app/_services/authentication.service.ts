@@ -14,6 +14,7 @@ export class AuthenticationService {
 	private uriLogin = this.apiUrl + '/authentication/login';
 	private uriLogout = this.apiUrl + '/authentication/logout';
 	private uriSignup = this.apiUrl + '/authentication/createUser';
+	private uriResendVerification = this.apiUrl + '/authentication/resendVerification';
 
 	userId!: string;
 	email!: string;
@@ -51,11 +52,8 @@ export class AuthenticationService {
 			}),
 			catchError(error => {
                 console.error("Errore durante il login:", error);
-                
-                // Qui puoi gestire l'errore a seconda di come vuoi trattarlo
-                // Ad esempio, puoi mostrare un messaggio all'utente o loggare l'errore
-                // Ritorniamo un throwError per permettere ai componenti chiamanti di gestire l'errore come ritengono opportuno
-                return throwError(() => new Error("Errore durante il login. Controlla le tue credenziali."));
+                const code: string = error?.error?.error || '';
+                return throwError(() => code || 'login_error');
             }));
 	}
 
@@ -74,13 +72,19 @@ export class AuthenticationService {
 			}));
 	}
 
+	resendVerificationEmail(email: string, password: string): Observable<any> {
+		return this.http.post<any>(this.uriResendVerification, { email, password }).pipe(
+			catchError(error => {
+				const code: string = error?.error?.error || '';
+				return throwError(() => code || 'resend_error');
+			})
+		);
+	}
+
 	signup(username: string, password: string) {
 		return this.http.post<any>(this.uriSignup, { email: username, password: password })
 			.pipe(map(user => {
 				console.log(user);
-				user.authdata = user.tokenJWT;
-				//localStorage.setItem('currentUser', JSON.stringify(user));
-				this.currentUserSubject.next(user);
 				return user;
 			}));
 	}

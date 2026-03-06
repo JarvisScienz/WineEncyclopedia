@@ -14,6 +14,8 @@ import { WineTastedService } from 'src/app/_services/wineTasted.service';
 import { GrapeService } from 'src/app/_services/grape.service';
 import { WineService } from 'src/app/_services/wine.service';
 import { WineryService } from 'src/app/_services/winery.service';
+import { UserService } from 'src/app/_services/user.service';
+import { SCHEMAS, TastingSchemaConfig, FIS_SCHEMA } from 'src/app/config/tasting-sheet-schemas.config';
 
 
 @Component({
@@ -37,6 +39,8 @@ export class TastingSheetComponent implements OnInit {
 	isEffervescentWine: boolean = false;
 	radarChartData: number[];
 	score: number = 0;
+	activeSchema: TastingSchemaConfig = FIS_SCHEMA;
+	schemaType: 'FIS' | 'AIS' = 'FIS';
 
 	public model: any;
 
@@ -44,9 +48,10 @@ export class TastingSheetComponent implements OnInit {
 		private wineryService: WineryService,
 		private wineService: WineService,
 		private grapeService: GrapeService,
+		private userService: UserService,
 		private route: ActivatedRoute,
 		private router: Router,
-		private toastr: ToastrService, 
+		private toastr: ToastrService,
 		private cookiesService: CookiesService) {
 		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 		this.notificationService = new NotificationsComponent(this.toastr);
@@ -93,13 +98,27 @@ export class TastingSheetComponent implements OnInit {
 		evolutionaryState: new UntypedFormControl(''),
 		harmony: new UntypedFormControl(''),
 		typicality: new UntypedFormControl(''),
-		foodPairings: new UntypedFormControl('')
+		foodPairings: new UntypedFormControl(''),
+		effervescenceSpeed: new UntypedFormControl(''),
+		gustatoryEffervescence: new UntypedFormControl('')
 	});
 
 	ngOnInit() {
 		this.getAllGrapes();
 		this.getAllWineries();
 		this.getAllWines();
+		this.loadUserSchema();
+	}
+
+	loadUserSchema() {
+		this.userService.getUserInformation(this.userUid).subscribe((user: any) => {
+			if (user && user.tastingSchema && (user.tastingSchema === 'FIS' || user.tastingSchema === 'AIS')) {
+				this.schemaType = user.tastingSchema;
+			} else {
+				this.schemaType = 'FIS';
+			}
+			this.activeSchema = SCHEMAS[this.schemaType];
+		});
 	}
 
 	formatter = (result: string) => result.toUpperCase();
@@ -303,6 +322,7 @@ export class TastingSheetComponent implements OnInit {
 	}
 
 	updateWinePoint(event: Event){
+		if (this.schemaType !== 'FIS') return;
 		let key = (event.target as HTMLSelectElement).name;
 		let value = (event.target as HTMLSelectElement).options.selectedIndex+1;
 		let oldValue = 0;
@@ -491,8 +511,14 @@ export class TastingSheetComponent implements OnInit {
 			bodyWine: wine.bodyWine,
 			harmony: wine.harmony,
 			typicality: wine.typicality,
-			foodPairings: wine.foodPairings
+			foodPairings: wine.foodPairings,
+			effervescenceSpeed: wine.effervescenceSpeed,
+			gustatoryEffervescence: wine.gustatoryEffervescence
 		});
+		if (wine.schemaType && (wine.schemaType === 'FIS' || wine.schemaType === 'AIS')) {
+			this.schemaType = wine.schemaType;
+			this.activeSchema = SCHEMAS[this.schemaType];
+		}
 		this.radarChartData = [this.getValueFromDefinition(wine.polyalcohols), this.getValueFromDefinition(wine.tastePersistence), 
 			this.getValueFromDefinition(wine.tasteIntensity), this.getValueFromDefinition(wine.tanninsQuality), 
 			this.getValueFromDefinition(wine.bodyWine), this.getValueFromDefinition(wine.polyalcohols), 
@@ -647,6 +673,9 @@ export class TastingSheetComponent implements OnInit {
 		this.wineTastingSheet.harmony = this.tastingSheetForm.controls['harmony'].value;
 		this.wineTastingSheet.typicity = this.tastingSheetForm.controls['typicality'].value;
 		this.wineTastingSheet.foodPairing = this.tastingSheetForm.controls['foodPairings'].value;
+		this.wineTastingSheet.schemaType = this.schemaType;
+		this.wineTastingSheet.effervescenceSpeed = this.tastingSheetForm.controls['effervescenceSpeed'].value;
+		this.wineTastingSheet.gustatoryEffervescence = this.tastingSheetForm.controls['gustatoryEffervescence'].value;
 	}
 
 	ngOnDestroy() {

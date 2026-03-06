@@ -16,6 +16,13 @@
         <input id="email" [(ngModel)]="user.email" type="email" placeholder="La tua email" />
       </div>
       <div class="profile-field">
+        <label for="tastingSchema">Schema di degustazione</label>
+        <select id="tastingSchema" [(ngModel)]="tastingSchema">
+          <option value="FIS">FIS – Federazione Italiana Sommelier</option>
+          <option value="AIS">AIS – Associazione Italiana Sommelier</option>
+        </select>
+      </div>
+      <div class="profile-field">
         <label>Data di iscrizione</label>
         <span class="profile-value">{{ user.registrationDate | date:'dd/MM/yyyy' }}</span>
       </div>

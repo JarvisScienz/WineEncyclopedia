@@ -28,6 +28,7 @@ export class SignupComponent implements OnInit {
 	loginError = false;
 	emailAlreadyRegistered = false;
 	showPassword: boolean = false;
+	registrationSuccess = false;
 
 	constructor(
 		private formBuilder: UntypedFormBuilder,
@@ -86,7 +87,8 @@ export class SignupComponent implements OnInit {
 				.pipe(first())
 				.subscribe({
 					next: () => {
-						this.router.navigate(["/wine-tasted"]);
+						this.loading = false;
+						this.registrationSuccess = true;
 					},
 					error: (error: string) => {
 						this.loading = false;

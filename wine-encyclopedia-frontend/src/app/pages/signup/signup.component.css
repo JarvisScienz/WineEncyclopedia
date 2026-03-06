@@ -259,3 +259,26 @@ small {
   color: var(--wine-burgundy-dark);
   text-decoration: underline;
 }
+
+.registration-success {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--wine-burgundy, #6b2d3e);
+}
+
+.registration-success i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.registration-success h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.registration-success p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
