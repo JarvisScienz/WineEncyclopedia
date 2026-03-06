@@ -1,11 +1,12 @@
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
   sendEmailVerification,
   sendPasswordResetEmail
 }  from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -16,6 +17,7 @@ dotenv.config();
 const secretKey = process.env.SECRET_KEY as string;
 
 const auth = getAuth(app.app);
+const db = getFirestore();
 
 class FirebaseAuthController {
   registerUser(req: any, res: any) {
@@ -28,6 +30,10 @@ class FirebaseAuthController {
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        const uid = userCredential.user.uid;
+        const userRef = doc(db, "users", uid);
+        setDoc(userRef, { tastingSchema: 'FIS', registrationDate: new Date() }, { merge: true })
+          .catch((err) => console.error('Error creating user document:', err));
         sendEmailVerification(auth.currentUser!)
           .then(() => {
             res.status(201).json({ message: "Verification email sent! User created successfully!" });
@@ -53,12 +59,15 @@ class FirebaseAuthController {
     }
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        if (!userCredential.user.emailVerified) {
+          return res.status(403).json({ error: "email_not_verified" });
+        }
         const idToken = userCredential.user.getIdToken();
         var userAndToken: any = {};
         var token = jwt.sign({ uid: userCredential.user.uid, email: userCredential.user.email }, secretKey, { expiresIn: 60 * 60 });
-        
-	    	userAndToken.userData = userCredential;
-	    	userAndToken.tokenJWT = token;
+
+        userAndToken.userData = userCredential;
+        userAndToken.tokenJWT = token;
         if (token) {
           res.cookie('token', token, {
             httpOnly: true,
@@ -75,6 +84,29 @@ class FirebaseAuthController {
         console.error(error);
         const errorMessage = error.message || "An error occurred while logging in";
         res.status(500).json({ error: errorMessage });
+      });
+  }
+
+  resendVerificationEmail(req: any, res: any) {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(422).json({ error: "Email and password are required" });
+    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        if (userCredential.user.emailVerified) {
+          return res.status(400).json({ error: "Email is already verified" });
+        }
+        sendEmailVerification(userCredential.user)
+          .then(() => res.status(200).json({ message: "Verification email resent successfully" }))
+          .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error: "Error sending verification email" });
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(401).json({ error: "Invalid credentials" });
       });
   }
 

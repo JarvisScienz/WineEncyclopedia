@@ -16,8 +16,8 @@ async getUserInformation(req: Request, res: Response) {
 
   async updateUserInformation(req: Request, res: Response) {
     try {
-      const { uid, name, email } = req.body;
-      await updateUserInformationService(uid, name, email);
+      const { uid, name, email, tastingSchema } = req.body;
+      await updateUserInformationService(uid, name, email, tastingSchema);
       res.status(200).json({ message: "User information updated successfully." });
     } catch (error) {
       console.error('[ERROR] updateUserInformation.', error);

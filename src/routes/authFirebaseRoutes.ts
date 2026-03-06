@@ -12,8 +12,10 @@ const corsOptions = {
 
 router.post('/api/authentication/login', firebaseAuthController.loginUser);
 
-router.post('/api/authentication/createUser', firebaseAuthController.registerUser); 
+router.post('/api/authentication/createUser', firebaseAuthController.registerUser);
 
-router.post('/api/authentication/logout', firebaseAuthController.logoutUser); // Assuming authController exists and uses ESM
+router.post('/api/authentication/logout', firebaseAuthController.logoutUser);
+
+router.post('/api/authentication/resendVerification', firebaseAuthController.resendVerificationEmail);
 
 export default router; // Use modern default export for clarity

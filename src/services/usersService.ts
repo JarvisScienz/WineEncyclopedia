@@ -31,9 +31,11 @@ export const removeReviewService = async (uid: string, wineryID: string): Promis
 	await updateDoc(userRef, { [`reviews.${wineryID}`]: deleteField() });
 };
 
-export const updateUserInformationService = async (uid: string, name: string, email: string): Promise<void> => {
+export const updateUserInformationService = async (uid: string, name: string, email: string, tastingSchema?: string): Promise<void> => {
 	const userRef = doc(db, "users", uid);
-	await setDoc(userRef, { name, email }, { merge: true });
+	const data: Record<string, any> = { name, email };
+	if (tastingSchema) data.tastingSchema = tastingSchema;
+	await setDoc(userRef, data, { merge: true });
 };
 
 export const changePasswordService = async (uid: string, oldPassword: string, newPassword: string): Promise<void> => {
