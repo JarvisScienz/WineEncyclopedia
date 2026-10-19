@@ -310,6 +310,30 @@ export const translations: Translations = {
     it: 'Credenziali errate. Riprova!',
     en: 'Wrong credentials. Please try again!'
   },
+  'login.errors.forbidden': {
+    it: 'Utente non abilitato. Contatta l\'amministratore.',
+    en: 'User not enabled. Contact the administrator.'
+  },
+  'login.errors.generic': {
+    it: 'Errore di login. Riprova!',
+    en: 'Login error. Please try again!'
+  },
+  'login.errors.emailNotVerified': {
+    it: 'Email non verificata. Controlla la tua casella di posta e clicca sul link di conferma.',
+    en: 'Email not verified. Check your inbox and click the confirmation link.'
+  },
+  'login.actions.resendVerification': {
+    it: 'Reinvia email di verifica',
+    en: 'Resend verification email'
+  },
+  'login.errors.resendSuccess': {
+    it: 'Email inviata!',
+    en: 'Email sent!'
+  },
+  'login.errors.resendError': {
+    it: 'Errore nell\'invio. Controlla le credenziali e riprova.',
+    en: 'Send error. Check your credentials and try again.'
+  },
 
   // Signup
   'signup.title': {

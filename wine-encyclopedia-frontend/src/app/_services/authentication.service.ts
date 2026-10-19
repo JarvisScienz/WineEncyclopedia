@@ -50,10 +50,10 @@ export class AuthenticationService {
 				user.authdata = user.tokenJWT;
 				return user;
 			}),
-			catchError(error => {
-                console.error("Errore durante il login:", error);
-                const code: string = error?.error?.error || '';
-                return throwError(() => code || 'login_error');
+			catchError(err => {
+                console.error("Errore durante il login:", err);
+                const code: string = err?.error?.error || 'login_error';
+                return throwError(code);
             }));
 	}
 
@@ -74,9 +74,9 @@ export class AuthenticationService {
 
 	resendVerificationEmail(email: string, password: string): Observable<any> {
 		return this.http.post<any>(this.uriResendVerification, { email, password }).pipe(
-			catchError(error => {
-				const code: string = error?.error?.error || '';
-				return throwError(() => code || 'resend_error');
+			catchError(err => {
+				const code: string = err?.error?.error || 'resend_error';
+				return throwError(code);
 			})
 		);
 	}

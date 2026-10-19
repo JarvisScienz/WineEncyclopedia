@@ -12,6 +12,7 @@ import dotenv from 'dotenv';
 
 
 import app from '../config/firebase.js';
+import { sendAdminRegistrationNotification } from '../services/emailService.js';
 
 dotenv.config();
 const secretKey = process.env.SECRET_KEY as string;
@@ -37,6 +38,9 @@ class FirebaseAuthController {
         sendEmailVerification(auth.currentUser!)
           .then(() => {
             res.status(201).json({ message: "Verification email sent! User created successfully!" });
+            sendAdminRegistrationNotification(email).catch((err) =>
+              console.error('Admin notification failed:', err)
+            );
           })
           .catch((error) => {
             console.error(error);

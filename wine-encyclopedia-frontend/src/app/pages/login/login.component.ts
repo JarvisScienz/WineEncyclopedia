@@ -134,10 +134,10 @@ export class LoginComponent implements OnInit {
 					if (error === 'email_not_verified') {
 						this.emailNotVerified = true;
 					} else if (error === 'Forbidden') {
-						this.descriptionLoginError = "Errore login. Utente non abilitato!";
+						this.descriptionLoginError = 'login.errors.forbidden';
 						this.wrongCredential = true;
 					} else {
-						this.descriptionLoginError = "Errore login. Riprova!";
+						this.descriptionLoginError = 'login.errors.generic';
 						this.wrongCredential = true;
 					}
 					this.SpinnerService.hide();

@@ -47,8 +47,8 @@ export const getWineTastedInYears = async (uid: string): Promise<any> => {
 };
 
 export const addWineTastedService = async (wine: WineTasted): Promise<String> => {
-	incrementWineTastedCount(wine.wineId);
 	const newDocRef = await addDoc(collection(db, 'wine-tasted'), wine);
+	await incrementWineTastedCount(wine.wineId);
 	return newDocRef.id;
 };
 
