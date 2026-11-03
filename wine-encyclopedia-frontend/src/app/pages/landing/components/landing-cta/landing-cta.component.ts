@@ -42,7 +42,7 @@ export class LandingCtaComponent implements AfterViewInit {
   }
 
   openGitHub(): void {
-    window.open('https://github.com/yourusername/wine-encyclopedia', '_blank');
+    window.open('https://github.com/JarvisScienz/WineEncyclopedia', '_blank');
   }
 
   openContact(): void {

@@ -37,6 +37,6 @@ export class LandingHeroComponent {
    * Open GitHub repository in new tab
    */
   openGitHub(): void {
-    window.open('https://github.com/yourusername/wine-encyclopedia', '_blank');
+    window.open('https://github.com/JarvisScienz/WineEncyclopedia', '_blank');
   }
 }

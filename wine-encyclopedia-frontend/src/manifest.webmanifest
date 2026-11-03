@@ -1,0 +1,16 @@
+{
+  "name": "Wine Encyclopedia",
+  "short_name": "WineEncyclopedia",
+  "description": "Un viaggio digitale nel mondo del vino",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#3b3330",
+  "theme_color": "#722F37",
+  "icons": [
+    { "src": "assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/maskable-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

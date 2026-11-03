@@ -20,7 +20,7 @@ export class LandingFooterComponent {
   currentYear = new Date().getFullYear();
 
   quickLinks = [
-    { label: 'GitHub', url: 'https://github.com/yourusername/wine-encyclopedia', icon: 'fab fa-github' },
+    { label: 'GitHub', url: 'https://github.com/JarvisScienz/WineEncyclopedia', icon: 'fab fa-github' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/yourusername', icon: 'fab fa-linkedin-in' }
   ];
 
