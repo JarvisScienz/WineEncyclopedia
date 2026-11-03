@@ -32,7 +32,7 @@ export class NotificationsComponent implements OnInit {
 					disableTimeOut: true,
 					closeButton: true,
 					enableHtml: true,
-					toastClass: "alert toast-error alert-with-icon",
+					toastClass: "alert alert-danger alert-with-icon",
 					positionClass: 'toast-top-right'
 			});
 	}

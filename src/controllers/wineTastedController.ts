@@ -77,12 +77,23 @@ class WineTastedController{
 
     async addWineTasted(req: Request, res: Response) {
         const { wine } = req.body;
+        if (!wine || typeof wine !== 'object') {
+          return res.status(422).json({ error: "Validation Error", description: "Missing 'wine' object in request body" });
+        }
         try {
-        const newWineID = await addWineTastedService(wine);
-        res.status(200).json({ id: newWineID });
-        } catch (error) {
-        console.error('[ERROR] addWineTasted. Unable to add new wine tasted. ', error);
-        res.status(500).json({ error: "Internal Server Error" });
+          const newWineID = await addWineTastedService(wine);
+          res.status(200).json({ id: newWineID });
+        } catch (error: any) {
+          console.error('[ERROR] addWineTasted. Unable to add new wine tasted. ', error);
+          if (error?.code === 'permission-denied') {
+            return res.status(403).json({ error: "Permission Denied", description: error.message });
+          }
+          res.status(500).json({
+            error: "Internal Server Error",
+            operation: "addWineTasted",
+            code: error?.code ?? null,
+            description: error?.message ?? String(error)
+          });
         }
     }
 

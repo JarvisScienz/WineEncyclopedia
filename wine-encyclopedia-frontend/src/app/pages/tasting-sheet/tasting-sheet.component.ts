@@ -260,11 +260,20 @@ export class TastingSheetComponent implements OnInit {
 	saveTastingSheet(): void {
 		this.setWineInformation();
 
-		this.wineTastedService.addWineTasted(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe(data => {
-			console.log('message::::', data);
-			this.notificationService.successNotification("Vino salvato!");
-			this.tastingSheetForm.reset();
-			this.router.navigate(['/wine-tasted']);
+		this.wineTastedService.addWineTasted(this.wineTastingSheet).pipe(takeUntil(this.destroy$)).subscribe({
+			next: data => {
+				console.log('message::::', data);
+				this.notificationService.successNotification("Vino salvato!");
+				this.tastingSheetForm.reset();
+				this.router.navigate(['/wine-tasted']);
+			},
+			error: (err) => {
+				console.error('addWineTasted error:', err);
+				const detail = err?.error?.description || err?.error?.error || err?.message;
+				this.notificationService.errorNotification(
+					"Errore durante il salvataggio del vino." + (detail ? " Dettaglio: " + detail : "")
+				);
+			}
 		});
 
 		console.log(this.wineTastingSheet);

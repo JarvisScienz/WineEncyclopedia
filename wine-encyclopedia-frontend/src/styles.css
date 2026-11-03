@@ -582,3 +582,35 @@ a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
 .not-visited-icon {
   color: var(--wine-gray-light);
 }
+
+/* Toast custom (NotificationsComponent).
+   toastClass sostituisce la classe di default "ngx-toastr" (che ha pointer-events:auto):
+   senza questa regola i toast ereditano pointer-events:none dall'overlay e la X non è cliccabile. */
+.alert.alert-with-icon {
+  pointer-events: auto;
+  position: relative;
+  width: 350px;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding: 15px 40px 15px 15px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  background-image: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  opacity: 1;
+}
+.alert.alert-with-icon.alert-success { background-color: #00a65a; }
+.alert.alert-with-icon.alert-danger,
+.alert.alert-with-icon.toast-error { background-color: #d9534f; background-image: none; }
+.alert.alert-with-icon .toast-close-button {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  color: #fff;
+  opacity: 0.8;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.alert.alert-with-icon .toast-close-button:hover { opacity: 1; }

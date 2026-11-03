@@ -48,7 +48,17 @@ export const getWineTastedInYears = async (uid: string): Promise<any> => {
 
 export const addWineTastedService = async (wine: WineTasted): Promise<String> => {
 	const newDocRef = await addDoc(collection(db, 'wine-tasted'), wine);
-	await incrementWineTastedCount(wine.wineId);
+	// La scheda è già salvata: l'incremento del contatore non deve far fallire l'intera operazione.
+	// Se il vino non è stato selezionato dal catalogo (wineId vuoto) non c'è nulla da incrementare.
+	if (wine.wineId) {
+		try {
+			await incrementWineTastedCount(wine.wineId);
+		} catch (error) {
+			console.error(`[WARN] addWineTastedService. Tasting ${newDocRef.id} saved, but tastedCount increment failed for wineId "${wine.wineId}". `, error);
+		}
+	} else {
+		console.warn(`[WARN] addWineTastedService. Tasting ${newDocRef.id} saved without wineId: tastedCount not incremented.`);
+	}
 	return newDocRef.id;
 };
 
