@@ -486,11 +486,11 @@ h3, .h3 {
 }
 
 /* Links */
-a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item) {
+a:not(.btn):not(.nav-link):not(.nav-btn):not(.navbar-brand):not(.dropdown-item) {
   color: var(--wine-burgundy);
   transition: color 0.2s ease;
 }
-a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
+a:not(.btn):not(.nav-link):not(.nav-btn):not(.navbar-brand):not(.dropdown-item):hover {
   color: var(--wine-burgundy-dark);
 }
 
