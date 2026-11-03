@@ -99,12 +99,20 @@ class WineTastedController{
 
     async editWineTasted(req: Request, res: Response) {
       const { wine } = req.body;
+      if (!wine || !wine.id) {
+        return res.status(422).json({ error: "Validation Error", description: "Missing 'wine' object or 'wine.id' in request body" });
+      }
           try {
             const wineID = await editWineTastedService(wine);
             res.status(200).json({ id: wineID });
-          } catch (error) { 
-            console.log('[ERROR] Failed to update wine information. Error:', error);
-            res.status(500).json({ error: error });
+          } catch (error: any) {
+            console.error('[ERROR] editWineTasted. Failed to update wine information. ', error);
+            res.status(500).json({
+              error: "Internal Server Error",
+              operation: "editWineTasted",
+              code: error?.code ?? null,
+              description: error?.message ?? String(error)
+            });
           }
     }
 }

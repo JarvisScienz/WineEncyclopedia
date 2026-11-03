@@ -148,9 +148,16 @@ export class WineTastedDetailsComponent implements OnInit {
 	}
 
 	submitForm() {
-		if (Object.keys(this.wine).length !== 0) {
-			this.updateTastingSheet();
+		if (this.tastingSheetForm.invalid) {
+			this.tastingSheetForm.markAllAsTouched();
+			this.notificationService.errorNotification("Compila i campi obbligatori (nome e cantina).");
+			return;
 		}
+		if (!this.tastingSheetForm.value.id) {
+			this.notificationService.errorNotification("Impossibile aggiornare: identificativo della scheda mancante. Riapri il vino dalla lista.");
+			return;
+		}
+		this.updateTastingSheet();
 	}
 
 	updateTastingSheet() {
@@ -161,7 +168,8 @@ export class WineTastedDetailsComponent implements OnInit {
 			takeUntil(this.destroy$),
 			catchError(error => {
 			console.error('Errore durante l’aggiornamento del vino:', error);
-			this.notificationService.errorNotification("Errore durante l'aggiornamento del vino. Riprova.");
+			const detail = error?.error?.description || error?.error?.error || error?.message;
+			this.notificationService.errorNotification("Errore durante l'aggiornamento del vino." + (detail ? " Dettaglio: " + detail : ""));
 			return throwError(() => error); // Propaga l'errore se necessario
 			})
 		)

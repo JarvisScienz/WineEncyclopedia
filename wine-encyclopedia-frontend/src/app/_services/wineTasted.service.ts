@@ -28,7 +28,7 @@ export class WineTastedService {
 	}
 
     editWineTasted(wine: any): Observable<any> {
-        return this.http.post(`${this.rootURL}/editWine`, { wine }).pipe(
+        return this.http.post(`${this.rootURL}/editWineTasted`, { wine }).pipe(
             tap(() => console.log(`[SUCCESS] Wine updated successfully: ${wine}`)),
             catchError(this.handleError)
         );

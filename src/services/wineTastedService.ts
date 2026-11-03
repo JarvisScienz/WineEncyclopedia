@@ -7,7 +7,7 @@ export const getWinesByColorService = async (colorsArray :string[]): Promise<Par
 	const winesColorQuery = query(collection(db, 'wine-tasted'), where('color', 'in', colorsArray));
 	const snapshot = await getDocs(winesColorQuery);
 
-	return snapshot.docs.map(doc => ( { ...doc.data() }  as Partial<WineTasted>));
+	return snapshot.docs.map(doc => ( { ...doc.data(), id: doc.id }  as Partial<WineTasted>));
 };
 
 export const getWinesTastedService = async (uid: string, pageSize: number = 20, lastDocId: string | null = null): Promise<Partial<WineTasted>[]> => {
@@ -27,7 +27,7 @@ export const getWinesTastedService = async (uid: string, pageSize: number = 20, 
 
 	const winesCollection = query(collection(db, "wine-tasted"), ...constraints);
 	const snapshot = await getDocs(winesCollection);
-	return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Partial<WineTasted>));
+	return snapshot.docs.map(d => ({ ...d.data(), id: d.id } as Partial<WineTasted>));
 };
 
 export const getWineTastedInYears = async (uid: string): Promise<any> => {
@@ -47,7 +47,9 @@ export const getWineTastedInYears = async (uid: string): Promise<any> => {
 };
 
 export const addWineTastedService = async (wine: WineTasted): Promise<String> => {
-	const newDocRef = await addDoc(collection(db, 'wine-tasted'), wine);
+	// L'id è quello del documento Firestore: non va salvato anche come campo (vuoto) nel documento.
+	const { id: _ignoredId, ...wineData } = wine as any;
+	const newDocRef = await addDoc(collection(db, 'wine-tasted'), wineData);
 	// La scheda è già salvata: l'incremento del contatore non deve far fallire l'intera operazione.
 	// Se il vino non è stato selezionato dal catalogo (wineId vuoto) non c'è nulla da incrementare.
 	if (wine.wineId) {
