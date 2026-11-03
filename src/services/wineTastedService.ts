@@ -1,5 +1,5 @@
-import { getFirestore, collection, getDocs, getDoc, query, where, updateDoc, doc, addDoc, orderBy, limit, startAfter } from 'firebase/firestore';
-import { incrementWineTastedCount } from './winesService.js';
+import { getFirestore, collection, getDocs, getDoc, query, where, updateDoc, deleteDoc, doc, addDoc, orderBy, limit, startAfter } from 'firebase/firestore';
+import { incrementWineTastedCount, decrementWineTastedCount } from './winesService.js';
 
 const db = getFirestore();
 
@@ -79,4 +79,25 @@ export const editWineTastedService = async (wine: Partial<WineTasted>): Promise<
 	}
 }
 
-export default { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService };
+export const deleteWineTastedService = async (id: string, uid: string): Promise<void> => {
+	const docRef = doc(db, 'wine-tasted', id);
+	const snap = await getDoc(docRef);
+	if (!snap.exists()) {
+		throw Object.assign(new Error('Tasting not found.'), { code: 'not-found' });
+	}
+	const data = snap.data();
+	if (data.user !== uid) {
+		throw Object.assign(new Error('Tasting does not belong to this user.'), { code: 'permission-denied' });
+	}
+	await deleteDoc(docRef);
+	// La scheda è già eliminata: il decremento del contatore non deve far fallire l'operazione.
+	if (data.wineId) {
+		try {
+			await decrementWineTastedCount(data.wineId);
+		} catch (error) {
+			console.error(`[WARN] deleteWineTastedService. Tasting ${id} deleted, but tastedCount decrement failed for wineId "${data.wineId}". `, error);
+		}
+	}
+};
+
+export default { deleteWineTastedService, getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService };

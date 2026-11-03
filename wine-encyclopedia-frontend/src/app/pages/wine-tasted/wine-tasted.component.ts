@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 import { WineTastingSheet } from '../../_models/wine-tasting-sheet.model';
 import { CookiesService } from '../../_services/cookies.service';
 import { WineTastedService } from 'src/app/_services/wineTasted.service';
 import { WineService } from 'src/app/_services/wine.service';
+import { NotificationsComponent } from '../../components/notifications/notifications.component';
 
 @Component({
 	selector: 'wine-tasted',
@@ -43,13 +46,21 @@ export class WineTastedComponent implements OnInit, AfterViewInit, OnDestroy {
 	private observer!: IntersectionObserver;
 
 	@ViewChild('scrollAnchor') scrollAnchor!: ElementRef;
+	@ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+
+	notificationService: NotificationsComponent;
+	wineToDelete: any = null;
+	isDeleting = false;
 
 	constructor(
 		private wineTastedService: WineTastedService,
 		private wineService: WineService,
 		private router: Router,
-		private cookiesService: CookiesService
+		private cookiesService: CookiesService,
+		private modalService: NgbModal,
+		private toastr: ToastrService
 	) {
+		this.notificationService = new NotificationsComponent(this.toastr);
 		this.userUid = JSON.parse(this.cookiesService.getCookieUser()).uid;
 	}
 
@@ -198,6 +209,34 @@ export class WineTastedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	updateTastedWine(wine: WineTastingSheet) {
 		this.router.navigate(['/wine-tasted-details'], { state: { wineData: wine } });
+	}
+
+	deleteTastedWine(wine: any) {
+		this.wineToDelete = wine;
+		this.modalService.open(this.deleteModal, { centered: true, ariaLabelledBy: 'delete-modal-title' }).result.then(
+			() => this.confirmDelete(),
+			() => { this.wineToDelete = null; }
+		);
+	}
+
+	private confirmDelete() {
+		const wine = this.wineToDelete;
+		if (!wine?.id) { this.wineToDelete = null; return; }
+		this.isDeleting = true;
+		this.wineTastedService.deleteWineTasted(wine.id, this.userUid).subscribe({
+			next: () => {
+				this.wines = this.wines.filter(w => w.id !== wine.id);
+				this.allWines = this.allWines.filter(w => w.id !== wine.id);
+				this.isDeleting = false;
+				this.wineToDelete = null;
+				this.notificationService.successNotification("Vino degustato eliminato.");
+			},
+			error: () => {
+				this.isDeleting = false;
+				this.wineToDelete = null;
+				this.notificationService.errorNotification("Errore durante l'eliminazione del vino degustato.");
+			}
+		});
 	}
 
 	viewWineDetails(wine: any) {

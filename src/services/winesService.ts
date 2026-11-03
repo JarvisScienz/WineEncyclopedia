@@ -78,5 +78,9 @@ export const incrementWineTastedCount = async (wineID: string): Promise<void> =>
 	await updateDoc(wineDocRef, { tastedCount: increment(1) });
 }
 
+export const decrementWineTastedCount = async (wineID: string): Promise<void> => {
+	const wineDocRef = doc(db, 'wines', wineID);
+	await updateDoc(wineDocRef, { tastedCount: increment(-1) });
+}
 
-export default { getWines, winesByWinery, addWine, addWines, incrementWineTastedCount, winesById };
+export default { getWines, winesByWinery, addWine, addWines, incrementWineTastedCount, decrementWineTastedCount, winesById };

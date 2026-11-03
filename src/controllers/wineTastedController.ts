@@ -1,6 +1,6 @@
 import { Errback, Request, Response } from 'express';
 
-import { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService } from '../services/wineTastedService.js';
+import { getWinesByColorService, getWinesTastedService, getWineTastedInYears, addWineTastedService, editWineTastedService, deleteWineTastedService } from '../services/wineTastedService.js';
 
 class WineTastedController{
 
@@ -114,6 +114,31 @@ class WineTastedController{
               description: error?.message ?? String(error)
             });
           }
+    }
+
+    async deleteWineTasted(req: Request, res: Response) {
+      const { id, uid } = req.body;
+      if (!id || !uid) {
+        return res.status(422).json({ error: "Validation Error", description: "'id' and 'uid' are required" });
+      }
+      try {
+        await deleteWineTastedService(id, uid);
+        res.status(200).json({ id });
+      } catch (error: any) {
+        console.error('[ERROR] deleteWineTasted. Failed to delete wine tasted. ', error);
+        if (error?.code === 'not-found') {
+          return res.status(404).json({ error: "Not Found", description: error.message });
+        }
+        if (error?.code === 'permission-denied') {
+          return res.status(403).json({ error: "Permission Denied", description: error.message });
+        }
+        res.status(500).json({
+          error: "Internal Server Error",
+          operation: "deleteWineTasted",
+          code: error?.code ?? null,
+          description: error?.message ?? String(error)
+        });
+      }
     }
 }
 

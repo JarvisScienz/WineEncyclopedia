@@ -33,7 +33,11 @@ export class WineTastedService {
             catchError(this.handleError)
         );
       }
-	getWineTastedInYears(uid: string) {	
+	deleteWineTasted(id: string, uid: string): Observable<any> {
+		return this.http.post(`${this.rootURL}/deleteWineTasted`, { id, uid }).pipe(catchError(this.handleError));
+	}
+
+	getWineTastedInYears(uid: string) {
 		return this.http.post<any>(this.rootURL + '/wineTastedInYears', { uid })
 		.pipe(
 			map(count => count), // Mappiamo il valore

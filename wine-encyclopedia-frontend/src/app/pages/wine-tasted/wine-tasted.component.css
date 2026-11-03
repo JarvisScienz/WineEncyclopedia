@@ -247,6 +247,15 @@
   line-height: 1.6;
 }
 
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
 @media (max-width: 767px) {
   .tasted-row {
     padding: 0;
