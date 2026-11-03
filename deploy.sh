@@ -11,11 +11,9 @@ BASE_PATH="${BASE_PATH:-/home/rocky/WineEncyclopedia}"
 BACKEND_PATH="${BACKEND_PATH:-$BASE_PATH}"
 FRONTEND_PATH="${FRONTEND_PATH:-$BASE_PATH/wine-encyclopedia-frontend}"
 
-ENV_FILE_PATH="${ENV_FILE_PATH:-$BACKEND_PATH/.env}"
-NETWORK="${NETWORK:-wine-encyclopedia-network}"
-
-BACKEND_CONTAINER="${BACKEND_CONTAINER:-wine-encyclopedia-backend}"
-FRONTEND_CONTAINER="${FRONTEND_CONTAINER:-wine-encyclopedia-frontend}"
+# Quadlet services (/etc/containers/systemd/<name>.container -> <name>.service)
+BACKEND_SERVICE="${BACKEND_SERVICE:-wine-encyclopedia-backend.service}"
+FRONTEND_SERVICE="${FRONTEND_SERVICE:-wine-encyclopedia-frontend.service}"
 
 BACKEND_PORT="${BACKEND_PORT:-6000}"
 FRONTEND_PORT="${FRONTEND_PORT:-6001}"
@@ -36,6 +34,36 @@ echo "   WINE ENCYCLOPEDIA DEPLOY $(date)"
 echo "======================================"
 
 # ==============================
+# HELPERS
+# ==============================
+
+# wait_for_url <url> [timeout_seconds]
+wait_for_url() {
+  local url="$1" timeout="${2:-30}" i
+  for ((i = 0; i < timeout; i++)); do
+    if curl -fs "$url" > /dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
+}
+
+# rollback <image> <service> <prev_image_file>
+# Re-tags the previous :latest image and restarts the service.
+rollback() {
+  local image="$1" service="$2" prev_file="$3" prev
+  prev=$(cat "$prev_file" 2>/dev/null || true)
+  if [ -n "$prev" ]; then
+    echo "Rolling back $service to previous image $prev"
+    sudo podman tag "$prev" "$image:latest"
+    sudo systemctl restart "$service" || true
+  else
+    echo "No previous image available, rollback skipped"
+  fi
+}
+
+# ==============================
 # BACKEND
 # ==============================
 
@@ -45,6 +73,7 @@ build_backend() {
   VERSION=$(git rev-parse --short HEAD)
 
   echo "Building backend $VERSION"
+  sudo podman image inspect --format '{{.Id}}' $BACKEND_IMAGE:latest > /tmp/backend_prev_image 2>/dev/null || : > /tmp/backend_prev_image
   sudo podman build -t $BACKEND_IMAGE:$VERSION .
   sudo podman tag $BACKEND_IMAGE:$VERSION $BACKEND_IMAGE:latest
 
@@ -56,50 +85,20 @@ deploy_backend() {
 
   echo "Deploying backend $VERSION"
 
-  # Stop and remove old container first to free the port
-  if sudo podman container exists $BACKEND_CONTAINER; then
-    echo "Stopping existing backend container"
-    sudo systemctl stop container-${BACKEND_CONTAINER}.service || true
-
-    echo "Removing old backend container"
-    sudo podman rm -f $BACKEND_CONTAINER || true
-  else
-    echo "No existing backend container found"
-  fi
-
-  sudo podman run -d \
-    --name $BACKEND_CONTAINER \
-    --env-file $ENV_FILE_PATH \
-    -p $BACKEND_PORT:$BACKEND_PORT \
-    $BACKEND_IMAGE:$VERSION
+  # The Quadlet unit uses the :latest tag (already updated by build_backend):
+  # systemd recreates the container from the new image on restart.
+  sudo systemctl daemon-reload
+  sudo systemctl restart "$BACKEND_SERVICE"
 
   echo "Health check backend..."
-  sleep 5
-
-  echo "--- Container status ---"
-  sudo podman ps -a --filter name=$BACKEND_CONTAINER
-
-  echo "--- Container logs ---"
-  sudo podman logs $BACKEND_CONTAINER || true
-
-  if curl -f http://localhost:$BACKEND_PORT/health > /dev/null 2>&1; then
+  if wait_for_url "http://localhost:$BACKEND_PORT/health" 30; then
     echo "Backend health check passed"
-
-    SERVICE="container-${BACKEND_CONTAINER}.service"
-    if sudo systemctl list-unit-files "$SERVICE" | grep -q "$SERVICE"; then
-      sudo systemctl restart "$SERVICE"
-    else
-      echo "Registering systemd service for the first time..."
-      sudo podman generate systemd --name $BACKEND_CONTAINER | sudo tee /etc/systemd/system/$SERVICE > /dev/null
-      sudo systemctl daemon-reload
-      sudo systemctl enable "$SERVICE"
-      sudo systemctl start "$SERVICE"
-    fi
-
     echo "Backend updated to $VERSION"
   else
-    echo "ERROR: Backend health check failed"
-    sudo podman rm -f $BACKEND_CONTAINER
+    echo "ERROR: Backend health check failed - rolling back"
+    sudo systemctl status "$BACKEND_SERVICE" --no-pager || true
+    sudo journalctl -u "$BACKEND_SERVICE" -n 50 --no-pager || true
+    rollback "$BACKEND_IMAGE" "$BACKEND_SERVICE" /tmp/backend_prev_image
     exit 1
   fi
 }
@@ -114,6 +113,7 @@ build_frontend() {
   VERSION=$(git rev-parse --short HEAD)
 
   echo "Building frontend $VERSION"
+  sudo podman image inspect --format '{{.Id}}' $FRONTEND_IMAGE:latest > /tmp/frontend_prev_image 2>/dev/null || : > /tmp/frontend_prev_image
   sudo podman build \
     --build-arg BACKEND_URL=$BACKEND_PUBLIC_URL \
     -t $FRONTEND_IMAGE:$VERSION .
@@ -126,37 +126,22 @@ build_frontend() {
 deploy_frontend() {
   VERSION=$(cat /tmp/frontend_version)
 
-  echo "Deploying frontend $VERSION (zero downtime)"
+  echo "Deploying frontend $VERSION"
 
-  sudo podman run -d \
-    --name ${FRONTEND_CONTAINER}-new \
-    --network $NETWORK \
-    -p $FRONTEND_PORT:$FRONTEND_PORT \
-    $FRONTEND_IMAGE:$VERSION
+  # The Quadlet unit uses the :latest tag (already updated by build_frontend):
+  # systemd recreates the container from the new image on restart.
+  sudo systemctl daemon-reload
+  sudo systemctl restart "$FRONTEND_SERVICE"
 
   echo "Health check frontend..."
-  sleep 5
-
-  if curl -f http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
+  if wait_for_url "http://localhost:$FRONTEND_PORT" 30; then
     echo "Frontend health check passed"
-
-    if sudo podman container exists $FRONTEND_CONTAINER; then
-      echo "Stopping existing frontend container"
-      sudo systemctl stop container-${FRONTEND_CONTAINER}.service || true
-
-      echo "Removing old frontend container"
-      sudo podman rm $FRONTEND_CONTAINER || true
-    else
-      echo "No existing frontend container found"
-    fi
-
-    sudo podman rename ${FRONTEND_CONTAINER}-new $FRONTEND_CONTAINER
-    sudo systemctl restart container-${FRONTEND_CONTAINER}.service
-
     echo "Frontend updated to $VERSION"
   else
     echo "ERROR: Frontend health check failed - rolling back"
-    sudo podman rm -f ${FRONTEND_CONTAINER}-new
+    sudo systemctl status "$FRONTEND_SERVICE" --no-pager || true
+    sudo journalctl -u "$FRONTEND_SERVICE" -n 50 --no-pager || true
+    rollback "$FRONTEND_IMAGE" "$FRONTEND_SERVICE" /tmp/frontend_prev_image
     exit 1
   fi
 }
