@@ -17,6 +17,18 @@ import { sendAdminRegistrationNotification } from '../services/emailService.js';
 dotenv.config();
 const secretKey = process.env.SECRET_KEY as string;
 
+// Durata della sessione: 1 mese (JWT e cookie allineati)
+const TOKEN_TTL_SECONDS = 30 * 24 * 60 * 60;
+
+// In produzione frontend (web.app) e API (duckdns.org) sono su siti diversi:
+// serve SameSite=None + Secure perché il browser invii il cookie httpOnly.
+const isProd = process.env.NODE_ENV === 'production';
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: (isProd ? 'none' : 'lax') as 'none' | 'lax',
+};
+
 const auth = getAuth(app.app);
 const db = getFirestore();
 
@@ -66,20 +78,14 @@ class FirebaseAuthController {
         if (!userCredential.user.emailVerified) {
           return res.status(403).json({ error: "email_not_verified" });
         }
-        const idToken = userCredential.user.getIdToken();
-        var userAndToken: any = {};
-        var token = jwt.sign({ uid: userCredential.user.uid, email: userCredential.user.email }, secretKey, { expiresIn: 60 * 60 });
+        const { uid, email: userEmail, emailVerified } = userCredential.user;
+        const token = jwt.sign({ uid, email: userEmail }, secretKey, { expiresIn: TOKEN_TTL_SECONDS });
 
-        userAndToken.userData = userCredential;
-        userAndToken.tokenJWT = token;
         if (token) {
-          res.cookie('token', token, {
-            httpOnly: true,
-            sameSite: 'lax',
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600000,
-          });
-          res.status(200).json(userAndToken);
+          // Il JWT viaggia solo nel cookie httpOnly: non viene esposto nel body
+          // né a JavaScript. Al client restituiamo solo i dati utente minimi.
+          res.cookie('token', token, { ...cookieOptions, maxAge: TOKEN_TTL_SECONDS * 1000 });
+          res.status(200).json({ userData: { user: { uid, email: userEmail, emailVerified } } });
         } else {
           res.status(500).json({ error: "Internal Server Error" });
         }
@@ -117,7 +123,7 @@ class FirebaseAuthController {
   logoutUser(req: any, res: any) {
     signOut(auth)
       .then(() => {
-        res.clearCookie('token');
+        res.clearCookie('token', cookieOptions);
         res.status(200).json({ message: "User logged out successfully" });
       })
       .catch((error) => {

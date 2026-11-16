@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -42,12 +42,10 @@ export class AuthenticationService {
 		return this.http.post<any>(this.uriLogin, { email: email, password: password }, { withCredentials: true })
 			.pipe(map(user => {
 				console.log(user);
-				this.cookiesService.setCookie("jwt", user.tokenJWT, cookieDays);
 				this.cookiesService.setCookie("user", JSON.stringify(user.userData.user), cookieDays);
 				this.cookiesService.setCookie("userEmail", email, cookieDays);
 				this.router.navigate(["/profile"]);
 				this.setUserData(user.userData.user.uid, email);
-				user.authdata = user.tokenJWT;
 				return user;
 			}),
 			catchError(err => {
@@ -58,18 +56,23 @@ export class AuthenticationService {
 	}
 
 	logout() {
-		let email = JSON.parse(this.cookiesService.getCookieUser()).email;
-		return this.http.post<any>(this.uriLogout, { email: email })
-			.pipe(map(user => {
-				if (user) {
-					this.cookiesService.setCookie("jwt", "", 2);
-					this.cookiesService.setCookie("user", "", 2);
-					this.cookiesService.setCookie("userEmail", "", 2);
-					this.isLoggedInSubject.next(false);
-					this.currentUserSubject.next(null!);
-					this.router.navigate(["/login"]);
-				}
-			}));
+		const raw = this.cookiesService.getCookieUser();
+		const email = raw ? JSON.parse(raw).email : undefined;
+		// La pulizia locale avviene sempre, anche se la chiamata fallisce
+		// (es. token scaduto): così non si può restare "loggati" a metà.
+		const clearLocalSession = () => {
+			this.cookiesService.deleteCookie("jwt"); // cookie legacy
+			this.cookiesService.deleteCookie("user");
+			this.cookiesService.deleteCookie("userEmail");
+			this.isLoggedInSubject.next(false);
+			this.currentUserSubject.next(null!);
+			this.router.navigate(["/login"]);
+		};
+		return this.http.post<any>(this.uriLogout, { email: email }, { withCredentials: true })
+			.pipe(
+				catchError(err => of(null)),
+				map(() => clearLocalSession())
+			);
 	}
 
 	resendVerificationEmail(email: string, password: string): Observable<any> {
