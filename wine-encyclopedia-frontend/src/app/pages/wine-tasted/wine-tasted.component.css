@@ -262,6 +262,34 @@
   }
 }
 
+/* Mobile FAB (left side; scroll-to-top button lives on the right) */
+.fab-add {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--wine-burgundy);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(114, 47, 55, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1050;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.fab-add:hover {
+  background-color: var(--wine-burgundy-dark);
+}
+
+.fab-add:active {
+  transform: scale(0.92);
+}
+
 /* ============================================
    INFINITE SCROLL
    ============================================ */
