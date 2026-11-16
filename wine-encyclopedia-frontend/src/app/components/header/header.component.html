@@ -2,9 +2,7 @@
     <!-- Brand and Toggle Button for Mobile -->
     <div class="container-fluid px-responsive">
         <a class="navbar-brand" [routerLink]="['/home']">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wine" viewBox="0 0 16 16">
-                <path d="M8 5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h2zm-.5-.5H6.5v-.5h1V4.5zM12 11h2a1 1 0 0 0 1-1V6.5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1V10a1 1 0 0 0 1 1zM7 11.5v-3.5a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1zm-2 0h-2a1 1 0 0 0-1 1V14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1.5a1 1 0 0 0-1-1zM5 11.5v-3.5a1 1 0 0 1 1-1h.5a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/>
-            </svg>
+            <img src="assets/images/Wine-encyclopedia-icona.jpeg" alt="Wine Encyclopedia" class="brand-icon" width="32" height="32">
             <span class="brand-text">Wine Encyclopedia</span>
         </a>
 
@@ -13,6 +11,9 @@
                 [attr.aria-expanded]="!isMenuCollapsed" aria-controls="navbarContent">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- Backdrop for mobile side menu -->
+        <div class="menu-backdrop" [class.show]="!isMenuCollapsed" (click)="isMenuCollapsed = true"></div>
 
         <!-- Collapsible Content -->
         <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed" id="navbarContent">
@@ -36,10 +37,17 @@
                 <li class="nav-item">
                     <a class="nav-link" [routerLink]="['/my-cellar']" routerLinkActive="active" (click)="isMenuCollapsed = true">La mia cantina</a>
                 </li>
+                <!-- Mobile only: Profile and Logout directly in menu -->
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="active" (click)="isMenuCollapsed = true">Profilo</a>
+                </li>
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link" href="#" (click)="isMenuCollapsed = true; logout()">Logout</a>
+                </li>
             </ul>
 
-            <!-- Right Side: Search, Notifications, Profile -->
-            <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
+            <!-- Right Side: Profile (desktop only) -->
+            <div class="d-none d-lg-flex flex-row align-items-center gap-2">
 
                 <!-- Profile Dropdown -->
                 <div class="dropdown" ngbDropdown>
